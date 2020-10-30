@@ -1,0 +1,7 @@
+src/main/java/resources
+src/main/java/webapp
+src/main/test
+.idea/
+target/
+DAEProject.iml
+pom.xml
