@@ -1,5 +1,5 @@
-src/main/java/resources
-src/main/java/webapp
+src/main/java/resources/
+src/main/java/webapp/
 src/main/test
 .idea/
 target/
