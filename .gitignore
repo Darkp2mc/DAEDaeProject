@@ -1,7 +1,7 @@
-src/main/java/resources/
-src/main/java/webapp/
-src/main/test
+/src/main/test
 .idea/
-target/
+/target/
 pom.xml
 *.iml
+/src/main/resources/META-INF/
+/src/main/webapp/WEB-INF/
