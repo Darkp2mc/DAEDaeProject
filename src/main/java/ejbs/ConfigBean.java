@@ -17,5 +17,6 @@ public class ConfigBean {
         //System.out.println("Creating teste...");
         //testeBean.create("teste","pass","name","teste@teste.com");
         //System.out.println("Finished!!!");
+        System.out.println("Commit Ricardo");
     }
 }
