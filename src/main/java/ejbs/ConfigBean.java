@@ -18,5 +18,6 @@ public class ConfigBean {
         //testeBean.create("teste","pass","name","teste@teste.com");
         //System.out.println("Finished!!!");
         System.out.println("Commit Ricardo");
+        System.out.println("Commit Pedro");
     }
 }
