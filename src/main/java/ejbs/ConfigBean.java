@@ -19,6 +19,5 @@ public class ConfigBean {
         //System.out.println("Finished!!!");
         System.out.println("Commit Ricardo");
         System.out.println("Commit Pedro");
-        System.out.println("Commit branch");
     }
 }
