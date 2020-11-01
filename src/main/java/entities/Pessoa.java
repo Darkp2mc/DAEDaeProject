@@ -9,16 +9,16 @@ public class Pessoa {
     //Nome
     //Email
     @Version
-    private int version;
+    protected int version;
     @Id
-    private String username;
+    protected String username;
     @NotNull
-    private String password;
+    protected String password;
     @NotNull
-    private String name;
+    protected String name;
     @NotNull
     @Email
-    private String email;
+    protected String email;
 
     public Pessoa() {
     }
