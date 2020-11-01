@@ -21,7 +21,9 @@ import java.util.List;
 public class Fabricante extends Pessoa{
 
     @ManyToMany
-    @JoinColumn(name = "FABRICANTE_USERNAME")
+    @JoinTable(name = "FABRICANTES_PROJETOS",
+            joinColumns = @JoinColumn(name = "FABRICANTE_USERNAME", referencedColumnName = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "PROJETO_NOME", referencedColumnName = "NOME"))
     private List<Projeto> projetos;
 
     public Fabricante() {
