@@ -6,5 +6,6 @@ public class Projeto {
     //cliente
     //lista de ficheiros
     //lista de estruturas
+    //comentarios do cliente
 
 }
