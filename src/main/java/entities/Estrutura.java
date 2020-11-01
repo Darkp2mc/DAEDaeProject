@@ -1,18 +1,35 @@
 package entities;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
+import java.util.List;
 
+@Entity
+@Table(
+        name = "ESTRUTURAS",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllEstruturas",
+                query = "SELECT s FROM Estrutura s ORDER BY s.nome" // JPQL
+        )
+})
 public class Estrutura {
     //parametros de calculo
 
     @Id
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "MATERIAL_NOME")
     @NotNull
     private Material material;
 
-    private LinkedList<Material> materiais;
+    @ManyToMany(mappedBy = "estruturas")
+    private List<Material> materiais;
+
     @NotNull
     private String dimensoes;
 
@@ -43,11 +60,11 @@ public class Estrutura {
         this.material = material;
     }
 
-    public LinkedList<Material> getMateriais() {
+    public List<Material> getMateriais() {
         return materiais;
     }
 
-    public void setMateriais(LinkedList<Material> materiais) {
+    public void setMateriais(List<Material> materiais) {
         this.materiais = materiais;
     }
 

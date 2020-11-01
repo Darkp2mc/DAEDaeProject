@@ -1,23 +1,39 @@
 package entities;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
+import java.util.List;
 
+@Entity
+@Table(
+        name = "PROJETOS",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProjetos",
+                query = "SELECT s FROM Projeto s ORDER BY s.nome" // JPQL
+        )
+})
 public class Projeto {
 
-    //nome
-    //cliente
     //lista de ficheiros
-    //lista de estruturas
-    //comentarios do cliente
 
     @Id
     private String nome;
     @NotNull
+    @ManyToOne
     private Cliente cliente;
+    @NotNull
+    @ManyToOne
+    private Projetista projetista;
 
-    private LinkedList<Estrutura> estruturas;
+    @ManyToMany
+    @JoinTable(name = "PROJETOS_ESTRUTURAS",
+            joinColumns = @JoinColumn(name = "PROJETO_NOME", referencedColumnName = "NOME"),
+            inverseJoinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"))
+    private List<Estrutura> estruturas;
 
     private String comentario;
 
@@ -25,9 +41,10 @@ public class Projeto {
         this.estruturas = new LinkedList<>();
     }
 
-    public Projeto(String nome, @NotNull Cliente cliente) {
+    public Projeto(String nome, @NotNull Cliente cliente, @NotNull Projetista projetista) {
         this.nome = nome;
         this.cliente = cliente;
+        this.projetista = projetista;
         this.estruturas = new LinkedList<>();
     }
 
@@ -47,11 +64,11 @@ public class Projeto {
         this.cliente = cliente;
     }
 
-    public LinkedList<Estrutura> getEstruturas() {
+    public List<Estrutura> getEstruturas() {
         return estruturas;
     }
 
-    public void setEstruturas(LinkedList<Estrutura> estruturas) {
+    public void setEstruturas(List<Estrutura> estruturas) {
         this.estruturas = estruturas;
     }
 
@@ -61,5 +78,13 @@ public class Projeto {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public Projetista getProjetista() {
+        return projetista;
+    }
+
+    public void setProjetista(Projetista projetista) {
+        this.projetista = projetista;
     }
 }

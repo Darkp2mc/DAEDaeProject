@@ -1,31 +1,40 @@
 package entities;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
+import java.util.List;
 
+@Entity
+@Table(
+        name = "CLIENTES",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllClientes",
+                query = "SELECT s FROM Cliente s ORDER BY s.nome" // JPQL
+        )
+})
 public class Cliente extends Pessoa{
-    //Nome
-    //Pessoa de contacto(pessoa que comunica com o cliente)
-    //Morada
-    //Email
-    //Lista de Projetos
 
     @NotNull
     private String morada;
-    @NotNull
+    @OneToOne
+    @JoinColumn(name = "PESSOA_DE_CONTACTO")
     private Pessoa pessoaDeContacto;
-    private LinkedList<Projeto> projetos;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+    private List<Projeto> projetos;
 
 
     public Cliente() {
         this.projetos = new LinkedList<Projeto>();
     }
 
-    public Cliente(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email, @NotNull String morada, @NotNull Pessoa pessoaDeContacto) {
+    public Cliente(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email, @NotNull String morada) {
         super(username, password, name, email);
         this.morada = morada;
-        this.pessoaDeContacto = pessoaDeContacto;
     }
 
     public String getMorada() {
@@ -44,11 +53,11 @@ public class Cliente extends Pessoa{
         this.pessoaDeContacto = pessoaDeContacto;
     }
 
-    public LinkedList<Projeto> getProjetos() {
+    public List<Projeto> getProjetos() {
         return projetos;
     }
 
-    public void setProjetos(LinkedList<Projeto> projetos) {
+    public void setProjetos(List<Projeto> projetos) {
         this.projetos = projetos;
     }
 }
