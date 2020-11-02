@@ -1,13 +1,17 @@
 package entities;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+
+@Entity
+@Table(name = "PESSOAS")
 public class Pessoa {
-    //Nome
-    //Email
+
     @Version
     protected int version;
     @Id
@@ -15,7 +19,7 @@ public class Pessoa {
     @NotNull
     protected String password;
     @NotNull
-    protected String name;
+    protected String nome;
     @NotNull
     @Email
     protected String email;
@@ -23,10 +27,10 @@ public class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email) {
+    public Pessoa(String username, @NotNull String password, @NotNull String nome, @NotNull @Email String email) {
         this.username = username;
         this.password = password;
-        this.name = name;
+        this.nome = nome;
         this.email = email;
     }
 
@@ -47,11 +51,11 @@ public class Pessoa {
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {

@@ -1,15 +1,30 @@
 package entities;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
+import java.util.List;
 
+
+@Entity
+@Table(
+        name = "FABRICANTES",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllFabricantes",
+                query = "SELECT s FROM Fabricante s ORDER BY s.nome" // JPQL
+        )
+})
 public class Fabricante extends Pessoa{
-    //Nome
-    //Email
-    //Lista de Projetos
 
-    private LinkedList<Projeto> projetos;
+    @ManyToMany
+    @JoinTable(name = "FABRICANTES_PROJETOS",
+            joinColumns = @JoinColumn(name = "FABRICANTE_USERNAME", referencedColumnName = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "PROJETO_NOME", referencedColumnName = "NOME"))
+    private List<Projeto> projetos;
 
     public Fabricante() {
         this.projetos = new LinkedList<Projeto>();
@@ -20,11 +35,11 @@ public class Fabricante extends Pessoa{
         this.projetos = new LinkedList<Projeto>();
     }
 
-    public LinkedList<Projeto> getProjetos() {
+    public List<Projeto> getProjetos() {
         return projetos;
     }
 
-    public void setProjetos(LinkedList<Projeto> projetos) {
+    public void setProjetos(List<Projeto> projetos) {
         this.projetos = projetos;
     }
 }

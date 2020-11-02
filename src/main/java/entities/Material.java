@@ -1,9 +1,21 @@
 package entities;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
+import java.util.List;
 
+@Entity
+@Table(
+        name = "MATERIAIS",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllMateriais",
+                query = "SELECT s FROM Material s ORDER BY s.nome" // JPQL
+        )
+})
 public class Material {
 
     //carateristicas do material dependendo da variante
@@ -16,6 +28,12 @@ public class Material {
     private String familia;
     @NotNull
     private String dimensoes;
+
+    @ManyToMany
+    @JoinTable(name = "MATERIAIS_ESTRUTURAS",
+            joinColumns = @JoinColumn(name = "MATERIAL_NOME", referencedColumnName = "NOME"),
+            inverseJoinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"))
+    private List<Estrutura> estruturas;
 
     public Material() {
     }
