@@ -20,26 +20,31 @@ import java.util.List;
 })
 public class Fabricante extends Pessoa{
 
-    @ManyToMany
-    @JoinTable(name = "FABRICANTES_PROJETOS",
-            joinColumns = @JoinColumn(name = "FABRICANTE_USERNAME", referencedColumnName = "USERNAME"),
-            inverseJoinColumns = @JoinColumn(name = "PROJETO_NOME", referencedColumnName = "NOME"))
-    private List<Projeto> projetos;
+    @OneToMany (mappedBy = "fabricante", cascade = CascadeType.REMOVE)
+    private List<Estrutura> estruturas;
 
     public Fabricante() {
-        this.projetos = new LinkedList<Projeto>();
+        this.estruturas = new LinkedList<>();
     }
 
     public Fabricante(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email) {
         super(username, password, name, email);
-        this.projetos = new LinkedList<Projeto>();
+        this.estruturas = new LinkedList<>();
     }
 
-    public List<Projeto> getProjetos() {
-        return projetos;
+    public List<Estrutura> getEstruturas() {
+        return estruturas;
     }
 
-    public void setProjetos(List<Projeto> projetos) {
-        this.projetos = projetos;
+    public void setEstruturas(List<Estrutura> estruturas) {
+        this.estruturas = estruturas;
+    }
+
+    public void addEstrutura(Estrutura estrutura){
+        this.estruturas.add(estrutura);
+    }
+
+    public void removeEstrutura(Estrutura estrutura){
+        this.estruturas.remove(estrutura);
     }
 }

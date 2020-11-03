@@ -33,6 +33,9 @@ public class Estrutura {
     @NotNull
     private String dimensoes;
 
+    @ManyToOne @JoinColumn(name = "FABRICANTE_NOME")
+    private Fabricante fabricante;
+
     public Estrutura() {
         this.materiais = new LinkedList<>();
     }
@@ -74,5 +77,21 @@ public class Estrutura {
 
     public void setDimensoes(String dimensoes) {
         this.dimensoes = dimensoes;
+    }
+
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    public void addMaterial(Material material){
+        this.materiais.add(material);
+    }
+
+    public void removeMaterial(Material material){
+        this.materiais.remove(material);
     }
 }

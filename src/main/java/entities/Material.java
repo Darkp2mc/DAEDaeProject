@@ -76,4 +76,12 @@ public class Material {
     public void setDimensoes(String dimensoes) {
         this.dimensoes = dimensoes;
     }
+
+    public void addEstrutura(Estrutura estrutura){
+        this.estruturas.add(estrutura);
+    }
+
+    public void removeEstrutura(Estrutura estrutura){
+        this.estruturas.remove(estrutura);
+    }
 }

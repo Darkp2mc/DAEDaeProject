@@ -1,5 +1,7 @@
 package ejbs;
 
+import entities.Projeto;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -19,6 +21,8 @@ public class ConfigBean {
     FabricanteBean fabricanteBean;
     @EJB
     ProjetistaBean projetistaBean;
+    @EJB
+    ProjetoBean projetoBean;
 
     @PostConstruct
     public void populateDB(){
@@ -29,6 +33,8 @@ public class ConfigBean {
             projetistaBean.create("projetista_User", "pass", "Projetista", "teste@teste.com");
             System.out.println("Creating fabricante...");
             fabricanteBean.create("fabricante_User", "pass", "Fabricante", "teste@teste.com");
+            System.out.println("Creating projeto...");
+            projetoBean.create("Projeto1","cliente_User", "projetista_User");
             System.out.println("Finished!!!");
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());

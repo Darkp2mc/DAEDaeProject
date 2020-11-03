@@ -29,12 +29,13 @@ public class Cliente extends Pessoa{
 
 
     public Cliente() {
-        this.projetos = new LinkedList<Projeto>();
+        this.projetos = new LinkedList<>();
     }
 
     public Cliente(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email, @NotNull String morada) {
         super(username, password, name, email);
         this.morada = morada;
+        this.projetos = new LinkedList<>();
     }
 
     public String getMorada() {
@@ -59,5 +60,13 @@ public class Cliente extends Pessoa{
 
     public void setProjetos(List<Projeto> projetos) {
         this.projetos = projetos;
+    }
+
+    public void removeProjeto(Projeto projeto){
+        projetos.remove(projeto);
+    }
+
+    public void addProjeto(Projeto projeto){
+        projetos.add(projeto);
     }
 }
