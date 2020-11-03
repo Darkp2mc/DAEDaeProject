@@ -39,6 +39,8 @@ public class Projetista  extends Pessoa{
         this.projetos = projetos;
     }
 
+
+
     public void removeProjeto(Projeto projeto){
         projetos.remove(projeto);
     }
