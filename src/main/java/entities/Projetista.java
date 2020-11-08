@@ -38,4 +38,14 @@ public class Projetista  extends Pessoa{
     public void setProjetos(List<Projeto> projetos) {
         this.projetos = projetos;
     }
+
+
+
+    public void removeProjeto(Projeto projeto){
+        projetos.remove(projeto);
+    }
+
+    public void addProjeto(Projeto projeto){
+        projetos.add(projeto);
+    }
 }
