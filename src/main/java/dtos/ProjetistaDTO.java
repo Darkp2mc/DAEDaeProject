@@ -1,54 +1,40 @@
 package dtos;
 
+import entities.Pessoa;
+import entities.Projeto;
+
 import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
-public class ProjetistaDTO implements Serializable {
+public class ProjetistaDTO extends PessoaDTO implements Serializable {
 
-    private String username;
-    private String password;
-    private String nome;
-    private String email;
+    List<Projeto> projetos;
+
+    public ProjetistaDTO() {
+        this.projetos = new LinkedList<Projeto>();
+    }
 
     public ProjetistaDTO(String username, String password, String nome, String email) {
-        this.username = username;
-        this.password = password;
-        this.nome = nome;
-        this.email = email;
+        super(username, password, nome, email);
+        this.projetos = new LinkedList<Projeto>();
     }
 
-    public ProjetistaDTO(){
-
+    public List<Projeto> getProjetos() {
+        return projetos;
     }
 
-    public String getUsername() {
-        return username;
+    public void setProjetos(List<Projeto> projetos) {
+        this.projetos = projetos;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void removeProjeto(Projeto projeto){
+        projetos.remove(projeto);
     }
 
-    public String getPassword() {
-        return password;
+    public void addProjeto(Projeto projeto){
+        projetos.add(projeto);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
