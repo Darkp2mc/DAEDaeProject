@@ -36,8 +36,13 @@ public class ProjetistaBean {
     }
 
     public List<Projetista> getAllProjetistas(){
-        return manager.createNamedQuery("getAllProjetistas", Projetista.class).getResultList();
+        return manager.createNamedQuery("getAllProjetistas",Projetista.class).getResultList();
     }
+
+    public Projetista findProjetista(String username){
+        return manager.find(Projetista.class,username);
+    }
+
 
     /*
     public void update(String username, String password, String nome, String email) throws MyEntityNotFoundException {
