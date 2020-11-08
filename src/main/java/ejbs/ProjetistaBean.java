@@ -31,10 +31,6 @@ public class ProjetistaBean {
         }
     }
 
-    public Projetista findProjetista(String username){
-        return manager.find(Projetista.class, username);
-    }
-
     public List<Projetista> getAllProjetistas(){
         return manager.createNamedQuery("getAllProjetistas",Projetista.class).getResultList();
     }
