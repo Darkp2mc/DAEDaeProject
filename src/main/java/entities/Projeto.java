@@ -87,4 +87,12 @@ public class Projeto {
     public void setProjetista(Projetista projetista) {
         this.projetista = projetista;
     }
+
+    public void addEstrutura(Estrutura estrutura){
+        this.estruturas.add(estrutura);
+    }
+
+    public void removeEstrutura(Estrutura estrutura){
+        this.estruturas.remove(estrutura);
+    }
 }
