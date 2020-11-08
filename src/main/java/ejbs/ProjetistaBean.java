@@ -5,6 +5,7 @@ import entities.Projetista;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Stateless
 public class ProjetistaBean {
@@ -16,4 +17,18 @@ public class ProjetistaBean {
         Projetista projetista = new Projetista(username, password, nome, email);
         manager.persist(projetista);
     }
+
+    public List<Projetista> getAllProjetistas(){
+        return manager.createNamedQuery("getAllProjetistas",Projetista.class).getResultList();
+    }
+
+    public Projetista findProjetista(String username){
+        return manager.find(Projetista.class,username);
+    }
+
+
+
+
+
+
 }
