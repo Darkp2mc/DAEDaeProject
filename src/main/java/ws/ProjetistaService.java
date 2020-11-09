@@ -62,7 +62,22 @@ public class ProjetistaService {
                 .build();
     }
 
+    @PUT
+    @Path("{username}")
+    public Response updateProjetista(@PathParam("username") String username, ProjetistaDTO projetistaDTO) throws MyEntityNotFoundException{
+        projetistaBean.update(username,
+                projetistaDTO.getPassword(),
+                projetistaDTO.getNome(),
+                projetistaDTO.getEmail());
+        Projetista projetista = projetistaBean.findProjetista(username);
+        return Response.status(Response.Status.OK).entity(toDTO(projetista)).build();
+    }
 
 
-
+    @DELETE
+    @Path("{username}")
+    public Response deleteProjetista(@PathParam("username") String username, ProjetistaDTO projetistaDTO) throws MyEntityNotFoundException{
+        projetistaBean.remove(username);
+        return Response.status(Response.Status.OK).build();
+    }
 }

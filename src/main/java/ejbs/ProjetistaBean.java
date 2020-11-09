@@ -40,7 +40,7 @@ public class ProjetistaBean {
     }
 
 
-    /*
+
     public void update(String username, String password, String nome, String email) throws MyEntityNotFoundException {
         try{
             Projetista projetista = (Projetista) manager.find(Projetista.class, username);
@@ -66,6 +66,6 @@ public class ProjetistaBean {
             throw e;
         }
     }
-    */
+
 
 }
