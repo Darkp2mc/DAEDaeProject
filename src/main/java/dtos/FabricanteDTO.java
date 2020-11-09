@@ -8,30 +8,30 @@ import java.util.List;
 
 public class FabricanteDTO extends PessoaDTO implements Serializable {
 
-    private List<Estrutura> estruturas;
+    private List<ProdutoDTO> produtoDTOS;
 
     public FabricanteDTO() {
-        this.estruturas = new LinkedList<>();
+        this.produtoDTOS = new LinkedList<>();
     }
 
     public FabricanteDTO(String username, String password, String nome, String email) {
         super(username, password, nome, email);
-        this.estruturas = new LinkedList<>();
+        this.produtoDTOS = new LinkedList<>();
     }
 
-    public List<Estrutura> getEstruturas() {
-        return estruturas;
+    public List<ProdutoDTO> getProdutoDTOS() {
+        return produtoDTOS;
     }
 
-    public void setEstruturas(List<Estrutura> estruturas) {
-        this.estruturas = estruturas;
+    public void setProdutoDTOS(List<ProdutoDTO> produtoDTOS) {
+        this.produtoDTOS = produtoDTOS;
     }
 
-    public void addEstrutura(Estrutura estrutura){
-        this.estruturas.add(estrutura);
+    public void addProdutoDTO(ProdutoDTO produtoDTO){
+        this.produtoDTOS.add(produtoDTO);
     }
 
-    public void removeEstrutura(Estrutura estrutura){
-        this.estruturas.remove(estrutura);
+    public void removeProdutoDTO(ProdutoDTO produtoDTO){
+        this.produtoDTOS.remove(produtoDTO);
     }
 }

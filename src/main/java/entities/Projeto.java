@@ -24,18 +24,17 @@ public class Projeto {
     private String nome;
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "CLIENTE_USERNAME")
     private Cliente cliente;
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "PROJETISTA_USERNAME")
     private Projetista projetista;
 
-    @ManyToMany
-    @JoinTable(name = "PROJETOS_ESTRUTURAS",
-            joinColumns = @JoinColumn(name = "PROJETO_NOME", referencedColumnName = "NOME"),
-            inverseJoinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"))
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.REMOVE)
     private List<Estrutura> estruturas;
 
-    private String comentario;
+    private String comentario = "";
 
     public Projeto() {
         this.estruturas = new LinkedList<>();

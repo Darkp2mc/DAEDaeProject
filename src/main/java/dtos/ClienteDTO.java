@@ -10,18 +10,18 @@ import java.util.List;
 public class ClienteDTO extends PessoaDTO implements Serializable {
 
     private String morada;
-    private String nomePessoaDeContacto;
-    private List<Projeto> projetos;
+    private String pessoaDeContactoUsername;
+    private List<ProjetoDTO> projetoDTOs;
 
     public ClienteDTO() {
-        this.projetos = new LinkedList<>();
+        this.projetoDTOs = new LinkedList<>();
     }
 
-    public ClienteDTO(String username, String password, String nome, String email, String morada, String nomePessoaDeContacto) {
+    public ClienteDTO(String username, String password, String nome, String email, String morada, String pessoaDeContactoUsername) {
         super(username, password, nome, email);
         this.morada = morada;
-        this.nomePessoaDeContacto = nomePessoaDeContacto;
-        this.projetos = new LinkedList<>();
+        this.pessoaDeContactoUsername = pessoaDeContactoUsername;
+        this.projetoDTOs = new LinkedList<>();
     }
 
     public String getMorada() {
@@ -32,27 +32,27 @@ public class ClienteDTO extends PessoaDTO implements Serializable {
         this.morada = morada;
     }
 
-    public String getNomePessoaDeContacto() {
-        return nomePessoaDeContacto;
+    public String getPessoaDeContactoUsername() {
+        return pessoaDeContactoUsername;
     }
 
-    public void setNomePessoaDeContacto(String nomePessoaDeContacto) {
-        this.nomePessoaDeContacto = nomePessoaDeContacto;
+    public void setPessoaDeContactoUsername(String pessoaDeContactoUsername) {
+        this.pessoaDeContactoUsername = pessoaDeContactoUsername;
     }
 
-    public List<Projeto> getProjetos() {
-        return projetos;
+    public List<ProjetoDTO> getProjetoDTOs() {
+        return projetoDTOs;
     }
 
-    public void setProjetos(List<Projeto> projetos) {
-        this.projetos = projetos;
+    public void setProjetoDTOs(List<ProjetoDTO> projetoDTOs) {
+        this.projetoDTOs = projetoDTOs;
     }
 
-    public void removeProjeto(Projeto projeto){
-        projetos.remove(projeto);
+    public void removeProjetoDTO(ProjetoDTO projetoDTO){
+        projetoDTOs.remove(projetoDTO);
     }
 
-    public void addProjeto(Projeto projeto){
-        projetos.add(projeto);
+    public void addProjetoDTO(ProjetoDTO projetoDTO){
+        projetoDTOs.add(projetoDTO);
     }
 }

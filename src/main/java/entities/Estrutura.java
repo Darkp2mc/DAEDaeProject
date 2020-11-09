@@ -23,28 +23,26 @@ public class Estrutura {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "MATERIAL_NOME")
+    @JoinColumn(name = "PRODUTO_NOME")
     @NotNull
-    private Material material;
-
-    @ManyToMany(mappedBy = "estruturas")
-    private List<Material> materiais;
+    private Produto produto;
 
     @NotNull
     private String dimensoes;
 
-    @ManyToOne @JoinColumn(name = "FABRICANTE_NOME")
-    private Fabricante fabricante;
+    @ManyToOne
+    @JoinColumn(name = "PROJETO_NOME")
+    @NotNull
+    private Projeto projeto;
 
     public Estrutura() {
-        this.materiais = new LinkedList<>();
+
     }
 
-    public Estrutura(String nome, @NotNull Material material, @NotNull String dimensoes) {
+    public Estrutura(String nome, @NotNull Produto produto, @NotNull String dimensoes) {
         this.nome = nome;
-        this.material = material;
+        this.produto = produto;
         this.dimensoes = dimensoes;
-        this.materiais = new LinkedList<>();
     }
 
     public String getNome() {
@@ -55,20 +53,12 @@ public class Estrutura {
         this.nome = nome;
     }
 
-    public Material getMaterial() {
-        return material;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public List<Material> getMateriais() {
-        return materiais;
-    }
-
-    public void setMateriais(List<Material> materiais) {
-        this.materiais = materiais;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public String getDimensoes() {
@@ -79,19 +69,11 @@ public class Estrutura {
         this.dimensoes = dimensoes;
     }
 
-    public Fabricante getFabricante() {
-        return fabricante;
+    public Projeto getProjeto() {
+        return projeto;
     }
 
-    public void setFabricante(Fabricante fabricante) {
-        this.fabricante = fabricante;
-    }
-
-    public void addMaterial(Material material){
-        this.materiais.add(material);
-    }
-
-    public void removeMaterial(Material material){
-        this.materiais.remove(material);
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
 }
