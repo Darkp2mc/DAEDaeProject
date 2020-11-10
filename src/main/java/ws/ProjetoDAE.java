@@ -4,5 +4,5 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("api")
-public class ProjetoService extends Application {
+public class ProjetoDAE extends Application {
 }

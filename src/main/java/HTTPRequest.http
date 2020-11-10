@@ -33,3 +33,9 @@ Content-Type: application/json
 DELETE http://localhost:8080/projeto/api/projetistas/projetista_User
 Content-Type: application/json
 ###
+
+### get projetos
+
+GET http://localhost:8080/projeto/api/projetistas/projetista_User/projetos
+Accept: application/json
+###

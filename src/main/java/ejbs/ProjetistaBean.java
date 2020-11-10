@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Projetista;
+import entities.Projeto;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
@@ -23,8 +24,10 @@ public class ProjetistaBean {
         if (projetista != null) {
             throw new MyEntityExistsException("Projetista já registado!!!");
         }
+
         try{
             projetista = new Projetista(username, password, nome, email);
+
             manager.persist(projetista);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -66,6 +69,8 @@ public class ProjetistaBean {
             throw e;
         }
     }
+
+
 
 
 }

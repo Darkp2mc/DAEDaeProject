@@ -1,13 +1,17 @@
 package ws;
 
 import dtos.ProjetistaDTO;
+import dtos.ProjetoDTO;
 import ejbs.ProjetistaBean;
+import ejbs.ProjetoBean;
 import entities.Projetista;
+import entities.Projeto;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
+import javax.security.auth.Subject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,6 +27,9 @@ public class ProjetistaService {
     @EJB
     private ProjetistaBean projetistaBean;
 
+    @EJB
+    private ProjetoBean projetoBean;
+
     private ProjetistaDTO toDTO(Projetista projetista){
 
         return new ProjetistaDTO(projetista.getUsername(),projetista.getPassword(),projetista.getName(),projetista.getEmail());
@@ -30,6 +37,14 @@ public class ProjetistaService {
 
     private List<ProjetistaDTO> toDTOS(List<Projetista> projetistas){
         return projetistas.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private ProjetoDTO toDTO(Projeto projeto){
+        return new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+    }
+    private List<ProjetoDTO> projetoDTOS(List<Projeto> projetos) {
+        return projetos.stream().map(this::toDTO).collect(Collectors.toList());
+
     }
 
 
@@ -78,5 +93,19 @@ public class ProjetistaService {
     public Response deleteProjetista(@PathParam("username") String username, ProjetistaDTO projetistaDTO) throws MyEntityNotFoundException{
         projetistaBean.remove(username);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("{username}/projetos")
+    public Response getProjetistaProjects(@PathParam("username") String username){
+        Projetista projetista = projetistaBean.findProjetista(username);
+        if(projetista!= null ){
+            return Response.status(Response.Status.OK)
+                    .entity(projetoDTOS(projetista.getProjetos()))
+                    .build();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_PROJETISTA")
+                .build();
     }
 }
