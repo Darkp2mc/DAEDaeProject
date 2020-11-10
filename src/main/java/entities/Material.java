@@ -1,4 +1,4 @@
-package entities;
+/*package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -85,3 +85,4 @@ public class Material {
         this.estruturas.remove(estrutura);
     }
 }
+*/

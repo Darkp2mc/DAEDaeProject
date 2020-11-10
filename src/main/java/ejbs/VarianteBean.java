@@ -2,25 +2,45 @@ package ejbs;
 
 import entities.Produto;
 import entities.Variante;
+import exceptions.MyConstraintViolationException;
+import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class VarianteBean {
 
     @PersistenceContext
-    EntityManager em;
+    EntityManager manager;
 
-    public void create(int codigo, String nomeProduto, String name, double weff_p, double weff_n, double ar, double sigmaC){
-        Produto produto = em.find(Produto.class, nomeProduto);
-        Variante p = new Variante(codigo, produto, name, weff_p, weff_n, ar, sigmaC);
-        em.persist(p);
+    public void create(int codigo, String nomeProduto, String name, double weff_p, double weff_n, double ar, double sigmaC) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+        Variante variante = manager.find(Variante.class, codigo);
+        if (variante != null) {
+            throw new MyEntityExistsException("Já existe uma variante com o codigo introduzido ("+ variante.getCodigo() +") !!!");
+        }
+        else{
+            Produto produto = manager.find(Produto.class, nomeProduto);
+            if (produto != null){
+                try{
+                    variante = new Variante(codigo, produto, name, weff_p, weff_n, ar, sigmaC);
+                    produto.addVariante(variante);
+                    manager.persist(variante);
+                } catch (ConstraintViolationException e) {
+                    throw new MyConstraintViolationException(e);
+                }
+            }
+            else{
+                throw new MyEntityNotFoundException("O username do produto inserido não existe!!!");
+            }
+        }
     }
 
     public Variante getVariante(int codigo){
-        return em.find(Variante.class, codigo);
+        return manager.find(Variante.class, codigo);
     }
 
 

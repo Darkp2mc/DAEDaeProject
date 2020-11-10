@@ -24,9 +24,8 @@ public class ProjetistaService {
     private ProjetistaBean projetistaBean;
 
     private ProjetistaDTO toDTO(Projetista projetista){
-        ProjetistaDTO projetistaDTO = new ProjetistaDTO(projetista.getUsername(),projetista.getPassword(),projetista.getName(),projetista.getEmail());
 
-        return projetistaDTO;
+        return new ProjetistaDTO(projetista.getUsername(),projetista.getPassword(),projetista.getName(),projetista.getEmail());
     }
 
     private List<ProjetistaDTO> toDTOS(List<Projetista> projetistas){

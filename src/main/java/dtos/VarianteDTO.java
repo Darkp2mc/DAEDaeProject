@@ -1,34 +1,12 @@
-package entities;
+package dtos;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-@Entity
-@Table(
-        name = "VARIANTES",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"NOME"})
-)
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllVariantes",
-                query = "SELECT s FROM Variante s ORDER BY s.nome" // JPQL
-        )
-})
-public class Variante {
+public class VarianteDTO implements Serializable {
 
-    private static double G = 78.5;
-
-    @Id
     private int codigo;
-
-    @ManyToOne
-    @JoinColumn(name="NOME_PRODUTO")
-    @NotNull
-    private Produto produto;
-
-    @NotNull
+    private String produtoNome;
     private String nome;
 
     private double weff_p;
@@ -37,25 +15,24 @@ public class Variante {
     private double sigmaC;
     private double pp;
 
-    @Lob
     private LinkedHashMap<Double,Double> mcr_p;
-    @Lob
+
     private LinkedHashMap<Double,Double> mcr_n;
 
-    public Variante(){
+    public VarianteDTO() {
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
     }
 
-    public Variante(int codigo, @NotNull Produto produto, @NotNull String nome, double weff_p, double weff_n, double ar, double sigmaC ) {
+    public VarianteDTO(int codigo, String produtoNome, String nome, double weff_p, double weff_n, double ar, double sigmaC, double pp) {
         this.codigo = codigo;
-        this.produto = produto;
+        this.produtoNome = produtoNome;
         this.nome = nome;
         this.weff_p = weff_p;
         this.weff_n = weff_n;
         this.ar = ar;
         this.sigmaC = sigmaC;
-        this.pp = G * ar * Math.pow(10, -6);
+        this.pp = pp;
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
     }
@@ -68,12 +45,12 @@ public class Variante {
         this.codigo = code;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public String getProdutoNome() {
+        return this.produtoNome;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setProdutoNome(String produtoNome) {
+        this.produtoNome = produtoNome;
     }
 
     public String getNome() {
@@ -155,6 +132,4 @@ public class Variante {
     public void removeMcr_n(Double LToRemove){
         mcr_n.remove(LToRemove);
     }
-
-
 }
