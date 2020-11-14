@@ -93,7 +93,7 @@ public class ProjetistaService {
                 .entity("ERROR_FINDING_PROJETISTA")
                 .build();
     }
-
+/*
     @POST
     @Path("{username}/projetos")
     public Response createProjeto(@PathParam("username") String username, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
@@ -112,6 +112,8 @@ public class ProjetistaService {
         return Response.status(Response.Status.CREATED).build();
 
     }
+    */
+
 
     @DELETE
     @Path("{username}/projetos/{nome}")

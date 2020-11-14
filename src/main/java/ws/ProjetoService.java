@@ -5,6 +5,8 @@ import dtos.ProjetoDTO;
 import ejbs.ProjetoBean;
 import entities.Projetista;
 import entities.Projeto;
+import exceptions.MyConstraintViolationException;
+import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -43,7 +45,19 @@ public class ProjetoService {
                 .entity("ERROR_FINDING_PROJETISTA")
                 .build();
 
+    }
 
+    @POST
+    @Path("/")
+    public Response createProjeto( ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+
+        Projeto projeto = projetoBean.findProjeto(projetoDTO.getNome());
+        if (projeto!= null){
+            throw new MyEntityExistsException("O projeto com o nome" + projetoDTO.getNome()+ " ja existe!");
+        }
+        projetoBean.create(projetoDTO.getNome(),projetoDTO.getClienteUsername(),projetoDTO.getProjetistaUsername());
+
+        return Response.status(Response.Status.CREATED).build();
 
     }
 }

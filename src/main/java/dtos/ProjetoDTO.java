@@ -1,8 +1,5 @@
 package dtos;
 
-import entities.Cliente;
-import entities.Projetista;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,18 +9,18 @@ public class ProjetoDTO implements Serializable {
     private String nome;
     private String clienteUsername;
     private String projetistaUsername;
-    private List<EstruturaDTO> estruturaDTOs;
+    private List<EstruturaDTO> estruturas;
     private String comentario = "";
 
     public ProjetoDTO() {
-        this.estruturaDTOs = new LinkedList<>();
+        this.estruturas = new LinkedList<>();
     }
 
     public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername) {
         this.nome = nome;
         this.clienteUsername = clienteUsername;
         this.projetistaUsername = projetistaUsername;
-        this.estruturaDTOs = new LinkedList<>();
+        this.estruturas = new LinkedList<>();
     }
 
     public String getNome() {
@@ -50,20 +47,20 @@ public class ProjetoDTO implements Serializable {
         this.projetistaUsername = projetistaUsername;
     }
 
-    public List<EstruturaDTO> getEstruturaDTOs() {
-        return estruturaDTOs;
+    public List<EstruturaDTO> getEstruturas() {
+        return estruturas;
     }
 
-    public void setEstruturaDTOs(List<EstruturaDTO> estruturaDTOs) {
-        this.estruturaDTOs = estruturaDTOs;
+    public void setEstruturas(List<EstruturaDTO> estruturas) {
+        this.estruturas = estruturas;
     }
 
     public void addEstruturaDTOs(EstruturaDTO estruturaDTO) {
-        this.estruturaDTOs.add(estruturaDTO);
+        this.estruturas.add(estruturaDTO);
     }
 
     public void removeEstruturaDTOs(EstruturaDTO estruturaDTO) {
-        this.estruturaDTOs.remove(estruturaDTO);
+        this.estruturas.remove(estruturaDTO);
     }
 
     public String getComentario() {

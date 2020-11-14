@@ -27,7 +27,7 @@ Accept: application/json
 ###
 ### CREATEPROJETO
 
-POST http://localhost:8080/projeto/api/projetistas/projetista_User/projetos
+POST http://localhost:8080/projeto/api/projetos
 Content-Type: application/json
 
 {
