@@ -23,12 +23,13 @@ public class Projetista  extends Pessoa{
     private List<Projeto> projetos;
 
     public Projetista() {
-        this.projetos = new LinkedList<Projeto>();
+
+        this.projetos = new LinkedList<>();
     }
 
     public Projetista(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email) {
         super(username, password, name, email);
-        this.projetos = new LinkedList<Projeto>();
+        this.projetos = new LinkedList<>();
     }
 
     public List<Projeto> getProjetos() {

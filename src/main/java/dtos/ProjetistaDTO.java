@@ -10,31 +10,31 @@ import java.util.List;
 
 public class ProjetistaDTO extends PessoaDTO implements Serializable {
 
-    List<ProjetoDTO> projetoDTOs;
+    List<ProjetoDTO> projetos;
 
     public ProjetistaDTO() {
-        this.projetoDTOs = new LinkedList<ProjetoDTO>();
+        this.projetos = new LinkedList<ProjetoDTO>();
     }
 
     public ProjetistaDTO(String username, String password, String nome, String email) {
         super(username, password, nome, email);
-        this.projetoDTOs = new LinkedList<ProjetoDTO>();
+        this.projetos = new LinkedList<>();
     }
 
-    public List<ProjetoDTO> getProjetoDTOs() {
-        return projetoDTOs;
+    public List<ProjetoDTO> getProjetos() {
+        return projetos;
     }
 
-    public void setProjetoDTOs(List<ProjetoDTO> projetoDTOs) {
-        this.projetoDTOs = projetoDTOs;
+    public void setProjetos(List<ProjetoDTO> projetoDTOs) {
+        this.projetos = projetoDTOs;
     }
 
-    public void removeProjetoDTO(ProjetoDTO projetoDTO){
-        projetoDTOs.remove(projetoDTO);
+    public void removeProjeto(ProjetoDTO projetoDTO){
+        projetos.remove(projetoDTO);
     }
 
-    public void addProjetoDTO(ProjetoDTO projetoDTO){
-        projetoDTOs.add(projetoDTO);
+    public void addProjeto(ProjetoDTO projetoDTO){
+        projetos.add(projetoDTO);
     }
 
 }

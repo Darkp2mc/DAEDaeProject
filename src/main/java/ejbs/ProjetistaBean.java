@@ -1,5 +1,6 @@
 package ejbs;
 
+import entities.Cliente;
 import entities.Projetista;
 import entities.Projeto;
 import exceptions.MyConstraintViolationException;
@@ -43,34 +44,28 @@ public class ProjetistaBean {
     }
 
 
+    public void removeProjeto(Projeto projeto) throws MyEntityNotFoundException{
 
-    public void update(String username, String password, String nome, String email) throws MyEntityNotFoundException {
-        try{
-            Projetista projetista = (Projetista) manager.find(Projetista.class, username);
-            if(projetista == null){
-                throw new MyEntityNotFoundException("Projetista with username " + username + " does not exist!");
-            }
-            projetista.setName(nome);
-            projetista.setEmail(email);
+        Projeto p = manager.find(Projeto.class,projeto.getNome());
 
-        }catch(MyEntityNotFoundException e){
-            throw e;
+        if(p== null){
+            throw new MyEntityNotFoundException(" Projeto nao existe!");
         }
-    }
 
-    public void remove(String username) throws MyEntityNotFoundException{
-        try{
-            Projetista projetista = manager.find(Projetista.class, username);
-            if(projetista == null){
-                throw  new MyEntityNotFoundException("Projetista with username " + username + " does not exist!");
-            }
-            manager.remove(projetista);
-        }catch (MyEntityNotFoundException e){
-            throw e;
+        Cliente cliente = p.getCliente();
+
+        if (cliente==null){
+            throw new MyEntityNotFoundException("Cliente com o nome" +cliente.getName()+"nao existe");
         }
+
+        Projetista projetista = p.getProjetista();
+
+        if (projetista==null){
+            throw new MyEntityNotFoundException("Projetista com o nome "+projetista.getName()+" não existe");
+        }
+
+        projetista.removeProjeto(p);
+        cliente.removeProjeto(p);
+
     }
-
-
-
-
 }

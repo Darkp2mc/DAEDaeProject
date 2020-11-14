@@ -19,23 +19,29 @@ GET http://localhost:8080/projeto/api/projetistas/projetista_User
 Accept: application/json
 ###
 
-###
-PUT http://localhost:8080/projeto/api/projetistas/projetista_User
-Content-Type: application/json
-
-{
-  "email": "teste@teste.com",
-  "nome": "Projetista",
-  "password": "password"
-}
-
-###
-DELETE http://localhost:8080/projeto/api/projetistas/projetista_User
-Content-Type: application/json
-###
 
 ### get projetos
 
 GET http://localhost:8080/projeto/api/projetistas/projetista_User/projetos
 Accept: application/json
 ###
+### CREATEPROJETO
+
+POST http://localhost:8080/projeto/api/projetistas/projetista_User/projetos
+Content-Type: application/json
+
+{
+  "nome": "Projeto2",
+  "clienteUsername": "cliente_User",
+  "projetistaUsername" : "projetista_User"
+
+}
+
+### delete projetos
+
+DELETE http://localhost:8080/projeto/api/projetistas/projetista_User/projetos/Projeto2
+Accept: application/json
+
+###Detalhe do projeto
+GET http://localhost:8080/projeto/api/projetos/Projeto1
+Accept: application/json
