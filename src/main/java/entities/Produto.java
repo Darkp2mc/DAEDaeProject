@@ -27,7 +27,7 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
     private List<Variante> variantes;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "produtos")
     private List<Estrutura> estruturas;
 
     @NotNull

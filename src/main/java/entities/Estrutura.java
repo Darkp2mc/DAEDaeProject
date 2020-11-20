@@ -22,10 +22,12 @@ public class Estrutura {
     @Id
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUTO_NOME")
+    @ManyToMany
+    @JoinTable(name = "ESTRUTURAS_PRODUTOS",
+            joinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUTO_NOME", referencedColumnName = "NOME"))
     @NotNull
-    private Produto produto;
+    private List<Produto> produtos;
 
     @NotNull
     private String dimensoes;
@@ -35,13 +37,16 @@ public class Estrutura {
     @NotNull
     private Projeto projeto;
 
+    @NotNull
+    private String tipoDeProduto;
+
     public Estrutura() {
 
     }
 
-    public Estrutura(String nome, @NotNull Produto produto, @NotNull String dimensoes) {
+    public Estrutura(String nome, @NotNull String tipoDeProduto, @NotNull String dimensoes) {
         this.nome = nome;
-        this.produto = produto;
+        this.tipoDeProduto = tipoDeProduto;
         this.dimensoes = dimensoes;
     }
 
@@ -51,14 +56,6 @@ public class Estrutura {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
     }
 
     public String getDimensoes() {
@@ -75,5 +72,28 @@ public class Estrutura {
 
     public void setProjeto(Projeto projeto) {
         this.projeto = projeto;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void addProduto(Produto produto){
+        this.produtos.add(produto);
+    }
+    public void removeProduto(Produto produto){
+        this.produtos.remove(produto);
+    }
+
+    public String getTipoDeProduto() {
+        return tipoDeProduto;
+    }
+
+    public void setTipoDeProduto(String tipoDeProduto) {
+        this.tipoDeProduto = tipoDeProduto;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 }
