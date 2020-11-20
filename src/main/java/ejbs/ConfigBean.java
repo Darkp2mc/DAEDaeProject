@@ -27,6 +27,8 @@ public class ConfigBean {
     @EJB
     ProdutoBean produtoBean;
     @EJB
+    EstruturaBean estruturaBean;
+    @EJB
     VarianteBean varianteBean;
     @EJB
     SimulacaoBean simulacaoBean;
@@ -101,6 +103,9 @@ public class ConfigBean {
             }else{
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
+
+            estruturaBean.create("Estrutura_teste", "perfil","10", "Projeto1");
+
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

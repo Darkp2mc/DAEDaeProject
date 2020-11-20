@@ -26,7 +26,7 @@ public class Estrutura {
     @JoinTable(name = "ESTRUTURAS_PRODUTOS",
             joinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"),
             inverseJoinColumns = @JoinColumn(name = "PRODUTO_NOME", referencedColumnName = "NOME"))
-    @NotNull
+
     private List<Produto> produtos;
 
     @NotNull
@@ -44,10 +44,11 @@ public class Estrutura {
 
     }
 
-    public Estrutura(String nome, @NotNull String tipoDeProduto, @NotNull String dimensoes) {
+    public Estrutura(String nome, @NotNull String tipoDeProduto, @NotNull String dimensoes, @NotNull Projeto projeto) {
         this.nome = nome;
         this.tipoDeProduto = tipoDeProduto;
         this.dimensoes = dimensoes;
+        this.projeto = projeto;
     }
 
     public String getNome() {
