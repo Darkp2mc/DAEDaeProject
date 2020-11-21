@@ -14,9 +14,23 @@ Content-Type: application/json
 }
 
 
+### Get JWT token
+POST http://localhost:8080/projeto/api/login/token
+Content-Type: application/x-www-form-urlencoded
+
+username=projetista_User&password=pass
+
+### Who am I?
+GET http://localhost:8080/projeto/api/login/claims
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
+
+
 ###
 GET http://localhost:8080/projeto/api/projetistas/projetista_User
 Accept: application/json
+
+
 ###
 
 
@@ -29,6 +43,7 @@ Accept: application/json
 
 POST http://localhost:8080/projeto/api/projetos
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
 
 {
   "nome": "Projeto2",
@@ -41,6 +56,8 @@ Content-Type: application/json
 
 DELETE http://localhost:8080/projeto/api/projetistas/projetista_User/projetos/Projeto2
 Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
+
 
 ###Detalhe do projeto
 GET http://localhost:8080/projeto/api/projetos/Projeto1

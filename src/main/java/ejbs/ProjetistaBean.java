@@ -66,6 +66,7 @@ public class ProjetistaBean {
 
         projetista.removeProjeto(p);
         cliente.removeProjeto(p);
+        manager.remove(p);
 
     }
 }
