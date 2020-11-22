@@ -1,7 +1,9 @@
 package ws;
 
+import dtos.EmailDTO;
 import dtos.ProjetistaDTO;
 import dtos.ProjetoDTO;
+import ejbs.EmailBean;
 import ejbs.ProjetistaBean;
 import ejbs.ProjetoBean;
 import entities.Projetista;
@@ -11,6 +13,7 @@ import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
 import javax.security.auth.Subject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,6 +32,9 @@ public class ProjetistaService {
 
     @EJB
     private ProjetoBean projetoBean;
+
+    @EJB
+    private EmailBean emailBean;
 
     private ProjetistaDTO toDTO(Projetista projetista){
 
@@ -93,27 +99,6 @@ public class ProjetistaService {
                 .entity("ERROR_FINDING_PROJETISTA")
                 .build();
     }
-/*
-    @POST
-    @Path("{username}/projetos")
-    public Response createProjeto(@PathParam("username") String username, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
-        Projetista projetista = projetistaBean.findProjetista(username);
-        if (projetista== null){
-            throw new MyEntityNotFoundException("Projetista com username: "+username+ "nao existe");
-
-        }
-
-        Projeto projeto = projetoBean.findProjeto(projetoDTO.getNome());
-        if(projeto!= null){
-            throw new MyEntityExistsException("O projeto com o nome:"+ projetoDTO.getNome()+ "ja existe");
-        }
-        projetoBean.create(projetoDTO.getNome(),projetoDTO.getClienteUsername(),username);
-
-        return Response.status(Response.Status.CREATED).build();
-
-    }
-    */
-
 
     @DELETE
     @Path("{username}/projetos/{nome}")
@@ -131,6 +116,17 @@ public class ProjetistaService {
 
         projetistaBean.removeProjeto(projeto);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @POST
+    @Path("/{username}/email/send")
+    public Response sendEmail(@PathParam("username") String username, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
+        Projetista projetista = projetistaBean.findProjetista(username);
+        if (projetista == null) {
+            throw new MyEntityNotFoundException("Student with username '" + username + "' not found in our records.");
+        }
+        emailBean.send(projetista.getEmail(), email.getSubject(), email.getMessage());
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
 
