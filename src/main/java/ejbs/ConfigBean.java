@@ -31,11 +31,16 @@ public class ConfigBean {
     @EJB
     SimulacaoBean simulacaoBean;
 
+    @EJB
+    PessoaDeContactoBean pessoaDeContactoBean;
+
     @PostConstruct
     public void populateDB(){
         try {
+            System.out.println("Creating pessoa de contacto");
+            pessoaDeContactoBean.create("PC_User","pass","Alberto", "alberto@mail.com");
             System.out.println("Creating cliente...");
-            clienteBean.create("cliente_User", "pass", "Cliente", "teste@teste.com", "Rua");
+            clienteBean.create("cliente_User", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
             System.out.println("Creating cliente...");
             projetistaBean.create("projetista_User", "pass", "Projetista", "teste@teste.com");
             System.out.println("Creating fabricante...");

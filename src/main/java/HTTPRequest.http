@@ -65,11 +65,11 @@ Accept: application/json
 
 ###send email
 
-POST http://localhost:8080/projeto/api/projetistas/projetista_User/email/send
+POST http://localhost:8080/projeto/api/projetos/Projeto1/email/send
 Content-Type: application/json
 
 {
 "subject":"Este é um email de teste",
-  "message": "Sou lindo"
+  "message": "Sou lindeee"
 }
 

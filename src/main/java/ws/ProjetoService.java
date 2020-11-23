@@ -1,7 +1,9 @@
 package ws;
 
 
+import dtos.EmailDTO;
 import dtos.ProjetoDTO;
+import ejbs.EmailBean;
 import ejbs.ProjetoBean;
 import entities.Projetista;
 import entities.Projeto;
@@ -10,6 +12,7 @@ import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,6 +26,9 @@ public class ProjetoService {
 
     @EJB
     ProjetoBean projetoBean;
+
+    @EJB
+    private EmailBean emailBean;
 
     private ProjetoDTO toDTO(Projeto projeto){
         return new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
@@ -59,5 +65,16 @@ public class ProjetoService {
 
         return Response.status(Response.Status.CREATED).build();
 
+    }
+
+    @POST
+    @Path("/{nome}/email/send")
+    public Response sendEmail(@PathParam("nome") String nome, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
+        Projeto projeto = projetoBean.findProjeto(nome);
+        if (projeto == null) {
+            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+        emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(), email.getSubject(), email.getMessage());
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 }

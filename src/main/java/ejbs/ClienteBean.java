@@ -1,8 +1,10 @@
 package ejbs;
 
 import entities.Cliente;
+import entities.PessoaDeContacto;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,14 +17,19 @@ public class ClienteBean {
     @PersistenceContext
     EntityManager manager;
 
-    public void create(String username, String password, String nome, String email, String morada ) throws MyEntityExistsException, MyConstraintViolationException {
+    public void create(String username, String password, String nome, String email, String morada, String usernamePC ) throws MyEntityExistsException, MyEntityNotFoundException,MyConstraintViolationException {
 
         Cliente cliente = findCliente(username);
         if (cliente != null) {
             throw new MyEntityExistsException("Cliente já registado!!!");
         }
+        PessoaDeContacto pessoaDeContacto = manager.find(PessoaDeContacto.class,usernamePC);
+        if (pessoaDeContacto == null){
+            throw new MyEntityNotFoundException("Pessoa de contacto não existe");
+        }
+
         try{
-            cliente = new Cliente(username, password, nome, email, morada);
+            cliente = new Cliente(username, password, nome, email, morada,pessoaDeContacto);
             manager.persist(cliente);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);

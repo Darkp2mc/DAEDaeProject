@@ -33,8 +33,7 @@ public class ProjetistaService {
     @EJB
     private ProjetoBean projetoBean;
 
-    @EJB
-    private EmailBean emailBean;
+
 
     private ProjetistaDTO toDTO(Projetista projetista){
 
@@ -118,16 +117,7 @@ public class ProjetistaService {
         return Response.status(Response.Status.OK).build();
     }
 
-    @POST
-    @Path("/{username}/email/send")
-    public Response sendEmail(@PathParam("username") String username, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
-        Projetista projetista = projetistaBean.findProjetista(username);
-        if (projetista == null) {
-            throw new MyEntityNotFoundException("Student with username '" + username + "' not found in our records.");
-        }
-        emailBean.send(projetista.getEmail(), email.getSubject(), email.getMessage());
-        return Response.status(Response.Status.OK).entity("E-mail sent").build();
-    }
+
 
 
 }

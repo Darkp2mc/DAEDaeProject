@@ -23,7 +23,7 @@ public class Cliente extends Pessoa{
     private String morada;
     @OneToOne
     @JoinColumn(name = "PESSOA_DE_CONTACTO")
-    private Pessoa pessoaDeContacto;
+    private PessoaDeContacto pessoaDeContacto;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
     private List<Projeto> projetos;
 
@@ -32,9 +32,10 @@ public class Cliente extends Pessoa{
         this.projetos = new LinkedList<>();
     }
 
-    public Cliente(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email, @NotNull String morada) {
+    public Cliente(String username, @NotNull String password, @NotNull String name, @NotNull @Email String email, @NotNull String morada, @NotNull PessoaDeContacto pessoaDeContacto) {
         super(username, password, name, email);
         this.morada = morada;
+        this.pessoaDeContacto = pessoaDeContacto;
         this.projetos = new LinkedList<>();
     }
 
@@ -50,7 +51,7 @@ public class Cliente extends Pessoa{
         return pessoaDeContacto;
     }
 
-    public void setPessoaDeContacto(Pessoa pessoaDeContacto) {
+    public void setPessoaDeContacto(PessoaDeContacto pessoaDeContacto) {
         this.pessoaDeContacto = pessoaDeContacto;
     }
 
