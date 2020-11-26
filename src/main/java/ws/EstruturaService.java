@@ -41,11 +41,11 @@ public class EstruturaService {
         return estruturas.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private ProdutoDTO projetoToDTO(Produto produto){
+    private ProdutoDTO produtoToDTO(Produto produto){
         return new ProdutoDTO(produto.getNome(), produto.getFabricante().getName());
     }
     private List<ProdutoDTO> produtoDTOS(List<Produto> produtos) {
-        return produtos.stream().map(this::projetoToDTO).collect(Collectors.toList());
+        return produtos.stream().map(this::produtoToDTO).collect(Collectors.toList());
 
     }
 
@@ -61,5 +61,51 @@ public class EstruturaService {
         estruturaBean.create(estruturaDTO.getNome(), estruturaDTO.getTipoDeProduto(), "something", estruturaDTO.getProjetoNome());
 
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @GET
+    @Path("{name}")
+    public Response getEstruturaDetails(@PathParam("name") String name){
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura!= null){
+            return Response.status(Response.Status.OK)
+                    .entity(toDTO(estrutura))
+                    .build();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_PROJETISTA")
+                .build();
+    }
+
+    @GET
+    @Path("{name}/produto")
+    public Response getEstruturaProdutos(@PathParam("name") String name){
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura!= null ){
+            return Response.status(Response.Status.OK)
+                    .entity(produtoDTOS(estrutura.getProdutos()))
+                    .build();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_PROJETISTA")
+                .build();
+    }
+
+    @DELETE
+    @Path("{name}/produtos/{produtoName}")
+    public Response deleteProduto(@PathParam("name") String name,final @PathParam("produtoName") String produtoName) throws MyEntityNotFoundException{
+
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura== null){
+            throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
+        }
+        Produto produto = produtoBean.findCProduto(produtoName);
+
+        if (produto == null){
+            throw new MyEntityNotFoundException("Produto com o nome" + produtoName+ "nao existe!");
+        }
+
+        estrutura.removeProduto(produto);
+        return Response.status(Response.Status.OK).build();
     }
 }
