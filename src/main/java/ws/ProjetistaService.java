@@ -121,7 +121,7 @@ public class ProjetistaService {
 
     @PUT
     @Path("{username}/projetos/{nome}")
-    public Response updateProjeto(@PathParam("username") String username, final @PathParam("nome") String nome) throws  MyEntityNotFoundException{
+    public Response updateProjeto(@PathParam("username") String username, final @PathParam("nome") String nome, ProjetoDTO projetoDTO) throws  MyEntityNotFoundException{
 
         Projetista projetista = projetistaBean.findProjetista(username);
         if(projetista== null){
@@ -133,7 +133,7 @@ public class ProjetistaService {
             throw new MyEntityNotFoundException("projeto com o nome" + nome+ "nao existe!");
         }
 
-        projetistaBean.updateProjeto(projeto.getNome(),projeto.getProjetista().getUsername(),projeto.getCliente().getUsername());
+        projetistaBean.updateProjeto(nome,projetoDTO.getProjetistaUsername(),projetoDTO.getClienteUsername());
 
         return Response.status(Response.Status.OK).build();
 

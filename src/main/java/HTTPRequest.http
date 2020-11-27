@@ -83,8 +83,8 @@ PUT http://localhost:8080/projeto/api/projetistas/projetista_User/projetos/Proje
 Content-Type: application/json
 
 {
-  "nome": "Proj1",
-  "clienteUsername": "cliente_User",
+  "nome": "Projeto1",
+  "clienteUsername": "cliente_User2",
   "projetistaUsername" : "projetista_User"
 
 }

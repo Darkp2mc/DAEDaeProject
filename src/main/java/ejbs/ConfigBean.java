@@ -41,6 +41,7 @@ public class ConfigBean {
             pessoaDeContactoBean.create("PC_User","pass","Alberto", "alberto@mail.com");
             System.out.println("Creating cliente...");
             clienteBean.create("cliente_User", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
+            clienteBean.create("cliente_User2", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
             System.out.println("Creating cliente...");
             projetistaBean.create("projetista_User", "pass", "Projetista", "teste@teste.com");
             System.out.println("Creating fabricante...");
