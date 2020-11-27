@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import java.util.List;
 })
 public class Projeto {
 
-    //lista de ficheiros
+
+    @Version
+    private int version;
 
     @Id
     private String nome;
@@ -36,15 +39,21 @@ public class Projeto {
 
     private String comentario = "";
 
+    @OneToMany(mappedBy = "projeto" ,cascade = CascadeType.REMOVE)
+    @NotNull
+    private List<Document> documents;
+
     public Projeto() {
-        this.estruturas = new LinkedList<>();
+        this.estruturas = new ArrayList<>();
+        this.documents = new ArrayList<>();
     }
 
     public Projeto(String nome, @NotNull Cliente cliente, @NotNull Projetista projetista) {
         this.nome = nome;
         this.cliente = cliente;
         this.projetista = projetista;
-        this.estruturas = new LinkedList<>();
+        this.estruturas = new ArrayList<>();
+        this.documents = new ArrayList<>();
     }
 
     public String getNome() {
@@ -87,11 +96,33 @@ public class Projeto {
         this.projetista = projetista;
     }
 
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
     public void addEstrutura(Estrutura estrutura){
         this.estruturas.add(estrutura);
     }
 
     public void removeEstrutura(Estrutura estrutura){
         this.estruturas.remove(estrutura);
+    }
+
+    public void addDocument(Document document){
+        if (documents.contains(document) || document == null){
+            return;
+        }
+        documents.add(document);
+    }
+
+    public void removeDocument(Document document){
+        if (!documents.contains(document) || document == null){
+            return;
+        }
+        documents.remove(document);
     }
 }

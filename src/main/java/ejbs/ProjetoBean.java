@@ -52,4 +52,6 @@ public class ProjetoBean {
     public List<Projeto> getAllProjetos(){
         return manager.createNamedQuery("getAllProjetos", Projeto.class).getResultList();
     }
+
+
 }

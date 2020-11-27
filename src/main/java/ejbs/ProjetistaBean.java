@@ -10,6 +10,7 @@ import exceptions.MyEntityNotFoundException;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -48,8 +49,8 @@ public class ProjetistaBean {
 
         Projeto p = manager.find(Projeto.class,projeto.getNome());
 
-        if(p== null){
-            throw new MyEntityNotFoundException(" Projeto nao existe!");
+        if(p==null){
+            throw new MyEntityNotFoundException("Projeto nao existe!!");
         }
 
         Cliente cliente = p.getCliente();
@@ -68,5 +69,38 @@ public class ProjetistaBean {
         cliente.removeProjeto(p);
         manager.remove(p);
 
+
+
     }
+
+    public void updateProjeto(String nome, String projetistaUsername, String clienteUsername ) throws  MyEntityNotFoundException{
+
+        Projeto projeto = manager.find(Projeto.class,nome);
+
+        if(projeto==null){
+            throw new MyEntityNotFoundException("Projeto nao existe!!");
+        }
+
+        Cliente cliente = manager.find(Cliente.class, clienteUsername);
+
+        if (cliente==null){
+            throw new MyEntityNotFoundException("Cliente com o nome" +cliente.getName()+"nao existe");
+        }
+
+        Projetista projetista = manager.find(Projetista.class, projetistaUsername);
+
+        if (projetista==null){
+            throw new MyEntityNotFoundException("Projetista com o nome "+projetista.getName()+" não existe");
+        }
+
+        manager.lock(projeto,LockModeType.OPTIMISTIC);
+        projeto.setCliente(cliente);
+        projeto.setNome(nome);
+        projeto.setProjetista(projetista);
+
+    }
+
+
+
+
 }

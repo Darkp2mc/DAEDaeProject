@@ -35,6 +35,7 @@ public class ProjetistaService {
 
 
 
+
     private ProjetistaDTO toDTO(Projetista projetista){
 
 
@@ -66,6 +67,7 @@ public class ProjetistaService {
     @POST
     @Path("/")
     public Response createNewProjetista(ProjetistaDTO projetistaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+
         projetistaBean.create(projetistaDTO.getUsername(),projetistaDTO.getPassword(),projetistaDTO.getNome(),projetistaDTO.getEmail());
 
         return Response.status(Response.Status.CREATED).build();
@@ -115,6 +117,27 @@ public class ProjetistaService {
 
         projetistaBean.removeProjeto(projeto);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("{username}/projetos/{nome}")
+    public Response updateProjeto(@PathParam("username") String username, final @PathParam("nome") String nome) throws  MyEntityNotFoundException{
+
+        Projetista projetista = projetistaBean.findProjetista(username);
+        if(projetista== null){
+            throw  new MyEntityNotFoundException("Projetista com o username" + username+ "nao existe!");
+        }
+        Projeto projeto = projetoBean.findProjeto(nome);
+
+        if (projeto == null){
+            throw new MyEntityNotFoundException("projeto com o nome" + nome+ "nao existe!");
+        }
+
+        projetistaBean.updateProjeto(projeto.getNome(),projeto.getProjetista().getUsername(),projeto.getCliente().getUsername());
+
+        return Response.status(Response.Status.OK).build();
+
+
     }
 
 

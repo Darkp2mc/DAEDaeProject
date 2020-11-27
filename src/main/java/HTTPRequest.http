@@ -16,14 +16,18 @@ Content-Type: application/json
 
 ### Get JWT token
 POST http://localhost:8080/projeto/api/login/token
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-username=projetista_User&password=pass
+{
+ "username": "projetista_User",
+  "password": "pass"
+}
+
 
 ### Who am I?
 GET http://localhost:8080/projeto/api/login/claims
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDY1MTA3NjJ9.tthH4hrWJMHPZh9ynrxbuP1hyBT0DreJq8HIXTEc3_50rF1sSE4oXhPFZOUV6BFJRbQgE64GRApYwVr5TaymV3osXRObvYB1Hu_1-Hs6uY6CLRaIUjfswavM1_FSq8Thv1GA8CiaENpeMasebRy0YueYrAGlL78bYKXogVjO-8PptHpN7v5o09NwM_5RpQTZi9ZI6B2Htl1_qr5RBl95Ui7ZO9Y5W-6UMpaRCTkvdzYirqWNqqIDwogdlYOSH1X3d6E-w58naA9KNO8X2qolkXvnkNHlLfwKNGEI2hhFFWnwgq9dIFw2PJPEBPPejFwn4ZoY83x_UGXTuEkub2xd0A
 
 
 ###
@@ -43,7 +47,7 @@ Accept: application/json
 
 POST http://localhost:8080/projeto/api/projetos
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDY1MjkwNDV9.SVnp5AxccnLAW1olP5sCiN2zADpluOsct4oEquw2ZZYWafke8SMS5Dl4RxpZK_-5ObFKCf4HDb73Fj-cEi34NvAO3UEEa86C3h4PnafsmQfnhr4H-qDubIzpv7D4cgL46ebtWADDnudWRvB_cy6ePux7ef6hON-YwnlLZ1pKg13WEcrCMLUeyJZupFj2V9gOlN4pPAEVStzs4UytQXdmuPIHsJeFaBwdXv-iaz61EHrzbAhyoNTj6L-DBvTlyOnViEsBFhmkGndpv6B7kPYWAIAn3_oIdypwdnah_hnf7ru5RMaf-JKtZ1MSXAgJbyOyIskP1vrX1IvAcPocRBVUtA
 
 {
   "nome": "Projeto2",
@@ -56,7 +60,7 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc
 
 DELETE http://localhost:8080/projeto/api/projetistas/projetista_User/projetos/Projeto2
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDYwMTI2ODR9.gGE-aasjNunpsOajIMtZ1crvuYAjYbPVpJy0AHqbfPCTx-YIl9Hp8-se-ZXKPO2Eg6ZGLzyD_LZSw7r-efErvPlPNGycII2DakBggpjxqJay9lU6xiVjd0mCE34dd1lD0qKTbZrkPvZiiJWbCBzQ_5Jkerps8ZX9tHk6k_CXtZkjMbtYRFAyXAH3j8XC0jF2hc0gLoAzhUy12UYscb6q_fcF22clj_PGbnBE_UTIgGQhTuyvJdFFwjJNsJik-8Lr9C0Rdhx9VZ5yNMps8q4Yzrqo7tzbWBy8WL8a9S-NUVVGWgXvZkn6GXDly4H740o5jjVW4uoKGG8X04zOMnu6Ug
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDY1MjkwNDV9.SVnp5AxccnLAW1olP5sCiN2zADpluOsct4oEquw2ZZYWafke8SMS5Dl4RxpZK_-5ObFKCf4HDb73Fj-cEi34NvAO3UEEa86C3h4PnafsmQfnhr4H-qDubIzpv7D4cgL46ebtWADDnudWRvB_cy6ePux7ef6hON-YwnlLZ1pKg13WEcrCMLUeyJZupFj2V9gOlN4pPAEVStzs4UytQXdmuPIHsJeFaBwdXv-iaz61EHrzbAhyoNTj6L-DBvTlyOnViEsBFhmkGndpv6B7kPYWAIAn3_oIdypwdnah_hnf7ru5RMaf-JKtZ1MSXAgJbyOyIskP1vrX1IvAcPocRBVUtA
 
 
 ###Detalhe do projeto
@@ -72,4 +76,38 @@ Content-Type: application/json
 "subject":"Este é um email de teste",
   "message": "Sou lindeee"
 }
+
+###update projeto
+
+PUT http://localhost:8080/projeto/api/projetistas/projetista_User/projetos/Projeto1
+Content-Type: application/json
+
+{
+  "nome": "Proj1",
+  "clienteUsername": "cliente_User",
+  "projetistaUsername" : "projetista_User"
+
+}
+
+####
+
+POST http://localhost:8080/projeto/api/documents/upload HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDY1MTA3NjJ9.tthH4hrWJMHPZh9ynrxbuP1hyBT0DreJq8HIXTEc3_50rF1sSE4oXhPFZOUV6BFJRbQgE64GRApYwVr5TaymV3osXRObvYB1Hu_1-Hs6uY6CLRaIUjfswavM1_FSq8Thv1GA8CiaENpeMasebRy0YueYrAGlL78bYKXogVjO-8PptHpN7v5o09NwM_5RpQTZi9ZI6B2Htl1_qr5RBl95Ui7ZO9Y5W-6UMpaRCTkvdzYirqWNqqIDwogdlYOSH1X3d6E-w58naA9KNO8X2qolkXvnkNHlLfwKNGEI2hhFFWnwgq9dIFw2PJPEBPPejFwn4ZoY83x_UGXTuEkub2xd0A
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="projetoDAE.txt"
+
+< D:\projetoDAE.txt
+
+--boundary
+Content-Disposition: form-data; name="nome"
+
+Projeto1
+
+--boundary
+
+###
+GET http://localhost:8080/projeto/api/documents/1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
 
