@@ -28,12 +28,9 @@ public class EstruturaService {
     private ProdutoBean produtoBean;
 
     private EstruturaDTO toDTO(Estrutura estrutura){
-
-
-        EstruturaDTO estruturaDTO= new EstruturaDTO(estrutura.getNome(), estrutura.getTipoDeProduto(), estrutura.getProjeto().getNome());
-
+        EstruturaDTO estruturaDTO= new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),
+                                                estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(), estrutura.getAlturaDaLage());
         estruturaDTO.setProdutoDTOS(produtoDTOS(estrutura.getProdutos()));
-
         return estruturaDTO;
     }
 
@@ -57,8 +54,9 @@ public class EstruturaService {
 
     @POST
     @Path("/")
-    public Response createNewEstrutura(EstruturaDTO estruturaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
-        estruturaBean.create(estruturaDTO.getNome(), estruturaDTO.getTipoDeProduto(), "something", estruturaDTO.getProjetoNome());
+    public Response createNewEstrutura(EstruturaDTO estruturaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException, MyIllegalArgumentException {
+        estruturaBean.create(estruturaDTO.getNome(),estruturaDTO.getProjetoNome(), estruturaDTO.getTipoDeProduto(),
+                estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(), estruturaDTO.getAlturaDaLage());
 
         return Response.status(Response.Status.CREATED).build();
     }

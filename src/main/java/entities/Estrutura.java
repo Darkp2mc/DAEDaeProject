@@ -1,5 +1,7 @@
 package entities;
 
+import enums.AplicacaoPertendida;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
@@ -29,9 +31,6 @@ public class Estrutura {
 
     private List<Produto> produtos;
 
-    @NotNull
-    private String dimensoes;
-
     @ManyToOne
     @JoinColumn(name = "PROJETO_NOME")
     @NotNull
@@ -40,15 +39,28 @@ public class Estrutura {
     @NotNull
     private String tipoDeProduto;
 
+
+    private String numeroDeVaos;//Chapa, Lage, Painel, Perfil
+    private String comprimentoDaVao;//Chapa, Lage, Painel, Perfil
+    private String aplicacao;//Chapa, Painel, Perfil
+    private String alturaDaLage;//Lage
+
     public Estrutura() {
 
     }
 
-    public Estrutura(String nome, @NotNull String tipoDeProduto, @NotNull String dimensoes, @NotNull Projeto projeto) {
+    public Estrutura(String nome, @NotNull Projeto projeto, @NotNull String tipoDeProduto,
+                     String numeroDeVaos, String comprimentoDaVao, String aplicacao,
+                     String alturaDaLage) {
         this.nome = nome;
-        this.tipoDeProduto = tipoDeProduto;
-        this.dimensoes = dimensoes;
         this.projeto = projeto;
+        this.tipoDeProduto = tipoDeProduto;
+        this.numeroDeVaos = numeroDeVaos;
+        this.comprimentoDaVao = comprimentoDaVao;
+        this.aplicacao = aplicacao;
+        this.alturaDaLage = alturaDaLage;
+
+        setDimencoesPeloTipo();
     }
 
     public String getNome() {
@@ -57,14 +69,6 @@ public class Estrutura {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getDimensoes() {
-        return dimensoes;
-    }
-
-    public void setDimensoes(String dimensoes) {
-        this.dimensoes = dimensoes;
     }
 
     public Projeto getProjeto() {
@@ -96,5 +100,48 @@ public class Estrutura {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public String getAplicacao() {
+        return aplicacao;
+    }
+
+    public void setAplicacao(String aplicacao) {
+        this.aplicacao = aplicacao;
+    }
+
+    public String getNumeroDeVaos() {
+        return numeroDeVaos;
+    }
+
+    public void setNumeroDeVaos(String numeroDeVaos) {
+        this.numeroDeVaos = numeroDeVaos;
+    }
+
+    public String getComprimentoDaVao() {
+        return comprimentoDaVao;
+    }
+
+    public void setComprimentoDaVao(String comprimentoDaVao) {
+        this.comprimentoDaVao = comprimentoDaVao;
+    }
+
+    public String getAlturaDaLage() {
+        return alturaDaLage;
+    }
+
+    public void setAlturaDaLage(String alturaDaLage) {
+        this.alturaDaLage = alturaDaLage;
+    }
+
+    private void setDimencoesPeloTipo(){
+        if (getTipoDeProduto().equals("Chapa") ||
+                getTipoDeProduto().equals("Painel") ||
+                getTipoDeProduto().equals("Perfil")){
+            this.alturaDaLage = null;
+        }
+        else if(getTipoDeProduto().equals("Lage")){
+            this.aplicacao = null;
+        }
     }
 }
