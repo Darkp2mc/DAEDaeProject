@@ -31,8 +31,9 @@ public class DocumentBean {
 
         try{
             Document d = new Document(filepath,filename,projeto);
-            projeto.addDocument(d);
             manager.persist(d);
+            projeto.addDocument(d);
+
         }
         catch (ConstraintViolationException e){
             throw new MyConstraintViolationException(e);

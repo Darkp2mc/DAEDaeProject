@@ -43,7 +43,7 @@ public class DocumentsService {
         if(projeto== null){
             throw new MyEntityNotFoundException("Projeto nao existe");
         }
-        System.out.println(projeto.getNome());
+
         List<InputPart> inputParts = uploadForm.get("file");
 
         for (InputPart inputPart : inputParts) {
