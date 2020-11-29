@@ -1,6 +1,7 @@
 package dtos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,16 +12,28 @@ public class ProjetoDTO implements Serializable {
     private String projetistaUsername;
     private List<EstruturaDTO> estruturas;
     private String comentario = "";
+    private List<DocumentDTO> documentos;
 
     public ProjetoDTO() {
-        this.estruturas = new LinkedList<>();
+        this.estruturas = new ArrayList<>();
+        this.documentos = new ArrayList<>();
     }
 
     public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername) {
         this.nome = nome;
         this.clienteUsername = clienteUsername;
         this.projetistaUsername = projetistaUsername;
-        this.estruturas = new LinkedList<>();
+        this.estruturas = new ArrayList<>();
+        this.documentos = new ArrayList<>();
+    }
+
+    public List<DocumentDTO> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(List<DocumentDTO> documentos) {
+
+        this.documentos = documentos;
     }
 
     public String getNome() {
