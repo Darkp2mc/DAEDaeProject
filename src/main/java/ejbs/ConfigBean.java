@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Variante;
+import enums.AplicacaoPertendida;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -26,6 +27,8 @@ public class ConfigBean {
     ProjetoBean projetoBean;
     @EJB
     ProdutoBean produtoBean;
+    @EJB
+    EstruturaBean estruturaBean;
     @EJB
     VarianteBean varianteBean;
     @EJB
@@ -101,6 +104,9 @@ public class ConfigBean {
             }else{
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
+
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "1","1", "Coberturaa", "1");
+
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
