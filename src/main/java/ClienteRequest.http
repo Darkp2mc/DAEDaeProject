@@ -1,0 +1,20 @@
+### Get JWT token
+POST http://localhost:8080/projeto/api/login/token
+Content-Type: application/json
+
+{
+  "username": "cliente_User",
+  "password": "pass"
+}
+
+
+### Who am I?
+GET http://localhost:8080/projeto/api/login/claims
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiQ2xpZW50ZSJdLCJleHAiOjE2MDY2MjI5NDZ9.MC_3Vz07QMU2J-3XDDIWCjKk4GE5rOdw8-sF_-wsD3P14soqyIPg0QEEoTcjnYxEgi1vhw8IcPwQAdiCvKoSW3CeqsRmDPqDYXBMaol4gS_AFCV82b5RSBfk6IE-P5-GG-QbraYGBaDNz4_QvqiEgUzXSInyfbSwGsuSctU0cYVCBxnxAp-aWkrwYjNvZcs_NnOpCH0REpuf7MM2VI3npeHNHK_z8aXEO_DnyTx6HhkJbLeClyDryq5yTCQfL55-waVJ2eS1pdPW6BzAyIvr8hNnAbqiNDPcTlj9Bq6KOKDMJ8Pa8u1Z7uarVSnIbgdxXD5ze183QuD67Afjm1Cd7Q
+
+
+### Get cliente Details
+
+GET http://localhost:8080/projeto/api/clientes/cliente_User
+Accept: application/json

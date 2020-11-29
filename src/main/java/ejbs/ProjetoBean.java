@@ -20,30 +20,29 @@ public class ProjetoBean {
 
     public void create(String nome, String clienteUsername, String projetistaUsername) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         Projetista projetista = manager.find(Projetista.class,projetistaUsername);
-        if (projetista != null){
-            Cliente cliente = manager.find(Cliente.class,clienteUsername);
-            if (cliente != null){
-                Projeto projeto = findProjeto(nome);
-                if (projeto != null)
-                    throw new MyEntityExistsException("Já existe um projeto com o mesmo nome!!!");
-
-                try {
-                    projeto = new Projeto(nome, cliente, projetista);
-                    manager.persist(projeto);
-                    cliente.addProjeto(projeto);
-                    projetista.addProjeto(projeto);
-                } catch (ConstraintViolationException e) {
-                    throw new MyConstraintViolationException(e);
-                }
-            }
-            else{
-                throw new MyEntityNotFoundException("O username do cliente inserido não existe!!!");
-            }
+        if (projetista == null){
+            throw new MyEntityNotFoundException("Projetista nao encontrado");
         }
-        else{
-            throw new MyEntityNotFoundException("O username do projetista inserido não existe!!!");
+
+        Cliente cliente = manager.find(Cliente.class,clienteUsername);
+        if (cliente == null) {
+            throw new MyEntityNotFoundException("Cliente nao encontrado");
+        }
+        Projeto projeto = findProjeto(nome);
+        if (projeto != null)
+            throw new MyEntityExistsException("Já existe um projeto com o mesmo nome!!!");
+
+        try {
+            projeto = new Projeto(nome, cliente, projetista);
+            manager.persist(projeto);
+            cliente.addProjeto(projeto);
+            projetista.addProjeto(projeto);
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(e);
         }
     }
+
+
 
     public Projeto findProjeto(String nome){
         return manager.find(Projeto.class, nome);
