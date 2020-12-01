@@ -2,15 +2,20 @@ package ws;
 
 import dtos.ProdutoDTO;
 import dtos.VarianteDTO;
+import ejbs.EstruturaBean;
 import ejbs.ProdutoBean;
+import ejbs.SimulacaoBean;
+import ejbs.VarianteBean;
 import entities.Estrutura;
 import entities.Produto;
 import entities.Variante;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +28,15 @@ public class ProdutoService {
     @EJB
     private ProdutoBean produtoBean;
 
+    @EJB
+    private SimulacaoBean simulacaoBean;
+
+    @EJB
+    private VarianteBean varianteBean;
+
+    @EJB
+    private EstruturaBean estruturaBean;
+
     private VarianteDTO varianteDTO(Variante variante){
         return new VarianteDTO(variante.getCodigo(),variante.getProduto().getNome(),variante.getNome(),variante.getWeff_p(),variante.getWeff_n(),variante.getAr(),variante.getSigmaC(),variante.getPp());
     }
@@ -33,16 +47,23 @@ public class ProdutoService {
     }
 
     @GET
-    @Path("{name}/variantes")
-    public Response getProdutoVariantes(@PathParam("name") String name){
+    @Path("{name}/variantes/{estruturaNome}")
+    public Response getProdutoVariantes(@PathParam("name") String name,@PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
         Produto produto = produtoBean.findCProduto(name);
-        if(produto!= null ){
-            return Response.status(Response.Status.OK)
-                    .entity(varianteDTOS(produto.getVariantes()))
-                    .build();
+        if (produto == null)
+            throw  new MyEntityNotFoundException("Produto com o nome " + name+ " nao existe!");
+        Estrutura estrutura = estruturaBean.findEstrutura(estruturaNome);
+        if(estrutura== null){
+            throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_VARIANTES")
-                .build();
+        List<Variante> variantes = produto.getVariantes();
+
+        variantes.removeIf(v -> !simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
+                Double.parseDouble(estrutura.getComprimentoDaVao()),
+                Integer.parseInt(estrutura.getSobrecarga()), v));
+
+        return Response.status(Response.Status.OK)
+                    .entity(varianteDTOS(variantes))
+                    .build();
     }
 }

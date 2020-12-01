@@ -133,14 +133,7 @@ public class EstruturaService {
             throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
         }
 
-
-        if (simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
-                                    Double.parseDouble(estrutura.getComprimentoDaVao()),
-                                    Integer.parseInt(estrutura.getSobrecarga()),variante)) {
-            estruturaBean.addVariante(name,varianteCodigo);
-            return Response.status(Response.Status.OK).build();
-        }
-
-        throw new MyIllegalArgumentException("A variante não é compativeis");
+        estruturaBean.addVariante(name,varianteCodigo);
+        return Response.status(Response.Status.OK).build();
     }
 }
