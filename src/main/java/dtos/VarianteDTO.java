@@ -2,6 +2,8 @@ package dtos;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class VarianteDTO implements Serializable {
 
@@ -19,9 +21,12 @@ public class VarianteDTO implements Serializable {
 
     private LinkedHashMap<Double,Double> mcr_n;
 
+    private List<EstruturaDTO> estruturaDTOS;
+
     public VarianteDTO() {
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
+        this.estruturaDTOS = new LinkedList<>();
     }
 
     public VarianteDTO(int codigo, String produtoNome, String nome, double weff_p, double weff_n, double ar, double sigmaC, double pp) {
@@ -35,6 +40,7 @@ public class VarianteDTO implements Serializable {
         this.pp = pp;
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
+        this.estruturaDTOS = new LinkedList<>();
     }
 
     public int getCodigo() {
@@ -131,5 +137,12 @@ public class VarianteDTO implements Serializable {
 
     public void removeMcr_n(Double LToRemove){
         mcr_n.remove(LToRemove);
+    }
+
+    public void addEstruturaDTO(EstruturaDTO estruturaDTO){
+        this.estruturaDTOS.add(estruturaDTO);
+    }
+    public void removeEstruturaDTO(EstruturaDTO estruturaDTO){
+        this.estruturaDTOS.remove(estruturaDTO);
     }
 }

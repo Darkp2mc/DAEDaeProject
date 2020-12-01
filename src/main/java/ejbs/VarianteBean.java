@@ -1,5 +1,6 @@
 package ejbs;
 
+import entities.Estrutura;
 import entities.Produto;
 import entities.Variante;
 import exceptions.MyConstraintViolationException;
@@ -10,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import java.util.LinkedList;
+import java.util.List;
 
 @Stateless
 public class VarianteBean {
@@ -41,6 +44,17 @@ public class VarianteBean {
 
     public Variante getVariante(int codigo){
         return manager.find(Variante.class, codigo);
+    }
+
+    public List<Variante> getAllVariantes(){
+        return manager.createNamedQuery("getAllVariantes", Variante.class).getResultList();
+    }
+
+    public List<Variante> getVariantesPorNomeDeProduto(String nomeProduto){
+        List<Variante> variantes = getAllVariantes();
+        variantes.removeIf(v -> !v.getProduto().getNome().equals(nomeProduto));
+
+        return variantes;
     }
 
 

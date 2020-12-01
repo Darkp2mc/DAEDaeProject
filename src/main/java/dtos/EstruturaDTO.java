@@ -5,6 +5,7 @@ import enums.AplicacaoPertendida;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 public class EstruturaDTO implements Serializable {
@@ -12,20 +13,22 @@ public class EstruturaDTO implements Serializable {
     private String nome;
     private String tipoDeProduto;
     private String projetoNome;
-    private List<ProdutoDTO> produtoDTOS;
+    private List<VarianteDTO> varianteDTOs;
 
     private String numeroDeVaos;//Chapa, Lage, Painel, Perfil
     private String comprimentoDaVao;//Chapa, Lage, Painel, Perfil
     private String aplicacao;//Chapa, Painel, Perfil
     private String alturaDaLage;//Lage
+    private String sobrecarga;//Chapa, Lage, Painel, Perfil
 
 
     public EstruturaDTO() {
+        this.varianteDTOs = new LinkedList<>();
     }
 
     public EstruturaDTO(String nome, String tipoDeProduto, String projetoNome,
                         String numeroDeVaos, String comprimentoDaVao, String aplicacao,
-                        String alturaDaLage) {
+                        String alturaDaLage, String sobracarga) {
         this.nome = nome;
         this.tipoDeProduto = tipoDeProduto;
         this.projetoNome = projetoNome;
@@ -33,6 +36,8 @@ public class EstruturaDTO implements Serializable {
         this.comprimentoDaVao = comprimentoDaVao;
         this.aplicacao = aplicacao;
         this.alturaDaLage = alturaDaLage;
+        this.sobrecarga = sobrecarga;
+        this.varianteDTOs = new LinkedList<>();
     }
 
     public String getNome() {
@@ -59,20 +64,20 @@ public class EstruturaDTO implements Serializable {
         this.projetoNome = projetoNome;
     }
 
-    public List<ProdutoDTO> getProdutoDTOS() {
-        return produtoDTOS;
+    public List<VarianteDTO> getVarianteDTOs() {
+        return varianteDTOs;
     }
 
-    public void setProdutoDTOS(List<ProdutoDTO> produtoDTOS) {
-        this.produtoDTOS = produtoDTOS;
+    public void setVarianteDTOs(List<VarianteDTO> varianteDTOS) {
+        this.varianteDTOs = varianteDTOS;
     }
 
-    public void addProdutoDTO(ProdutoDTO produtoDTO){
-        this.produtoDTOS.add(produtoDTO);
+    public void addVarianteDTO(VarianteDTO varianteDTO){
+        this.varianteDTOs.add(varianteDTO);
     }
 
-    public void removeProdutoDTO(ProdutoDTO produtoDTO){
-        this.produtoDTOS.remove(produtoDTO);
+    public void removeVarianteDTO(VarianteDTO varianteDTO){
+        this.varianteDTOs.remove(varianteDTO);
     }
 
     public String getNumeroDeVaos() {
@@ -105,5 +110,13 @@ public class EstruturaDTO implements Serializable {
 
     public void setAlturaDaLage(String alturaDaLage) {
         this.alturaDaLage = alturaDaLage;
+    }
+
+    public String getSobrecarga() {
+        return sobrecarga;
+    }
+
+    public void setSobrecarga(String sobrecarga) {
+        this.sobrecarga = sobrecarga;
     }
 }

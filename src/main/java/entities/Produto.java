@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -27,23 +28,18 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
     private List<Variante> variantes;
 
-    @ManyToMany(mappedBy = "produtos")
-    private List<Estrutura> estruturas;
-
     @NotNull
     @ManyToOne
     private Fabricante fabricante;
 
     public Produto() {
         variantes = new LinkedList<>();
-        estruturas = new LinkedList<>();
     }
 
     public Produto(String nome, Fabricante fabricante) {
         this.nome = nome;
         this.fabricante = fabricante;
         variantes = new LinkedList<>();
-        estruturas = new LinkedList<>();
     }
 
     public String getNome() {
@@ -68,22 +64,6 @@ public class Produto {
 
     public void removeVariante(Variante s) {
         variantes.remove(s);
-    }
-
-    public List<Estrutura> getEstruturas() {
-        return estruturas;
-    }
-
-    public void setEstruturas(List<Estrutura> estruturas) {
-        this.estruturas = estruturas;
-    }
-
-    public void addEstrutura(Estrutura estrutura){
-        this.estruturas.add(estrutura);
-    }
-
-    public void removeEstrutura(Estrutura estrutura){
-        this.estruturas.remove(estrutura);
     }
 
     public Fabricante getFabricante() {
@@ -116,5 +96,18 @@ public class Produto {
 
     public void setDimensoes(String dimensoes) {
         this.dimensoes = dimensoes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(nome, produto.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 }

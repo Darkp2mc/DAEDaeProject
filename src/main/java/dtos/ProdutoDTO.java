@@ -12,18 +12,17 @@ public class ProdutoDTO implements Serializable {
     private String familia;
     private String dimensoes;
     private List<VarianteDTO> varianteDTOs;
-    private List<EstruturaDTO> estruturaDTOS;
     private String fabricanteNome;
 
     public ProdutoDTO() {
-        this.estruturaDTOS = new LinkedList<>();
+        this.varianteDTOs = new LinkedList<>();
     }
 
     public ProdutoDTO(String nome, String fabricanteNome) {
         this.nome = nome;
         this.varianteDTOs = new LinkedList<>();
-        this.estruturaDTOS = new LinkedList<>();
         this.fabricanteNome = fabricanteNome;
+        this.varianteDTOs = new LinkedList<>();
     }
 
     public String getNome() {
@@ -64,5 +63,20 @@ public class ProdutoDTO implements Serializable {
 
     public void setFabricanteNome(String fabricanteNome) {
         this.fabricanteNome = fabricanteNome;
+    }
+
+    public List<VarianteDTO> getVarianteDTOs() {
+        return varianteDTOs;
+    }
+
+    public void setVarianteDTOs(List<VarianteDTO> varianteDTOs) {
+        this.varianteDTOs = varianteDTOs;
+    }
+
+    public void addVarianteDTO(VarianteDTO varianteDTO){
+        this.varianteDTOs.add(varianteDTO);
+    }
+    public void removeVarianteDTO(VarianteDTO varianteDTO){
+        this.varianteDTOs.remove(varianteDTO);
     }
 }

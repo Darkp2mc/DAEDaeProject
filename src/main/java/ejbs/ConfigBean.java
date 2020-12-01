@@ -111,8 +111,7 @@ public class ConfigBean {
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
 
-            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "1","1", "Coberturaa", "1");
-
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1");
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

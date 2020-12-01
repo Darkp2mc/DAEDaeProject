@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -25,11 +26,11 @@ public class Estrutura {
     private String nome;
 
     @ManyToMany
-    @JoinTable(name = "ESTRUTURAS_PRODUTOS",
+    @JoinTable(name = "ESTRUTURAS_VARIANTES",
             joinColumns = @JoinColumn(name = "ESTRUTURA_NOME", referencedColumnName = "NOME"),
-            inverseJoinColumns = @JoinColumn(name = "PRODUTO_NOME", referencedColumnName = "NOME"))
+            inverseJoinColumns = @JoinColumn(name = "VARIANTE_NOME", referencedColumnName = "NOME"))
 
-    private List<Produto> produtos;
+    private List<Variante> variantes;
 
     @ManyToOne
     @JoinColumn(name = "PROJETO_NOME")
@@ -44,14 +45,15 @@ public class Estrutura {
     private String comprimentoDaVao;//Chapa, Lage, Painel, Perfil
     private String aplicacao;//Chapa, Painel, Perfil
     private String alturaDaLage;//Lage
+    private String sobrecarga;//Chapa, Lage, Painel, Perfil
 
     public Estrutura() {
-
+        variantes = new LinkedList<>();
     }
 
     public Estrutura(String nome, @NotNull Projeto projeto, @NotNull String tipoDeProduto,
                      String numeroDeVaos, String comprimentoDaVao, String aplicacao,
-                     String alturaDaLage) {
+                     String alturaDaLage, String sobrecarga) {
         this.nome = nome;
         this.projeto = projeto;
         this.tipoDeProduto = tipoDeProduto;
@@ -59,7 +61,9 @@ public class Estrutura {
         this.comprimentoDaVao = comprimentoDaVao;
         this.aplicacao = aplicacao;
         this.alturaDaLage = alturaDaLage;
+        this.sobrecarga = sobrecarga;
 
+        variantes = new LinkedList<>();
         setDimencoesPeloTipo();
     }
 
@@ -79,15 +83,19 @@ public class Estrutura {
         this.projeto = projeto;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<Variante> getVariantes() {
+        return variantes;
     }
 
-    public void addProduto(Produto produto){
-        this.produtos.add(produto);
+    public void setVariantes(List<Variante> variantes) {
+        this.variantes = variantes;
     }
-    public void removeProduto(Produto produto){
-        this.produtos.remove(produto);
+    public void addVariante(Variante variante){
+        this.variantes.add(variante);
+    }
+
+    public void removeVariante(Variante variante){
+        this.variantes.remove(variante);
     }
 
     public String getTipoDeProduto() {
@@ -96,10 +104,6 @@ public class Estrutura {
 
     public void setTipoDeProduto(String tipoDeProduto) {
         this.tipoDeProduto = tipoDeProduto;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
     public String getAplicacao() {
@@ -134,6 +138,14 @@ public class Estrutura {
         this.alturaDaLage = alturaDaLage;
     }
 
+    public String getSobrecarga() {
+        return sobrecarga;
+    }
+
+    public void setSobrecarga(String sobrecarga) {
+        this.sobrecarga = sobrecarga;
+    }
+
     private void setDimencoesPeloTipo(){
         if (getTipoDeProduto().equals("Chapa") ||
                 getTipoDeProduto().equals("Painel") ||
@@ -143,5 +155,18 @@ public class Estrutura {
         else if(getTipoDeProduto().equals("Lage")){
             this.aplicacao = null;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Estrutura estrutura = (Estrutura) o;
+        return nome.equals(estrutura.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 }

@@ -2,10 +2,14 @@ package ws;
 
 import dtos.EstruturaDTO;
 import dtos.ProdutoDTO;
+import dtos.VarianteDTO;
 import ejbs.EstruturaBean;
 import ejbs.ProdutoBean;
+import ejbs.SimulacaoBean;
+import ejbs.VarianteBean;
 import entities.Estrutura;
 import entities.Produto;
+import entities.Variante;
 import exceptions.*;
 
 import javax.ejb.EJB;
@@ -27,10 +31,17 @@ public class EstruturaService {
     @EJB
     private ProdutoBean produtoBean;
 
+    @EJB
+    private SimulacaoBean simulacaoBean;
+
+    @EJB
+    private VarianteBean varianteBean;
+
     private EstruturaDTO toDTO(Estrutura estrutura){
         EstruturaDTO estruturaDTO= new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),
-                                                estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(), estrutura.getAlturaDaLage());
-        estruturaDTO.setProdutoDTOS(produtoDTOS(estrutura.getProdutos()));
+                                                estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(),
+                                                estrutura.getAlturaDaLage(), estrutura.getSobrecarga());
+        estruturaDTO.setVarianteDTOs(varianteDTOS(estrutura.getVariantes()));
         return estruturaDTO;
     }
 
@@ -38,11 +49,11 @@ public class EstruturaService {
         return estruturas.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private ProdutoDTO produtoToDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(), produto.getFabricante().getName());
+    private VarianteDTO varianteToDTO(Variante variante){
+        return new VarianteDTO(variante.getCodigo(), variante.getProduto().getNome(),variante.getNome(),variante.getWeff_p(),variante.getWeff_n(),variante.getAr(),variante.getSigmaC(),variante.getPp());
     }
-    private List<ProdutoDTO> produtoDTOS(List<Produto> produtos) {
-        return produtos.stream().map(this::produtoToDTO).collect(Collectors.toList());
+    private List<VarianteDTO> varianteDTOS(List<Variante> variantes) {
+        return variantes.stream().map(this::varianteToDTO).collect(Collectors.toList());
 
     }
 
@@ -56,7 +67,8 @@ public class EstruturaService {
     @Path("/")
     public Response createNewEstrutura(EstruturaDTO estruturaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException, MyIllegalArgumentException {
         estruturaBean.create(estruturaDTO.getNome(),estruturaDTO.getProjetoNome(), estruturaDTO.getTipoDeProduto(),
-                estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(), estruturaDTO.getAlturaDaLage());
+                estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(),
+                estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga());
 
         return Response.status(Response.Status.CREATED).build();
     }
@@ -71,39 +83,64 @@ public class EstruturaService {
                     .build();
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETISTA")
+                .entity("ERROR_FINDING_ESTRUTURA")
                 .build();
     }
 
     @GET
-    @Path("{name}/produto")
-    public Response getEstruturaProdutos(@PathParam("name") String name){
+    @Path("{name}/variantes")
+    public Response getEstruturaVariantes(@PathParam("name") String name){
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura!= null ){
             return Response.status(Response.Status.OK)
-                    .entity(produtoDTOS(estrutura.getProdutos()))
+                    .entity(varianteDTOS(estrutura.getVariantes()))
                     .build();
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETISTA")
+                .entity("ERROR_FINDING_ESTRUTURA")
                 .build();
     }
 
     @DELETE
-    @Path("{name}/produtos/{produtoName}")
-    public Response deleteProduto(@PathParam("name") String name,final @PathParam("produtoName") String produtoName) throws MyEntityNotFoundException{
+    @Path("{name}/variantes/{varianteCodigo}")
+    public Response removeProduto(@PathParam("name") String name,@PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException{
 
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura== null){
             throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
-        Produto produto = produtoBean.findCProduto(produtoName);
+        Variante variante = varianteBean.getVariante(varianteCodigo);
 
-        if (produto == null){
-            throw new MyEntityNotFoundException("Produto com o nome" + produtoName+ "nao existe!");
+        if (variante == null){
+            throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
         }
 
-        estrutura.removeProduto(produto);
+        estrutura.removeVariante(variante);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("{name}/variantes/{varianteCodigo}")
+    public Response addVariante(@PathParam("name") String name,final @PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException, MyIllegalArgumentException {
+
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura== null){
+            throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
+        }
+        Variante variante = varianteBean.getVariante(varianteCodigo);
+
+        if (variante == null){
+            throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
+        }
+
+
+        if (simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
+                                    Double.parseDouble(estrutura.getComprimentoDaVao()),
+                                    Integer.parseInt(estrutura.getSobrecarga()),variante)) {
+            estruturaBean.addVariante(name,varianteCodigo);
+            return Response.status(Response.Status.OK).build();
+        }
+
+        throw new MyIllegalArgumentException("A variante não é compativeis");
     }
 }

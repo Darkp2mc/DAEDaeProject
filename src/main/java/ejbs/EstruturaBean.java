@@ -1,8 +1,6 @@
 package ejbs;
 
-import entities.Cliente;
-import entities.Estrutura;
-import entities.Projeto;
+import entities.*;
 import enums.AplicacaoPertendida;
 import enums.TipoDeProduto;
 import exceptions.MyConstraintViolationException;
@@ -22,7 +20,7 @@ public class EstruturaBean {
     EntityManager manager;
 
     public void create(String nome, String projetoNome, String tipoDeProduto, String numeroDeVaos,
-                       String comprimentoDaVao, String aplicacao, String alturaDaLage)
+                       String comprimentoDaVao, String aplicacao, String alturaDaLage, String sobrecarga)
             throws MyEntityExistsException, MyConstraintViolationException, MyIllegalArgumentException {
 
         boolean flag = false;
@@ -51,8 +49,6 @@ public class EstruturaBean {
             throw new MyIllegalArgumentException("Dimensões inválidas!!!");
         }
 
-
-
         Estrutura estrutura = findEstrutura(nome);
         if (estrutura != null){
             throw new MyEntityExistsException("Estrutura já registada!!!");
@@ -63,7 +59,7 @@ public class EstruturaBean {
         }
         try{
             estrutura = new Estrutura(nome, projeto, tipoDeProduto, numeroDeVaos,
-                                    comprimentoDaVao, aplicacao, alturaDaLage);
+                                    comprimentoDaVao, aplicacao, alturaDaLage, sobrecarga);
             projeto.addEstrutura(estrutura);
             manager.persist(estrutura);
         }catch (ConstraintViolationException e) {
@@ -77,5 +73,14 @@ public class EstruturaBean {
 
     public List<Estrutura> getAllEstruturas(){
         return manager.createNamedQuery("getAllEstruturas", Estrutura.class).getResultList();
+    }
+
+    public void addVariante(String estruturaName,int varianteCodigo){
+        Variante variante = manager.find(Variante.class,varianteCodigo);
+        Estrutura estrutura = findEstrutura(estruturaName);
+        if (!estrutura.getVariantes().contains(variante)) {
+            estrutura.addVariante(variante);
+            variante.addEstrutura(estrutura);
+        }
     }
 }
