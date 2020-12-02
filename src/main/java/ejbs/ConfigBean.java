@@ -44,10 +44,12 @@ public class ConfigBean {
             clienteBean.create("cliente_User2", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
             System.out.println("Creating cliente...");
             projetistaBean.create("projetista_User", "pass", "Projetista", "teste@teste.com");
+            projetistaBean.create("projetista_User2", "pass", "Projetista", "teste@teste.com");
             System.out.println("Creating fabricante...");
             fabricanteBean.create("fabricante_User", "pass", "Fabricante", "teste@teste.com");
             System.out.println("Creating projeto...");
             projetoBean.create("Projeto1","cliente_User", "projetista_User");
+            projetoBean.create("Projeto2","cliente_User", "projetista_User2");
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");

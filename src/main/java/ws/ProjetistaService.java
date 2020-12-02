@@ -55,7 +55,11 @@ public class ProjetistaService {
     }
 
     private ProjetoDTO projetoToDTO(Projeto projeto){
-        return new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+        projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
+        projetoDTO.setComentario(projeto.getComentario());
+
+        return projetoDTO;
     }
     private List<ProjetoDTO> projetoDTOS(List<Projeto> projetos) {
         return projetos.stream().map(this::projetoToDTO).collect(Collectors.toList());
@@ -134,6 +138,12 @@ public class ProjetistaService {
     @Path("{username}/projetos/{nome}")
     public Response updateProjeto(@PathParam("username") String username, final @PathParam("nome") String nome, ProjetoDTO projetoDTO) throws  MyEntityNotFoundException{
 
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista")&&
+                principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Projetista projetista = projetistaBean.findProjetista(username);
         if(projetista== null){
             throw  new MyEntityNotFoundException("Projetista com o username" + username+ "nao existe!");
@@ -154,8 +164,7 @@ public class ProjetistaService {
     public Response getProjeto(@PathParam("username") String username, final @PathParam("nome") String nome) throws  MyEntityNotFoundException{
 
         Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Projetista") ||
-                securityContext.isUserInRole("Cliente") &&
+        if(!(securityContext.isUserInRole("Projetista") &&
                         principal.getName().equals(username))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }

@@ -30,12 +30,5 @@ public class ProjetistaDTO extends PessoaDTO implements Serializable {
         this.projetos = projetoDTOs;
     }
 
-    public void removeProjeto(ProjetoDTO projetoDTO){
-        projetos.remove(projetoDTO);
-    }
-
-    public void addProjeto(ProjetoDTO projetoDTO){
-        projetos.add(projetoDTO);
-    }
 
 }
