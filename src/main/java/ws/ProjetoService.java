@@ -16,8 +16,11 @@ import exceptions.MyEntityNotFoundException;
 import javax.ejb.EJB;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +35,14 @@ public class ProjetoService {
     @EJB
     private EmailBean emailBean;
 
+    @Context
+    private SecurityContext securityContext;
+
     private ProjetoDTO toDTO(Projeto projeto){
 
         ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
+        projetoDTO.setComentario(projeto.getComentario());
         return  projetoDTO;
     }
 
@@ -55,14 +62,19 @@ public class ProjetoService {
     @GET
     @Path("{nome}")
     public Response getProjetoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
-        Projeto projeto = projetoBean.findProjeto(nome);
-        if(projeto!= null){
-            return Response.status(Response.Status.OK)
-                    .entity(toDTO(projeto))
-                    .build();
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista") ||
+                securityContext.isUserInRole("Cliente") &&
+                        principal.getName().equals(nome))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETO")
+        Projeto projeto = projetoBean.findProjeto(nome);
+        if(projeto== null){
+            throw new MyEntityNotFoundException("Projeto com o nome" + nome + "nao existe!");
+        }
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(projeto))
                 .build();
 
     }
