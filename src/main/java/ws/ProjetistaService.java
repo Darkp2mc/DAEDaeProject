@@ -180,16 +180,10 @@ public class ProjetistaService {
         }
 
         return Response.status(Response.Status.OK)
-                .entity(toDTO(projeto))
+                .entity(projetoToDTO(projeto))
                 .build();
     }
 
-    private ProjetoDTO toDTO(Projeto projeto){
-
-        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
-        projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
-        return  projetoDTO;
-    }
 
     private List<DocumentDTO> documentDTOS(List<Document> documents){
         return  documents.stream().map(this::documentDTO).collect(Collectors.toList());
