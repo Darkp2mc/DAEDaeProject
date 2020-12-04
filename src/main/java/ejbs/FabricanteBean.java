@@ -1,8 +1,9 @@
 package ejbs;
 
-import entities.Fabricante;
+import entities.*;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,5 +36,26 @@ public class FabricanteBean {
 
     public List<Fabricante> getAllFabricantes(){
         return manager.createNamedQuery("getAllFabricantes", Fabricante.class).getResultList();
+    }
+
+    public void removeProduto(Produto produto) throws MyEntityNotFoundException {
+
+        Produto p = manager.find(Produto.class,produto.getNome());
+
+        if(p==null){
+            throw new MyEntityNotFoundException("Produto nao existe!!");
+        }
+
+        Fabricante fabricante = p.getFabricante();
+
+        if (fabricante==null){
+            throw new MyEntityNotFoundException("Fabricante com o nome "+fabricante.getName()+" não existe");
+        }
+
+        fabricante.removeProduto(p);
+        manager.remove(p);
+
+
+
     }
 }
