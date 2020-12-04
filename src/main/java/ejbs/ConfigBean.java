@@ -54,8 +54,8 @@ public class ConfigBean {
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");
-            produtoBean.create("Section C 220 BF","fabricante_User");
-            produtoBean.create("Section Z 220 BF","fabricante_User");
+            produtoBean.create("Section C 220 BF","Perfil","C","fabricante_User");
+            produtoBean.create("Section Z 220 BF","Perfil","Z","fabricante_User");
             System.out.println("####### A criar variantes...");
 
             //PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)

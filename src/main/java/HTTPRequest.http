@@ -113,6 +113,8 @@ Content-Type: application/x-www-form-urlencoded
 
 
 ###
-PUT http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/produtos/Section C 220 BF
+PUT http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/variantes/1
 
+###
+GET http://localhost:8080/projeto/api/produtos/Section C 220 BF/estruturas/Estrutura_teste2/variantes
 ###

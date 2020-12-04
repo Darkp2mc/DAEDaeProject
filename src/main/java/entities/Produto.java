@@ -36,9 +36,11 @@ public class Produto {
         variantes = new LinkedList<>();
     }
 
-    public Produto(String nome, Fabricante fabricante) {
+    public Produto(String nome, String tipo, String familia, Fabricante fabricante) {
         this.nome = nome;
         this.fabricante = fabricante;
+        this.tipo = tipo;
+        this.familia = familia;
         variantes = new LinkedList<>();
     }
 

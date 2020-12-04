@@ -47,7 +47,7 @@ public class ProdutoService {
     }
 
     @GET
-    @Path("{name}/variantes/{estruturaNome}")
+    @Path("{name}/estruturas/{estruturaNome}/variantes")
     public Response getProdutoVariantes(@PathParam("name") String name,@PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
         Produto produto = produtoBean.findCProduto(name);
         if (produto == null)
@@ -57,10 +57,10 @@ public class ProdutoService {
             throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
         }
         List<Variante> variantes = produto.getVariantes();
-
-        variantes.removeIf(v -> !simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
-                Double.parseDouble(estrutura.getComprimentoDaVao()),
-                Integer.parseInt(estrutura.getSobrecarga()), v));
+        if (produto.getFamilia().equals("C") || produto.getFamilia().equals("Z"))
+            variantes.removeIf(v -> !simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
+                    Double.parseDouble(estrutura.getComprimentoDaVao()),
+                    Integer.parseInt(estrutura.getSobrecarga()), v));
 
         return Response.status(Response.Status.OK)
                     .entity(varianteDTOS(variantes))
