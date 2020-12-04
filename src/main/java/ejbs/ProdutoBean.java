@@ -18,7 +18,7 @@ public class ProdutoBean {
     @PersistenceContext
     EntityManager manager;
 
-    public void create(String name, String fabricanteUsername) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+    public void create(String name, String tipo, String familia, String fabricanteUsername) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         Produto produto = manager.find(Produto.class, name);
         if (produto != null) {
             throw new MyEntityExistsException("Já existe um produto com o nome introduzido ("+ produto.getNome() +") !!!");
@@ -27,7 +27,7 @@ public class ProdutoBean {
             Fabricante fabricante = manager.find(Fabricante.class, fabricanteUsername);
             if (fabricante != null){
                 try{
-                    produto = new Produto(name,fabricante);
+                    produto = new Produto(name, tipo, familia,fabricante);
                     fabricante.addProduto(produto);
                     manager.persist(produto);
                 } catch (ConstraintViolationException e) {

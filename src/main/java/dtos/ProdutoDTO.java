@@ -19,11 +19,12 @@ public class ProdutoDTO implements Serializable {
         this.estruturaDTOS = new LinkedList<>();
     }
 
-    public ProdutoDTO(String nome, String fabricanteNome) {
+    public ProdutoDTO(String nome, String tipo, String familia, String fabricanteNome) {
         this.nome = nome;
-        this.varianteDTOs = new LinkedList<>();
-        this.estruturaDTOS = new LinkedList<>();
         this.fabricanteNome = fabricanteNome;
+        this.tipo = tipo;
+        this.familia = familia;
+        this.varianteDTOs = new LinkedList<>();
     }
 
     public String getNome() {
