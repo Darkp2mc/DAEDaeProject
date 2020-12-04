@@ -56,7 +56,9 @@ public class ProjetistaService {
 
     private ProjetoDTO projetoToDTO(Projeto projeto){
         ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
+
         projetoDTO.setComentario(projeto.getComentario());
 
         return projetoDTO;
