@@ -1,0 +1,19 @@
+### Get produto Details
+
+GET http://localhost:8080/projeto/api/produtos
+Accept: application/json
+
+### Create produto
+POST http://localhost:8080/projeto/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Section  OMEGA 220 BF",
+  "fabricanteNome": "fabricante_User"
+}
+
+
+### Get Fabricante Details
+
+GET http://localhost:8080/projeto/api/fabricantes
+Accept: application/json
