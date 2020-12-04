@@ -47,6 +47,9 @@ public class Estrutura {
     private String alturaDaLage;//Lage
     private String sobrecarga;//Chapa, Lage, Painel, Perfil
 
+    @NotNull
+    private boolean rejeitada;
+
     public Estrutura() {
         variantes = new LinkedList<>();
     }
@@ -62,7 +65,7 @@ public class Estrutura {
         this.aplicacao = aplicacao;
         this.alturaDaLage = alturaDaLage;
         this.sobrecarga = sobrecarga;
-
+        this.rejeitada = false;
         variantes = new LinkedList<>();
         setDimencoesPeloTipo();
     }
@@ -144,6 +147,14 @@ public class Estrutura {
 
     public void setSobrecarga(String sobrecarga) {
         this.sobrecarga = sobrecarga;
+    }
+
+    public boolean isRejeitada() {
+        return rejeitada;
+    }
+
+    public void changeRejeitada() {
+        this.rejeitada = !rejeitada;
     }
 
     private void setDimencoesPeloTipo(){

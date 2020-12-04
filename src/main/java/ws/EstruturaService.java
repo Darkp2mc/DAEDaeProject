@@ -136,4 +136,15 @@ public class EstruturaService {
         estruturaBean.addVariante(name,varianteCodigo);
         return Response.status(Response.Status.OK).build();
     }
+
+    @PUT
+    @Path("{name}/rejeitar")
+    public Response changeRejeitada(@PathParam("name") String name) throws MyEntityNotFoundException {
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura== null){
+            throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
+        }
+        estrutura.changeRejeitada();
+        return Response.status(Response.Status.OK).build();
+    }
 }

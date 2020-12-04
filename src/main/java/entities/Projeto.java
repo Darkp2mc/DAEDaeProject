@@ -39,6 +39,9 @@ public class Projeto {
 
     private String comentario = "";
 
+    @NotNull
+    private int estado;
+
     @OneToMany(mappedBy = "projeto" ,cascade = CascadeType.REMOVE)
     @NotNull
     private List<Document> documents;
@@ -54,6 +57,7 @@ public class Projeto {
         this.projetista = projetista;
         this.estruturas = new ArrayList<>();
         this.documents = new ArrayList<>();
+        this.estado = 0;
     }
 
     public String getNome() {
@@ -110,6 +114,18 @@ public class Projeto {
 
     public void removeEstrutura(Estrutura estrutura){
         this.estruturas.remove(estrutura);
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void rejeitar() {
+        this.estado = -1;
+    }
+
+    public void terminar() {
+        this.estado = 1;
     }
 
     public void addDocument(Document document){

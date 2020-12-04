@@ -103,4 +103,27 @@ public class ProjetoService {
         emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(), email.getSubject(), email.getMessage());
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
+
+    @PUT
+    @Path("{nome}/rejeitar")
+    public Response reject(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+        Projeto projeto = projetoBean.findProjeto(nome);
+        if (projeto == null) {
+            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+        projeto.rejeitar();
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
+    }
+
+    @PUT
+    @Path("{nome}/terminar")
+    public Response terminar(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+        Projeto projeto = projetoBean.findProjeto(nome);
+        if (projeto == null) {
+            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+        projeto.terminar();
+        return Response.status(Response.Status.OK).entity("E-mail sent").build();
+    }
+
 }
