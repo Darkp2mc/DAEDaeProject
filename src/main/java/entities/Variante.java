@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -42,9 +43,14 @@ public class Variante {
     @Lob
     private LinkedHashMap<Double,Double> mcr_n;
 
+
+    @ManyToMany(mappedBy = "variantes")
+    private List<Estrutura> estruturas;
+
     public Variante(){
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
+        estruturas = new LinkedList<>();
     }
 
     public Variante(int codigo, @NotNull Produto produto, @NotNull String nome, double weff_p, double weff_n, double ar, double sigmaC ) {
@@ -58,6 +64,7 @@ public class Variante {
         this.pp = G * ar * Math.pow(10, -6);
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
+        estruturas = new LinkedList<>();
     }
 
     public int getCodigo() {
@@ -156,5 +163,19 @@ public class Variante {
         mcr_n.remove(LToRemove);
     }
 
+    public List<Estrutura> getEstruturas() {
+        return estruturas;
+    }
 
+    public void setEstruturas(List<Estrutura> estruturas) {
+        this.estruturas = estruturas;
+    }
+
+    public void addEstrutura(Estrutura estrutura){
+        this.estruturas.add(estrutura);
+    }
+
+    public void removeEstrutura(Estrutura estrutura){
+        this.estruturas.remove(estrutura);
+    }
 }

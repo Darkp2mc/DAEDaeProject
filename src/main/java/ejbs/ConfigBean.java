@@ -56,8 +56,8 @@ public class ConfigBean {
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");
-            produtoBean.create("Section C 220 BF","fabricante_User");
-            produtoBean.create("Section Z 220 BF","fabricante_User");
+            produtoBean.create("Section C 220 BF","Perfil","C","fabricante_User");
+            produtoBean.create("Section Z 220 BF","Perfil","Z","fabricante_User");
             System.out.println("####### A criar variantes...");
 
             //PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)
@@ -113,8 +113,7 @@ public class ConfigBean {
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
 
-            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "1","1", "Coberturaa", "1");
-
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1");
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
