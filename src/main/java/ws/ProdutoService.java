@@ -44,7 +44,7 @@ public class ProdutoService {
     @Path("/")
     public Response createNewProduto(ProdutoDTO produtoDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
 
-        produtoBean.create(produtoDTO.getNome(),produtoDTO.getFabricanteNome());
+        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getFabricanteNome());
 
         return Response.status(Response.Status.CREATED).build();
     }
