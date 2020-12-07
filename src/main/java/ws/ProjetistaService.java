@@ -1,13 +1,11 @@
 package ws;
 
-import dtos.DocumentDTO;
-import dtos.EmailDTO;
-import dtos.ProjetistaDTO;
-import dtos.ProjetoDTO;
+import dtos.*;
 import ejbs.EmailBean;
 import ejbs.ProjetistaBean;
 import ejbs.ProjetoBean;
 import entities.Document;
+import entities.Estrutura;
 import entities.Projetista;
 import entities.Projeto;
 import exceptions.MyConstraintViolationException;
@@ -60,12 +58,31 @@ public class ProjetistaService {
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
 
         projetoDTO.setComentario(projeto.getComentario());
+        projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
 
         return projetoDTO;
     }
     private List<ProjetoDTO> projetoDTOS(List<Projeto> projetos) {
         return projetos.stream().map(this::projetoToDTO).collect(Collectors.toList());
 
+    }
+
+    private List<DocumentDTO> documentDTOS(List<Document> documents){
+        return  documents.stream().map(this::documentDTO).collect(Collectors.toList());
+    }
+
+    private DocumentDTO documentDTO(Document document){
+        return new DocumentDTO(document.getId(),document.getFilepath(),document.getFilename());
+    }
+
+    private EstruturaDTO estruturaDTO(Estrutura estrutura){
+        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage());
+
+        return estruturaDTO;
+    }
+
+    private List<EstruturaDTO> estruturaDTOS(List<Estrutura> estruturas){
+        return estruturas.stream().map(this::estruturaDTO).collect(Collectors.toList());
     }
 
     @GET
@@ -187,13 +204,7 @@ public class ProjetistaService {
     }
 
 
-    private List<DocumentDTO> documentDTOS(List<Document> documents){
-        return  documents.stream().map(this::documentDTO).collect(Collectors.toList());
-    }
 
-    private DocumentDTO documentDTO(Document document){
-        return new DocumentDTO(document.getId(),document.getFilepath(),document.getFilename());
-    }
 
 
 

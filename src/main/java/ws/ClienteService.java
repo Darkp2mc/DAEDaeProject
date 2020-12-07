@@ -3,14 +3,12 @@ package ws;
 
 import dtos.ClienteDTO;
 import dtos.DocumentDTO;
+import dtos.EstruturaDTO;
 import dtos.ProjetoDTO;
 import ejbs.ClienteBean;
 import ejbs.EmailBean;
 import ejbs.ProjetoBean;
-import entities.Cliente;
-import entities.Document;
-import entities.Projetista;
-import entities.Projeto;
+import entities.*;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityNotFoundException;
 
@@ -45,6 +43,7 @@ public class ClienteService {
     private ProjetoDTO projetoToDTO(Projeto projeto){
         ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
+        projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
         return  projetoDTO;
     }
     private List<ProjetoDTO> projetoDTOS(List<Projeto> projetos) {
@@ -62,14 +61,7 @@ public class ClienteService {
         return clientes.stream().map(this::clienteDTO).collect(Collectors.toList());
     }
 
-    private ProjetoDTO toDTO(Projeto projeto){
 
-        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
-        projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
-        System.out.println(projeto.getDocuments());
-        projetoDTO.setComentario(projeto.getComentario());
-        return  projetoDTO;
-    }
 
     private List<DocumentDTO> documentDTOS(List<Document> documents){
         return  documents.stream().map(this::documentDTO).collect(Collectors.toList());
@@ -77,6 +69,16 @@ public class ClienteService {
 
     private DocumentDTO documentDTO(Document document){
         return new DocumentDTO(document.getId(),document.getFilepath(),document.getFilename());
+    }
+
+    private EstruturaDTO estruturaDTO(Estrutura estrutura){
+        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage());
+
+        return estruturaDTO;
+    }
+
+    private List<EstruturaDTO> estruturaDTOS(List<Estrutura> estruturas){
+        return estruturas.stream().map(this::estruturaDTO).collect(Collectors.toList());
     }
 
     @GET
@@ -131,7 +133,7 @@ public class ClienteService {
         }
 
         return Response.status(Response.Status.OK)
-                .entity(toDTO(projeto))
+                .entity(projetoToDTO(projeto))
                 .build();
     }
 
