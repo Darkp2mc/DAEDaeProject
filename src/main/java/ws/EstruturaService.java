@@ -38,9 +38,11 @@ public class EstruturaService {
     private VarianteBean varianteBean;
 
     private EstruturaDTO toDTO(Estrutura estrutura){
+        //TODO ao criar a estrutura meter a chamada ao metodo se esta ou rejeitada
         EstruturaDTO estruturaDTO= new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),
                                                 estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(),
                                                 estrutura.getAlturaDaLage(), estrutura.getSobrecarga());
+
         estruturaDTO.setVarianteDTOs(varianteDTOS(estrutura.getVariantes()));
         return estruturaDTO;
     }
@@ -122,7 +124,7 @@ public class EstruturaService {
     @PUT
     @Path("{name}/variantes/{varianteCodigo}")
     public Response addVariante(@PathParam("name") String name,final @PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException, MyIllegalArgumentException {
-
+        //TODO so dar add com a cena da simulaçao
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura== null){
             throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
@@ -137,6 +139,7 @@ public class EstruturaService {
         return Response.status(Response.Status.OK).build();
     }
 
+    //TODO alterar metodo
     @PUT
     @Path("{name}/rejeitar")
     public Response changeRejeitada(@PathParam("name") String name) throws MyEntityNotFoundException {

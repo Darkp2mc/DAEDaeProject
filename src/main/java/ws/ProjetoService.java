@@ -93,6 +93,8 @@ public class ProjetoService {
 
     }
 
+    //TODO alterar estes 3 metodos...
+    //TODO ao enviar o mail alterar a flag para o cliente poder ver
     @POST
     @Path("/{nome}/email/send")
     public Response sendEmail(@PathParam("nome") String nome, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
@@ -104,6 +106,7 @@ public class ProjetoService {
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
+    //TODO este metodo tem de receber um projetoDTO, para assim quando alteras as merdas o projetoDTO atualizar tbm e n so o projeto
     @PUT
     @Path("{nome}/rejeitar")
     public Response reject(@PathParam("nome") String nome) throws MyEntityNotFoundException {
@@ -115,6 +118,7 @@ public class ProjetoService {
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
+    //TODO este metodo tem de receber um projetoDTO, para assim quando alteras as merdas o projetoDTO atualizar tbm e n so o projeto
     @PUT
     @Path("{nome}/terminar")
     public Response terminar(@PathParam("nome") String nome) throws MyEntityNotFoundException {

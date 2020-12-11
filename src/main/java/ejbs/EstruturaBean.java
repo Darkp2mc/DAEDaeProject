@@ -83,4 +83,7 @@ public class EstruturaBean {
             variante.addEstrutura(estrutura);
         }
     }
+
+    //TODO criar metodos para alterar o estado da estrutura...
+
 }
