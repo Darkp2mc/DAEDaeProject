@@ -84,6 +84,9 @@ public class EstruturaBean {
         }
     }
 
-    //TODO criar metodos para alterar o estado da estrutura...
+    public void rejeitar(String estruturaName){
+        Estrutura estrutura = findEstrutura(estruturaName);
+        estrutura.changeRejeitada();
+    }
 
 }

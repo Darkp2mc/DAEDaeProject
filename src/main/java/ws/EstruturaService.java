@@ -17,6 +17,7 @@ import javax.security.auth.Subject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -147,7 +148,36 @@ public class EstruturaService {
         if(estrutura== null){
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
-        estrutura.changeRejeitada();
+        estruturaBean.rejeitar(name);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("{estruturaNome}/variantes/simulation")
+    public Response getVariantes(@PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
+        Estrutura estrutura = estruturaBean.findEstrutura(estruturaNome);
+        if(estrutura== null){
+            throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
+        }
+        //lista de todos os produtos do mesmo tipo da estrutura
+        List<Produto> produtos = produtoBean.getAllProdutos();
+        produtos.removeIf(p -> !p.getTipo().equals(estrutura.getTipoDeProduto()));
+
+        List<Variante> variantes = new LinkedList<>();
+        for (Produto p : produtos){
+            variantes.addAll(p.getVariantes());
+        }
+
+        for (Variante v : variantes){
+            if (v.getProduto().getFamilia().equals("C") || v.getProduto().getFamilia().equals("Z"))
+                if (!simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
+                        Double.parseDouble(estrutura.getComprimentoDaVao()),
+                        Integer.parseInt(estrutura.getSobrecarga()),v))
+                    variantes.remove(v);
+        }
+
+        return Response.status(Response.Status.OK)
+                .entity(varianteDTOS(variantes))
+                .build();
     }
 }
