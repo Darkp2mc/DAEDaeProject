@@ -21,7 +21,7 @@ public class EstruturaDTO implements Serializable {
     private String alturaDaLage;//Lage
     private String sobrecarga;//Chapa, Lage, Painel, Perfil
 
-    private boolean rejeitada;
+    private int estado;
 
     public EstruturaDTO() {
         this.varianteDTOs = new LinkedList<>();
@@ -39,7 +39,7 @@ public class EstruturaDTO implements Serializable {
         this.alturaDaLage = alturaDaLage;
         this.sobrecarga = sobrecarga;
         this.varianteDTOs = new LinkedList<>();
-        this.rejeitada = false;
+        this.estado = 0;
     }
 
     public String getNome() {
@@ -122,11 +122,14 @@ public class EstruturaDTO implements Serializable {
         this.sobrecarga = sobrecarga;
     }
 
-    public boolean isRejeitada() {
-        return rejeitada;
+    public int getEstado() {
+        return estado;
     }
 
-    public void changeRejeitada() {
-        this.rejeitada = !rejeitada;
+    public void aceitar() {
+        this.estado = 1;
+    }
+    public void rejeitar() {
+        this.estado = -1;
     }
 }

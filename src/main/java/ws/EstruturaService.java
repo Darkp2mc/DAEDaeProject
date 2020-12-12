@@ -143,12 +143,23 @@ public class EstruturaService {
     //TODO alterar metodo
     @PUT
     @Path("{name}/rejeitar")
-    public Response changeRejeitada(@PathParam("name") String name) throws MyEntityNotFoundException {
+    public Response rejeitar(@PathParam("name") String name) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura== null){
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
         estruturaBean.rejeitar(name);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("{name}/aceitar")
+    public Response aceitar(@PathParam("name") String name) throws MyEntityNotFoundException {
+        Estrutura estrutura = estruturaBean.findEstrutura(name);
+        if(estrutura== null){
+            throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
+        }
+        estruturaBean.aceitar(name);
         return Response.status(Response.Status.OK).build();
     }
 

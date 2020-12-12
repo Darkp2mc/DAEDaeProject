@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Cliente;
+import entities.Estrutura;
 import entities.Projetista;
 import entities.Projeto;
 import exceptions.MyConstraintViolationException;
@@ -50,6 +51,16 @@ public class ProjetoBean {
 
     public List<Projeto> getAllProjetos(){
         return manager.createNamedQuery("getAllProjetos", Projeto.class).getResultList();
+    }
+
+    public void rejeitar(String nome){
+        Projeto projeto = findProjeto(nome);
+        projeto.rejeitar();
+    }
+
+    public void terminar(String nome){
+        Projeto projeto = findProjeto(nome);
+        projeto.terminar();
     }
 
 

@@ -86,7 +86,12 @@ public class EstruturaBean {
 
     public void rejeitar(String estruturaName){
         Estrutura estrutura = findEstrutura(estruturaName);
-        estrutura.changeRejeitada();
+        estrutura.rejeitar();
+    }
+
+    public void aceitar(String estruturaName){
+        Estrutura estrutura = findEstrutura(estruturaName);
+        estrutura.aceitar();
     }
 
 }
