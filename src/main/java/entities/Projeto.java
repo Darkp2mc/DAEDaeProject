@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -42,6 +41,9 @@ public class Projeto {
     @NotNull
     private int estado;
 
+    @NotNull
+    private  boolean visivel;
+
     @OneToMany(mappedBy = "projeto" ,cascade = CascadeType.REMOVE)
     @NotNull
     private List<Document> documents;
@@ -51,6 +53,8 @@ public class Projeto {
         this.documents = new ArrayList<>();
     }
 
+
+
     public Projeto(String nome, @NotNull Cliente cliente, @NotNull Projetista projetista) {
         this.nome = nome;
         this.cliente = cliente;
@@ -58,6 +62,7 @@ public class Projeto {
         this.estruturas = new ArrayList<>();
         this.documents = new ArrayList<>();
         this.estado = 0;
+        this.visivel = false;
     }
 
     public String getNome() {
@@ -120,11 +125,32 @@ public class Projeto {
         return estado;
     }
 
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+
+    public boolean isVisivel() {
+        return visivel;
+    }
+
+    public void setVisivel(boolean visivel) {
+        this.visivel = visivel;
+    }
+
+    public void tornarVisivel() {
+        visivel = true;
+    }
+
     public void rejeitar() {
         this.estado = -1;
     }
 
     public void terminar() {
+        this.estado = 2;
+    }
+
+    public void aceitar() {
         this.estado = 1;
     }
 
@@ -141,4 +167,7 @@ public class Projeto {
         }
         documents.remove(document);
     }
+
+
+
 }

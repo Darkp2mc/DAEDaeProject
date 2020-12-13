@@ -52,7 +52,7 @@ public class ConfigBean {
             fabricanteBean.create("fabricante_User", "pass", "Fabricante", "teste@teste.com");
             System.out.println("Creating projeto...");
             projetoBean.create("Projeto1","cliente_User", "projetista_User");
-            projetoBean.create("Projeto2","cliente_User", "projetista_User2");
+            //projetoBean.create("Projeto2","cliente_User", "projetista_User2");
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");
@@ -113,7 +113,7 @@ public class ConfigBean {
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
 
-            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1");
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1", 0);
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

@@ -3,10 +3,12 @@ package ws;
 
 import dtos.DocumentDTO;
 import dtos.EmailDTO;
+import dtos.EstruturaDTO;
 import dtos.ProjetoDTO;
 import ejbs.EmailBean;
 import ejbs.ProjetoBean;
 import entities.Document;
+import entities.Estrutura;
 import entities.Projetista;
 import entities.Projeto;
 import exceptions.MyConstraintViolationException;
@@ -40,15 +42,29 @@ public class ProjetoService {
 
     private ProjetoDTO toDTO(Projeto projeto){
 
-        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel());
+        projetoDTO.setEstado(projeto.getEstado());
+        projetoDTO.setVisivel(projeto.isVisivel());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
         projetoDTO.setComentario(projeto.getComentario());
+        projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
         return  projetoDTO;
     }
 
     private List<ProjetoDTO> toDTOS(List<Projeto> projetos) {
         return projetos.stream().map(this::toDTO).collect(Collectors.toList());
 
+    }
+
+    private EstruturaDTO estruturaDTO(Estrutura estrutura){
+        EstruturaDTO estruturaDTO = new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),
+                estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(),
+                estrutura.getAlturaDaLage(), estrutura.getSobrecarga(), estrutura.getEstado());
+
+        return estruturaDTO;
+    }
+    private List<EstruturaDTO> estruturaDTOS(List<Estrutura> estruturas){
+        return estruturas.stream().map(this::estruturaDTO).collect(Collectors.toList());
     }
 
     private DocumentDTO documentDTO(Document document){
@@ -103,6 +119,7 @@ public class ProjetoService {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
         emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(), email.getSubject(), email.getMessage());
+        projetoBean.tornarVisivel(projeto.getNome());
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
@@ -114,7 +131,19 @@ public class ProjetoService {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
         projetoBean.rejeitar(nome);
-        return Response.status(Response.Status.OK).entity("E-mail sent").build();
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("{nome}/aceitar")
+    public Response aceitar(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+        Projeto projeto = projetoBean.findProjeto(nome);
+        if (projeto == null){
+            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+
+        projetoBean.aceitar(nome);
+        return Response.status(Response.Status.OK).build();
     }
 
     @PUT
@@ -125,7 +154,7 @@ public class ProjetoService {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
         projetoBean.terminar(nome);
-        return Response.status(Response.Status.OK).entity("E-mail sent").build();
+        return Response.status(Response.Status.OK).build();
     }
 
 }

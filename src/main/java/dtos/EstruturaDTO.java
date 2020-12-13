@@ -29,7 +29,7 @@ public class EstruturaDTO implements Serializable {
 
     public EstruturaDTO(String nome, String tipoDeProduto, String projetoNome,
                         String numeroDeVaos, String comprimentoDaVao, String aplicacao,
-                        String alturaDaLage, String sobrecarga) {
+                        String alturaDaLage, String sobrecarga, int estado) {
         this.nome = nome;
         this.tipoDeProduto = tipoDeProduto;
         this.projetoNome = projetoNome;
@@ -39,7 +39,7 @@ public class EstruturaDTO implements Serializable {
         this.alturaDaLage = alturaDaLage;
         this.sobrecarga = sobrecarga;
         this.varianteDTOs = new LinkedList<>();
-        this.estado = 0;
+        this.estado = estado;
     }
 
     public String getNome() {
@@ -124,6 +124,10 @@ public class EstruturaDTO implements Serializable {
 
     public int getEstado() {
         return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public void aceitar() {

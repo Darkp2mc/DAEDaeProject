@@ -14,18 +14,30 @@ public class ProjetoDTO implements Serializable {
     private List<EstruturaDTO> estruturas;
     private String comentario = "";
     private List<DocumentDTO> documentos;
+    private int estado;
+    private boolean visivel;
 
     public ProjetoDTO() {
         this.estruturas = new ArrayList<>();
         this.documentos = new ArrayList<>();
     }
 
-    public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername) {
+    public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername, boolean visivel) {
         this.nome = nome;
         this.clienteUsername = clienteUsername;
         this.projetistaUsername = projetistaUsername;
+        this.estado= 0;
+        this.visivel= visivel;
         this.estruturas = new ArrayList<>();
         this.documentos = new ArrayList<>();
+    }
+
+    public boolean isVisivel() {
+        return visivel;
+    }
+
+    public void setVisivel(boolean visivel) {
+        this.visivel = visivel;
     }
 
     public List<DocumentDTO> getDocumentos() {
@@ -83,5 +95,16 @@ public class ProjetoDTO implements Serializable {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+
+
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 }

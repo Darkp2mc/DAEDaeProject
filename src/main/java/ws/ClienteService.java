@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,19 +42,38 @@ public class ClienteService {
     private SecurityContext securityContext;
 
     //TODO alterar este metodo para devolver so os projetos que o cliente pode ver
-    private ProjetoDTO projetoToDTO(Projeto projeto){
-        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+    private ProjetoDTO projetoToDTO(Projeto projeto) {
+
+        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel());
+
+        projetoDTO.setEstado(projeto.getEstado());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
         projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
+
         return  projetoDTO;
+
+
     }
     private List<ProjetoDTO> projetoDTOS(List<Projeto> projetos) {
-        return projetos.stream().map(this::projetoToDTO).collect(Collectors.toList());
+
+        List<Projeto> projetosVisiveis = new ArrayList<>();
+        for (Projeto projeto: projetos) {
+            if(projeto.isVisivel()){
+                projetosVisiveis.add(projeto);
+            }
+        }
+
+
+        return projetosVisiveis.stream().map(this::projetoToDTO).collect(Collectors.toList());
 
     }
     private ClienteDTO clienteDTO(Cliente cliente){
         ClienteDTO clienteDTO = new ClienteDTO(cliente.getUsername(),cliente.getPassword(),cliente.getName(),cliente.getEmail(), cliente.getMorada(),cliente.getPessoaDeContacto().getUsername());
+
         clienteDTO.setProjetoDTOs(projetoDTOS(cliente.getProjetos()));
+
+
+        System.out.println(clienteDTO.getProjetoDTOs());
 
         return  clienteDTO;
     }
@@ -73,7 +93,7 @@ public class ClienteService {
     }
 
     private EstruturaDTO estruturaDTO(Estrutura estrutura){
-        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage());
+        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage(), estrutura.getEstado());
 
         return estruturaDTO;
     }
@@ -103,10 +123,14 @@ public class ClienteService {
         if (cliente== null){
             throw new MyEntityNotFoundException("Cliente nao Encontrado");
         }
+        if (cliente.getProjetos().isEmpty()){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
         try {
             return Response.status(Response.Status.OK)
                     .entity(clienteDTO(cliente))
                     .build();
+
         }catch (ConstraintViolationException e){
             throw new MyConstraintViolationException(e);
         }

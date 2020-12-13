@@ -3,10 +3,7 @@ package ws;
 import dtos.EstruturaDTO;
 import dtos.ProdutoDTO;
 import dtos.VarianteDTO;
-import ejbs.EstruturaBean;
-import ejbs.ProdutoBean;
-import ejbs.SimulacaoBean;
-import ejbs.VarianteBean;
+import ejbs.*;
 import entities.Estrutura;
 import entities.Produto;
 import entities.Variante;
@@ -38,11 +35,15 @@ public class EstruturaService {
     @EJB
     private VarianteBean varianteBean;
 
+    @EJB
+    private EmailBean emailBean;
+
     private EstruturaDTO toDTO(Estrutura estrutura){
         //TODO ao criar a estrutura meter a chamada ao metodo se esta ou rejeitada
         EstruturaDTO estruturaDTO= new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),
                                                 estrutura.getNumeroDeVaos(), estrutura.getComprimentoDaVao(), estrutura.getAplicacao(),
-                                                estrutura.getAlturaDaLage(), estrutura.getSobrecarga());
+                                                estrutura.getAlturaDaLage(), estrutura.getSobrecarga(), estrutura.getEstado()
+        );
 
         estruturaDTO.setVarianteDTOs(varianteDTOS(estrutura.getVariantes()));
         return estruturaDTO;
@@ -71,7 +72,7 @@ public class EstruturaService {
     public Response createNewEstrutura(EstruturaDTO estruturaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException, MyIllegalArgumentException {
         estruturaBean.create(estruturaDTO.getNome(),estruturaDTO.getProjetoNome(), estruturaDTO.getTipoDeProduto(),
                 estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(),
-                estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga());
+                estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga(),estruturaDTO.getEstado());
 
         return Response.status(Response.Status.CREATED).build();
     }
@@ -140,7 +141,7 @@ public class EstruturaService {
         return Response.status(Response.Status.OK).build();
     }
 
-    //TODO alterar metodo
+
     @PUT
     @Path("{name}/rejeitar")
     public Response rejeitar(@PathParam("name") String name) throws MyEntityNotFoundException {
@@ -148,7 +149,11 @@ public class EstruturaService {
         if(estrutura== null){
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
+
         estruturaBean.rejeitar(name);
+        emailBean.send(estrutura.getProjeto().getProjetista().getEmail(),"Estrutura Rejeita" , "Caro " + estrutura.getProjeto().getProjetista().getName()+ " envio o seguinte email para o informar que a estrutura "+ estrutura.getNome() +
+                "foi recusada. Envie-me mensagem para discutir-mos possiveis alterações. Cumprimentos, " + estrutura.getProjeto().getCliente().getName());
+
         return Response.status(Response.Status.OK).build();
     }
 
@@ -160,6 +165,10 @@ public class EstruturaService {
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
         estruturaBean.aceitar(name);
+
+        emailBean.send(estrutura.getProjeto().getProjetista().getEmail(),"Estrutura Aceite" , "Caro " + estrutura.getProjeto().getProjetista().getName()+ " envio o seguinte email para o informar que a estrutura "+ estrutura.getNome() +
+                "foi aceite. Pode começar a sua construçao.  Cumprimentos, " + estrutura.getProjeto().getCliente().getName());
+
         return Response.status(Response.Status.OK).build();
     }
 

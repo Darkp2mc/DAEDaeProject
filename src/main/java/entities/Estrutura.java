@@ -153,6 +153,10 @@ public class Estrutura {
         return estado;
     }
 
+    public void setEstado(int estado){
+        this.estado= estado;
+    }
+
     public void aceitar() {
         this.estado = 1;
     }

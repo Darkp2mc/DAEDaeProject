@@ -53,9 +53,12 @@ public class ProjetistaService {
     }
 
     private ProjetoDTO projetoToDTO(Projeto projeto){
-        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername());
+        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),
+                projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(),projeto.isVisivel());
 
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
+        projetoDTO.setVisivel(projeto.isVisivel());
+        projetoDTO.setEstado(projeto.getEstado());
 
         projetoDTO.setComentario(projeto.getComentario());
         projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
@@ -76,7 +79,7 @@ public class ProjetistaService {
     }
 
     private EstruturaDTO estruturaDTO(Estrutura estrutura){
-        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage());
+        EstruturaDTO estruturaDTO=  new EstruturaDTO(estrutura.getNome(),estrutura.getTipoDeProduto(),estrutura.getProjeto().getNome(),estrutura.getNumeroDeVaos(),estrutura.getComprimentoDaVao(),estrutura.getAplicacao(),estrutura.getAlturaDaLage(),estrutura.getAlturaDaLage(),estrutura.getEstado());
 
         return estruturaDTO;
     }

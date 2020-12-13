@@ -64,4 +64,13 @@ public class ProjetoBean {
     }
 
 
+    public void aceitar(String nome) {
+        Projeto projeto = findProjeto(nome);
+        projeto.aceitar();
+    }
+
+    public void tornarVisivel(String nome) {
+        Projeto projeto = findProjeto(nome);
+        projeto.tornarVisivel();
+    }
 }
