@@ -52,7 +52,7 @@ public class ConfigBean {
             fabricanteBean.create("fabricante_User", "pass", "Fabricante", "teste@teste.com");
             System.out.println("Creating projeto...");
             projetoBean.create("Projeto1","cliente_User", "projetista_User");
-            //projetoBean.create("Projeto2","cliente_User", "projetista_User2");
+            projetoBean.create("Projeto2","cliente_User", "projetista_User2");
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");

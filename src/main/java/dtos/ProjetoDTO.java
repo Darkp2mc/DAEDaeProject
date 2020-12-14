@@ -22,11 +22,11 @@ public class ProjetoDTO implements Serializable {
         this.documentos = new ArrayList<>();
     }
 
-    public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername, boolean visivel) {
+    public ProjetoDTO(String nome, String clienteUsername, String projetistaUsername, boolean visivel, int estado) {
         this.nome = nome;
         this.clienteUsername = clienteUsername;
         this.projetistaUsername = projetistaUsername;
-        this.estado= 0;
+        this.estado= estado;
         this.visivel= visivel;
         this.estruturas = new ArrayList<>();
         this.documentos = new ArrayList<>();

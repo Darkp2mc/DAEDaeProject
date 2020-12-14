@@ -44,9 +44,8 @@ public class ClienteService {
     //TODO alterar este metodo para devolver so os projetos que o cliente pode ver
     private ProjetoDTO projetoToDTO(Projeto projeto) {
 
-        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel());
+        ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel(),projeto.getEstado());
 
-        projetoDTO.setEstado(projeto.getEstado());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
         projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
 

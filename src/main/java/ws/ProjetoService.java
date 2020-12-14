@@ -42,8 +42,7 @@ public class ProjetoService {
 
     private ProjetoDTO toDTO(Projeto projeto){
 
-        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel());
-        projetoDTO.setEstado(projeto.getEstado());
+        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel(),projeto.getEstado());
         projetoDTO.setVisivel(projeto.isVisivel());
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
         projetoDTO.setComentario(projeto.getComentario());
@@ -141,9 +140,14 @@ public class ProjetoService {
         if (projeto == null){
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
+        if (projeto.getEstado()!=2) {
+            projetoBean.aceitar(nome);
+            return Response.status(Response.Status.OK).build();
+        }
 
-        projetoBean.aceitar(nome);
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.CONFLICT).entity("Impossivel aceitar um projeto ja aceite").build();
+
+
     }
 
     @PUT
@@ -153,8 +157,9 @@ public class ProjetoService {
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
+
         projetoBean.terminar(nome);
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.OK).entity("Projeto terminado").build();
     }
 
 }

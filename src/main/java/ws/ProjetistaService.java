@@ -54,12 +54,9 @@ public class ProjetistaService {
 
     private ProjetoDTO projetoToDTO(Projeto projeto){
         ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),
-                projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(),projeto.isVisivel());
+                projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(),projeto.isVisivel(), projeto.getEstado());
 
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
-        projetoDTO.setVisivel(projeto.isVisivel());
-        projetoDTO.setEstado(projeto.getEstado());
-
         projetoDTO.setComentario(projeto.getComentario());
         projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
 
@@ -201,6 +198,7 @@ public class ProjetistaService {
             throw new MyEntityNotFoundException("projeto com o nome " + nome+ " nao existe!");
         }
 
+        System.out.println(projeto.getEstado()+ "aqui");
         return Response.status(Response.Status.OK)
                 .entity(projetoToDTO(projeto))
                 .build();
