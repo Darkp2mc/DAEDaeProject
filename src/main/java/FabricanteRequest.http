@@ -1,0 +1,137 @@
+###--------------------------------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+###---------------------------------------FABRICANTES------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+
+### GET Fabricante Details
+GET http://localhost:8080/projeto/api/fabricantes
+Accept: application/json
+
+
+### CREATE Fabricante
+POST http://localhost:8080/projeto/api/fabricantes
+Content-Type: application/json
+
+{
+  "email": "fabricante@teste.com",
+  "nome": "FabricanteXPTO",
+  "password": "password",
+  "username": "fabricante_Username"
+}
+
+
+### GET detalhes do "fabricante_User"
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username
+Accept: application/json
+
+### UPDATE Fabricante
+PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User
+Content-Type: application/json
+
+{
+  "nome": "Section",
+  "tipo": "Chapa",
+  "familia" : "z",
+  "e" : 45.24,
+  "n" :  3.05,
+  "fabricanteNome" : "fabricante_User"
+}
+
+
+
+### Get JWT token
+POST http://localhost:8080/projeto/api/login/token
+Content-Type: application/json
+
+{
+  "username": "fabricante_Username",
+  "password": "password"
+}
+
+### Who am I?
+GET http://localhost:8080/projeto/api/login/claims
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDcwMDg5fQ.DGktmMlyJnePRbQ1-XHD7176TVy-1a2JQGZCsWtUuzIGaoHmyVnxdwCUDYzfoV_f2D9akDy1La0I2VQF4s1z4mTuqz7AXw3eQ92lMvGvimGJXR1GqRc8G4rfABBPBR_vs7Khbj7YinOPC5_BfAlmsn8T-rUHba9BSgiuXgEyhZu6mo3Yj2-jiTk5N-XmgbjlyvXvqOxYZuthmvG9sC4O0jvWGIhF-Qov-dimFlK-J_9_8VNDowuqoviGPGai-Evg8UwWZ5vaTlzjCN_AiospOmk_vjsB10P99IwpgLL7CletI1_U36ZgxGV7RxV1g0Ep2B1znopwWl2U0giJOLC11g
+
+
+
+
+
+
+###GET produtos do "fabricante_User"
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username/produtos/
+Accept: application/json
+
+###GET produto "Section C 220 BF" do "fabricante_User"
+GET http://localhost:8080/projeto/api/fabricantes/fabricant_Username/produtos/Section
+Accept: application/json
+
+###CREATE produto
+POST http://localhost:8080/projeto/api/produtos
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDcwMDg5fQ.DGktmMlyJnePRbQ1-XHD7176TVy-1a2JQGZCsWtUuzIGaoHmyVnxdwCUDYzfoV_f2D9akDy1La0I2VQF4s1z4mTuqz7AXw3eQ92lMvGvimGJXR1GqRc8G4rfABBPBR_vs7Khbj7YinOPC5_BfAlmsn8T-rUHba9BSgiuXgEyhZu6mo3Yj2-jiTk5N-XmgbjlyvXvqOxYZuthmvG9sC4O0jvWGIhF-Qov-dimFlK-J_9_8VNDowuqoviGPGai-Evg8UwWZ5vaTlzjCN_AiospOmk_vjsB10P99IwpgLL7CletI1_U36ZgxGV7RxV1g0Ep2B1znopwWl2U0giJOLC11g
+
+{
+  "nome": "Section",
+  "tipo": "Perfil",
+  "familia": "C",
+  "e": 23.04,
+  "n": 4.45,
+  "fabricanteNome": "fabricante_Username"
+}
+
+###DETALHE produto
+GET http://localhost:8080/projeto/api/produtos/Section
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDcwMDg5fQ.DGktmMlyJnePRbQ1-XHD7176TVy-1a2JQGZCsWtUuzIGaoHmyVnxdwCUDYzfoV_f2D9akDy1La0I2VQF4s1z4mTuqz7AXw3eQ92lMvGvimGJXR1GqRc8G4rfABBPBR_vs7Khbj7YinOPC5_BfAlmsn8T-rUHba9BSgiuXgEyhZu6mo3Yj2-jiTk5N-XmgbjlyvXvqOxYZuthmvG9sC4O0jvWGIhF-Qov-dimFlK-J_9_8VNDowuqoviGPGai-Evg8UwWZ5vaTlzjCN_AiospOmk_vjsB10P99IwpgLL7CletI1_U36ZgxGV7RxV1g0Ep2B1znopwWl2U0giJOLC11g
+
+###UPDATE produto
+
+PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section
+Content-Type: application/json
+
+{
+  "nome": "Section",
+  "tipo": "Perfil",
+  "familia" : "Z",
+  "e": 45,
+  "n": 23,
+  "fabricanteNome" : "fabricante_User"
+}
+
+
+###DELETE produtos
+
+DELETE http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDc5ODE2NzB9.LaM_PYouPuvWjEooEocT_L3TO-3nI4uziihTTIaCAlCLjyU3rHJglNcCfjFKFvkKMPyL98cLEPHnMKf0fHGYCy3ZQX6lP4B91L4Tt6uEzvKdf86n1R-u0lGnKg2JV6GQjRagwyvQEcSg6KEzcg0n3MKVfrEWPgQjmqtRhkVs8MseLIo76p4G_1oC0nX6Pe_gvU4z7JW_M1HGBiHPrirDnOt74RPDE_-NTlbUoPr4NOGpSXP9FWvCea2zkfbTNbPH9ds-NWMaJHeUopMJIPYUeNNCsbOMLnosYtKgjj1Blmkl7o3EaFotqy46TWAQtzwA5TDCBpx0iO9UCVe5gL31Ng
+
+
+###--------------------------------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+###---------------------------------------VARIANTES--------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------
+
+###GET todas as variantes do produto "Section C 220 BF" do fabricante
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes
+Accept: application/json
+
+###GET a variante com o codigo "1" do produto "Section C 220 BF" do fabricante
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/1
+Accept: application/json
+
+###DELETE variantes do produto "Section C 220 BF" do fabricante
+DELETE http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/2
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDc5ODE2NzB9.LaM_PYouPuvWjEooEocT_L3TO-3nI4uziihTTIaCAlCLjyU3rHJglNcCfjFKFvkKMPyL98cLEPHnMKf0fHGYCy3ZQX6lP4B91L4Tt6uEzvKdf86n1R-u0lGnKg2JV6GQjRagwyvQEcSg6KEzcg0n3MKVfrEWPgQjmqtRhkVs8MseLIo76p4G_1oC0nX6Pe_gvU4z7JW_M1HGBiHPrirDnOt74RPDE_-NTlbUoPr4NOGpSXP9FWvCea2zkfbTNbPH9ds-NWMaJHeUopMJIPYUeNNCsbOMLnosYtKgjj1Blmkl7o3EaFotqy46TWAQtzwA5TDCBpx0iO9UCVe5gL31Ng
+
+###UPDATE variante
+PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/1
+Content-Type: application/json
+
+{
+  "nome" : "Bue curtido"
+
+}
