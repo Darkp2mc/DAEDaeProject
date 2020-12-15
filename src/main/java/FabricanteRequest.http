@@ -45,8 +45,8 @@ POST http://localhost:8080/projeto/api/login/token
 Content-Type: application/json
 
 {
-  "username": "fabricante_Username",
-  "password": "password"
+  "username": "fabricante_User",
+  "password": "pass"
 }
 
 ### Who am I?
@@ -64,13 +64,13 @@ GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username/produtos/
 Accept: application/json
 
 ###GET produto "Section C 220 BF" do "fabricante_User"
-GET http://localhost:8080/projeto/api/fabricantes/fabricant_Username/produtos/Section
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username/produtos/Section
 Accept: application/json
 
 ###CREATE produto
 POST http://localhost:8080/projeto/api/produtos
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDcwMDg5fQ.DGktmMlyJnePRbQ1-XHD7176TVy-1a2JQGZCsWtUuzIGaoHmyVnxdwCUDYzfoV_f2D9akDy1La0I2VQF4s1z4mTuqz7AXw3eQ92lMvGvimGJXR1GqRc8G4rfABBPBR_vs7Khbj7YinOPC5_BfAlmsn8T-rUHba9BSgiuXgEyhZu6mo3Yj2-jiTk5N-XmgbjlyvXvqOxYZuthmvG9sC4O0jvWGIhF-Qov-dimFlK-J_9_8VNDowuqoviGPGai-Evg8UwWZ5vaTlzjCN_AiospOmk_vjsB10P99IwpgLL7CletI1_U36ZgxGV7RxV1g0Ep2B1znopwWl2U0giJOLC11g
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDc1MzE3fQ.FvmBHX-lNGmhrQkSjskt7AcTwo-yesavFNzNj5Y4wOLpPJLFpQvvui0it0sxC7bhH2cYydkyc5K80EPP4elUeV_g4_wcR22QrfRUl-zThCrYRN3tBeDVKnP2g8I7N858eWgxaU99vFfaVG8_E_HoKBo4jrpPp__E5DDsoSxwcGWfJA1qvPg-H3eVCHGCMK-l9W2W9PEfKTRrfq1hwpyfzZe2q407dVkmYqGW-zcrt13o0iWnh-tBACeJa1xEWKOciuklEexpIvnCBFX66mb8PxRDu4xQcJ1lVEWSezxinb58Mr4hoY8IPqk6uxpTTs3mTFitIljIyh1A-ZzHzU-RNQ
 
 {
   "nome": "Section",
@@ -84,7 +84,7 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhb
 ###DETALHE produto
 GET http://localhost:8080/projeto/api/produtos/Section
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MDcwMDg5fQ.DGktmMlyJnePRbQ1-XHD7176TVy-1a2JQGZCsWtUuzIGaoHmyVnxdwCUDYzfoV_f2D9akDy1La0I2VQF4s1z4mTuqz7AXw3eQ92lMvGvimGJXR1GqRc8G4rfABBPBR_vs7Khbj7YinOPC5_BfAlmsn8T-rUHba9BSgiuXgEyhZu6mo3Yj2-jiTk5N-XmgbjlyvXvqOxYZuthmvG9sC4O0jvWGIhF-Qov-dimFlK-J_9_8VNDowuqoviGPGai-Evg8UwWZ5vaTlzjCN_AiospOmk_vjsB10P99IwpgLL7CletI1_U36ZgxGV7RxV1g0Ep2B1znopwWl2U0giJOLC11g
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgwNzc4NjR9.Ao09-7KJ4Q8UoBZSkuX16dQ5uHWyWy6jmqxaNLLDtPDzbDV8qLh3nZ4xE9dSJDJ6FyB6qMGDSecqvd5gbdT9eO8Mi9O1C9d17xFb0A8H4vrNTHbuKyoMsDl2TQmVAPA-G3nMZX-mMGmhqfW1lRHe3fflzmy9pcLV_lm2scw9cKIvhFlUrYvaKvrXKfIHaEYYTWxcb9_Tch5MdPYmQCxUxjmnGMGSxBybsvbKq4T4JbS4DHb6OJbFQ8gfmul0gbBxOCiQUl0bY7rXloJ-tUafQgKpgbdO44XuVAnUDjR3WUMilRdr3v9PNjogVoWoajLQ8piQFFCM5ghXk73uDkaBGw
 
 ###UPDATE produto
 
@@ -96,8 +96,7 @@ Content-Type: application/json
   "tipo": "Perfil",
   "familia" : "Z",
   "e": 45,
-  "n": 23,
-  "fabricanteNome" : "fabricante_User"
+  "n": 23
 }
 
 

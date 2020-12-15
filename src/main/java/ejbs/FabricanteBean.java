@@ -92,7 +92,6 @@ public class FabricanteBean {
         produto.setE(e);
         produto.setN(n);
         produto.setG((e/(2*(1-n))));
-        produto.setFabricante(fabricante);
 
 
 

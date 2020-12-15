@@ -42,7 +42,7 @@ public class FabricanteService {
     }
 
     private ProdutoDTO produtoToDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(),produto.getTipo(),produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getName());
+        return new ProdutoDTO(produto.getNome(),produto.getTipo(),produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
     }
     private List<ProdutoDTO> produtoDTOS(List<Produto> produtos) {
         return produtos.stream().map(this::produtoToDTO).collect(Collectors.toList());
@@ -139,6 +139,10 @@ public class FabricanteService {
 
         if (produto == null){
             throw new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe!");
+        }
+
+        if (!produto.getFabricante().getUsername().equals(username)){
+            throw new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe para fabricante "+username+"!");
         }
 
         fabricanteBean.updateProduto(nome,produtoDTO.getTipo(), produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(),produtoDTO.getFabricanteNome());

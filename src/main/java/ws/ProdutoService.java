@@ -3,11 +3,9 @@ package ws;
 import dtos.ProdutoDTO;
 import dtos.ProjetoDTO;
 import dtos.VarianteDTO;
+import ejbs.FabricanteBean;
 import ejbs.ProdutoBean;
-import entities.Produto;
-import entities.Projetista;
-import entities.Projeto;
-import entities.Variante;
+import entities.*;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
@@ -31,12 +29,15 @@ public class ProdutoService {
     @EJB
     private ProdutoBean produtoBean;
 
+    @EJB
+    private FabricanteBean fabricanteBean;
+
     @Context
     private SecurityContext securityContext;
 
 
     private ProdutoDTO toDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getName());
+        return new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
     }
 
     private List<ProdutoDTO> toDTOS(List<Produto> produtos){
@@ -71,16 +72,18 @@ public class ProdutoService {
     @GET
     @Path("{nome}")
     public Response getProdutoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
-        /*
-        Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(nome))) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-        */
+
         Produto produto = produtoBean.findCProduto(nome);
         if(produto== null){
             throw new MyEntityNotFoundException("Produto com o nome" + nome + "nao existe!");
         }
+        Principal principal = securityContext.getUserPrincipal();
+        Fabricante fabricante = produto.getFabricante();
+        if(!(securityContext.isUserInRole("Fabricante") && fabricante.getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+
         return Response.status(Response.Status.OK)
                 .entity(toDTO(produto))
                 .build();
