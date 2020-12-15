@@ -22,7 +22,7 @@ Content-Type: application/json
 
 
 ### GET detalhes do "fabricante_User"
-GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_User
 Accept: application/json
 
 ### UPDATE Fabricante

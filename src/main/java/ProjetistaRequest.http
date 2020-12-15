@@ -114,7 +114,7 @@ Content-Type: application/x-www-form-urlencoded
 PUT http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/variantes/1
 
 ###
-DELETE http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/variantes/1
+PUT http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/variantes/1/remove
 
 ###
 GET http://localhost:8080/projeto/api/estruturas/Estrutura_teste2/variantes/simulation
@@ -137,5 +137,5 @@ Content-Type: application/json
 PUT http://localhost:8080/projeto/api/projetos/Projeto1/terminar
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwcm9qZXRpc3RhX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiUHJvamV0aXN0YSJdLCJleHAiOjE2MDc5NzIwNTF9.ppy6LHHNcGZQUUEAg1qneOAxQyDzUSSwcYLIAb19wm4TICQ-BgVANFLr3ClmWGRo8ECdFaTvEeBoqJSgJOwOuSsr9cNoLh5G9GkKVg2MOPpPmQ5CD1jVquDJ1tUhJNXSC9I05S5r12WH5Mbr-OPUWkF03JCHOqulYJLO61a21586aKA3JIbZPa3QGPqyPTgUwfMoC0i-OXuXdTP67QYsJiYYoY7CsnytRHs0vfx_14-xl0G2P1NH2zybqDRb6xNKO70NcmVikZpKJr26ImOR5hEayeudqmlX2AXF-okVDD8zzcys-L2Of_ojfV9Jj8EyzeLpUufspwMTB5aKUV1c5g
-
+###
 

@@ -96,4 +96,12 @@ public class EstruturaBean {
         estrutura.aceitar();
     }
 
+    public void removeVariante(String estruturaName, int varianteCodigo){
+        Variante variante = manager.find(Variante.class,varianteCodigo);
+        Estrutura estrutura = findEstrutura(estruturaName);
+
+        estrutura.removeVariante(variante);
+        variante.removeEstrutura(estrutura);
+    }
+
 }

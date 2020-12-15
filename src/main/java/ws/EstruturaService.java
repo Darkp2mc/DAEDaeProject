@@ -105,8 +105,8 @@ public class EstruturaService {
                 .build();
     }
 
-    @DELETE
-    @Path("{name}/variantes/{varianteCodigo}")
+    @PUT
+    @Path("{name}/variantes/{varianteCodigo}/remove")
     public Response removeProduto(@PathParam("name") String name,@PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException{
 
         Estrutura estrutura = estruturaBean.findEstrutura(name);
@@ -119,7 +119,7 @@ public class EstruturaService {
             throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
         }
 
-        estrutura.removeVariante(variante);
+        estruturaBean.removeVariante(name,varianteCodigo);
         return Response.status(Response.Status.OK).build();
     }
 
