@@ -13,7 +13,4 @@ Content-Type: application/json
 }
 
 
-### Get Fabricante Details
 
-GET http://localhost:8080/projeto/api/fabricantes
-Accept: application/json

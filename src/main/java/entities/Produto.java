@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,12 +18,23 @@ import java.util.List;
         )
 })
 public class Produto {
+    @Version
+    private int version;
 
     @Id
     private String nome;
+    @NotNull
     private String tipo;
+    @NotNull
     private String familia;
-    private String dimensoes;
+
+    @NotNull
+    private double e;
+
+    @NotNull
+    private double n;
+
+    private double g;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
     private List<Variante> variantes;
@@ -39,11 +51,14 @@ public class Produto {
         estruturas = new LinkedList<>();
     }
 
-    public Produto(String nome, String tipo, String familia, Fabricante fabricante) {
+    public Produto(String nome, @NotNull String tipo, @NotNull String familia, @NotNull double e, @NotNull double n, double g, @NotNull Fabricante fabricante) {
         this.nome = nome;
         this.fabricante = fabricante;
         this.tipo = tipo;
         this.familia = familia;
+        this.e = e;
+        this.n = n;
+        this.g = round(e,n);
         variantes = new LinkedList<>();
     }
 
@@ -111,11 +126,33 @@ public class Produto {
         this.familia = familia;
     }
 
-    public String getDimensoes() {
-        return dimensoes;
+    public double getE() {
+        return e;
     }
 
-    public void setDimensoes(String dimensoes) {
-        this.dimensoes = dimensoes;
+    public void setE(double e) {
+        this.e = e;
     }
+
+    public double getN() {
+        return n;
+    }
+
+    public void setN(double n) {
+        this.n = n;
+    }
+
+    public double getG() {
+        return g;
+    }
+
+    public void setG(double g) {
+        this.g = round(e,n);
+    }
+
+    public static double round(double e,double n) {
+        double scale = Math.pow(10, 2);
+        return Math.round((e/(2*(1+n))) * scale) / scale;
+    }
+
 }

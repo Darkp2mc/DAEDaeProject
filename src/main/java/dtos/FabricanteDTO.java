@@ -34,4 +34,6 @@ public class FabricanteDTO extends PessoaDTO implements Serializable {
     public void removeProdutoDTO(ProdutoDTO produtoDTO){
         this.produtoDTOS.remove(produtoDTO);
     }
+
+    //-------------------------
 }

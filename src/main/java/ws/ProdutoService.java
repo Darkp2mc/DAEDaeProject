@@ -1,18 +1,24 @@
 package ws;
 
 import dtos.ProdutoDTO;
-import dtos.ProjetistaDTO;
+import dtos.ProjetoDTO;
+import dtos.VarianteDTO;
 import ejbs.ProdutoBean;
 import entities.Produto;
 import entities.Projetista;
+import entities.Projeto;
+import entities.Variante;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
 import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,13 +31,24 @@ public class ProdutoService {
     @EJB
     private ProdutoBean produtoBean;
 
+    @Context
+    private SecurityContext securityContext;
+
 
     private ProdutoDTO toDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(), produto.getFamilia(), produto.getTipo(), produto.getFabricante().getName());
+        return new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getName());
     }
 
     private List<ProdutoDTO> toDTOS(List<Produto> produtos){
         return produtos.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private VarianteDTO varianteToDTO(Variante variante){
+        return new VarianteDTO(variante.getCodigo(), variante.getProduto().getNome(), variante.getNome(), variante.getWeff_p(), variante.getWeff_n(), variante.getAr(), variante.getSigmaC(), variante.getPp(), variante.getH_mm(), variante.getB_mm(), variante.getC_mm(), variante.getT_mm(), variante.getA_mm(), variante.getP_kg_m(), variante.getYg_mm(), variante.getZg_mm(), variante.getLy_mm(), variante.getWy_mm(), variante.getLz_mm(), variante.getWz_mm(), variante.getYs_mm(), variante.getZs_mm(), variante.getLt_mm(), variante.getLw_mm());
+    }
+    private List<VarianteDTO> varianteDTOS(List<Variante> variantes) {
+        return variantes.stream().map(this::varianteToDTO).collect(Collectors.toList());
+
     }
 
     @GET
@@ -40,12 +57,51 @@ public class ProdutoService {
         return toDTOS(produtoBean.getAllProdutos());
     }
 
+    //CREATE um novo produto
     @POST
     @Path("/")
     public Response createNewProduto(ProdutoDTO produtoDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
 
-        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getFabricanteNome());
+        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(), produtoDTO.getFabricanteNome());
 
         return Response.status(Response.Status.CREATED).build();
     }
+
+    //GET detalhes do produto "nome"
+    @GET
+    @Path("{nome}")
+    public Response getProdutoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+        /*
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(nome))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        */
+        Produto produto = produtoBean.findCProduto(nome);
+        if(produto== null){
+            throw new MyEntityNotFoundException("Produto com o nome" + nome + "nao existe!");
+        }
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(produto))
+                .build();
+
+    }
+
+    //GET variantes do produto "nome"
+    @GET
+    @Path("{nome}/variantes")
+    public Response getProdutoVariantes(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+
+        Produto produto = produtoBean.findCProduto(nome);
+        if(produto!= null ){
+            return Response.status(Response.Status.OK)
+                    .entity(varianteDTOS(produto.getVariantes()))
+                    .build();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_PROJETISTA")
+                .build();
+    }
+
+
 }

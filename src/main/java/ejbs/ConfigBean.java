@@ -51,14 +51,14 @@ public class ConfigBean {
             System.out.println("Finished!!!");
 
             System.out.println("####### A criar produtos...");
-            produtoBean.create("Section C 220 BF","Perfil","C","fabricante_User");
-            produtoBean.create("Section Z 220 BF","Perfil","Z","fabricante_User");
+            produtoBean.create("Section C 220 BF","Perfil","C",210000, 0.3, 80769.23,"fabricante_User");
+            produtoBean.create("Section Z 220 BF","Perfil","Z",210000, 0.3, 80769.23,"fabricante_User");
             System.out.println("####### A criar variantes...");
 
             //PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)
             //Exemplo básico de adição de variantes "à mão"
-            varianteBean.create(1, "Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000);
-            varianteBean.create(2, "Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
+            varianteBean.create(1, "Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
+            varianteBean.create(2, "Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
 
             //PODE LER-SE OS VALORES mcr_p E mcr_n A PARTIR DE UM EXCEL OU CSV (ver excels fornecidos para os produtos Perfil C e Z, que têm os valores mcr)
             //Exemplo básico de adição de valores mcr "à mão"

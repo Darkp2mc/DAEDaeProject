@@ -17,6 +17,8 @@ import java.util.List;
         )
 })
 public class Variante {
+    @Version
+    private int version;
 
     private static double G = 78.5;
 
@@ -37,6 +39,41 @@ public class Variante {
     private double sigmaC;
     private double pp;
 
+    //Propriedades do excel de cada variante
+    @NotNull
+    private double h_mm;
+    @NotNull
+    private double b_mm;
+    @NotNull
+    private double c_mm;
+    @NotNull
+    private double t_mm;
+    @NotNull
+    private double a_mm;
+    @NotNull
+    private double p_kg_m;
+    @NotNull
+    private double yg_mm;
+    @NotNull
+    private double zg_mm;
+    @NotNull
+    private double ly_mm;
+    @NotNull
+    private double wy_mm;
+    @NotNull
+    private double lz_mm;
+    @NotNull
+    private double wz_mm;
+    @NotNull
+    private double ys_mm;
+    @NotNull
+    private double zs_mm;
+    @NotNull
+    private double lt_mm;
+    @NotNull
+    private double lw_mm;
+
+
     @Lob
     private LinkedHashMap<Double,Double> mcr_p;
     @Lob
@@ -47,7 +84,7 @@ public class Variante {
         this.mcr_n = new LinkedHashMap<Double,Double>();
     }
 
-    public Variante(int codigo, @NotNull Produto produto, @NotNull String nome, double weff_p, double weff_n, double ar, double sigmaC ) {
+    public Variante(int codigo, @NotNull Produto produto, @NotNull String nome, double weff_p, double weff_n, double ar, double sigmaC, @NotNull double h_mm, @NotNull double b_mm, @NotNull double c_mm, @NotNull double t_mm, @NotNull double a_mm, @NotNull double p_kg_m, @NotNull double yg_mm, @NotNull double zg_mm, @NotNull double ly_mm, @NotNull double wy_mm, @NotNull double lz_mm, @NotNull double wz_mm, @NotNull double ys_mm, @NotNull double zs_mm, @NotNull double lt_mm, @NotNull double lw_mm) {
         this.codigo = codigo;
         this.produto = produto;
         this.nome = nome;
@@ -55,7 +92,24 @@ public class Variante {
         this.weff_n = weff_n;
         this.ar = ar;
         this.sigmaC = sigmaC;
-        this.pp = G * ar * Math.pow(10, -6);
+        this.pp =  G * ar * Math.pow(10, -6);
+        this.h_mm = h_mm;
+        this.b_mm = b_mm;
+        this.c_mm = c_mm;
+        this.t_mm = t_mm;
+        this.a_mm = a_mm;
+        this.p_kg_m = p_kg_m;
+        this.yg_mm = yg_mm;
+        this.zg_mm = zg_mm;
+        this.ly_mm = ly_mm;
+        this.wy_mm = wy_mm;
+        this.lz_mm = lz_mm;
+        this.wz_mm = wz_mm;
+        this.ys_mm = ys_mm;
+        this.zs_mm = zs_mm;
+        this.lt_mm = lt_mm;
+        this.lw_mm = lw_mm;
+
         this.mcr_p = new LinkedHashMap<Double,Double>();
         this.mcr_n = new LinkedHashMap<Double,Double>();
     }
@@ -156,5 +210,131 @@ public class Variante {
         mcr_n.remove(LToRemove);
     }
 
+    public double getH_mm() {
+        return h_mm;
+    }
 
+    public void setH_mm(double h_mm) {
+        this.h_mm = h_mm;
+    }
+
+    public double getB_mm() {
+        return b_mm;
+    }
+
+    public void setB_mm(double b_mm) {
+        this.b_mm = b_mm;
+    }
+
+    public double getC_mm() {
+        return c_mm;
+    }
+
+    public void setC_mm(double c_mm) {
+        this.c_mm = c_mm;
+    }
+
+    public double getT_mm() {
+        return t_mm;
+    }
+
+    public void setT_mm(double t_mm) {
+        this.t_mm = t_mm;
+    }
+
+    public double getA_mm() {
+        return a_mm;
+    }
+
+    public void setA_mm(double a_mm) {
+        this.a_mm = a_mm;
+    }
+
+    public double getP_kg_m() {
+        return p_kg_m;
+    }
+
+    public void setP_kg_m(double p_kg_m) {
+        this.p_kg_m = p_kg_m;
+    }
+
+    public double getYg_mm() {
+        return yg_mm;
+    }
+
+    public void setYg_mm(double yg_mm) {
+        this.yg_mm = yg_mm;
+    }
+
+    public double getZg_mm() {
+        return zg_mm;
+    }
+
+    public void setZg_mm(double zg_mm) {
+        this.zg_mm = zg_mm;
+    }
+
+    public double getLy_mm() {
+        return ly_mm;
+    }
+
+    public void setLy_mm(double ly_mm) {
+        this.ly_mm = ly_mm;
+    }
+
+    public double getWy_mm() {
+        return wy_mm;
+    }
+
+    public void setWy_mm(double wy_mm) {
+        this.wy_mm = wy_mm;
+    }
+
+    public double getLz_mm() {
+        return lz_mm;
+    }
+
+    public void setLz_mm(double lz_mm) {
+        this.lz_mm = lz_mm;
+    }
+
+    public double getWz_mm() {
+        return wz_mm;
+    }
+
+    public void setWz_mm(double wz_mm) {
+        this.wz_mm = wz_mm;
+    }
+
+    public double getYs_mm() {
+        return ys_mm;
+    }
+
+    public void setYs_mm(double ys_mm) {
+        this.ys_mm = ys_mm;
+    }
+
+    public double getZs_mm() {
+        return zs_mm;
+    }
+
+    public void setZs_mm(double zs_mm) {
+        this.zs_mm = zs_mm;
+    }
+
+    public double getLt_mm() {
+        return lt_mm;
+    }
+
+    public void setLt_mm(double lt_mm) {
+        this.lt_mm = lt_mm;
+    }
+
+    public double getLw_mm() {
+        return lw_mm;
+    }
+
+    public void setLw_mm(double lw_mm) {
+        this.lw_mm = lw_mm;
+    }
 }

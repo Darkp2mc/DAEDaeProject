@@ -136,8 +136,6 @@ public class ProjetistaService {
         projetistaBean.updateProjeto(nome,projetoDTO.getProjetistaUsername(),projetoDTO.getClienteUsername());
 
         return Response.status(Response.Status.OK).build();
-
-
     }
 
 
