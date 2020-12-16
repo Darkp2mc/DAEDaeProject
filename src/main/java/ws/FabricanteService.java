@@ -135,7 +135,7 @@ public class FabricanteService {
         }
 
         Produto produto = produtoBean.findCProduto(nome);
-        if (produto != null && produto.getFabricante().getName().equals(fabricante.getName())){
+        if (produto != null && produto.getFabricante().getUsername().equals(fabricante.getUsername())){
             return Response.status(Response.Status.OK)
                     .entity(produtoToDTO(produto))
                     .build();

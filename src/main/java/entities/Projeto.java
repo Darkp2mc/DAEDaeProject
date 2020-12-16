@@ -62,7 +62,7 @@ public class Projeto {
         this.estruturas = new ArrayList<>();
         this.documents = new ArrayList<>();
         this.estado = 0;
-        this.visivel = false;
+        this.visivel = true;
     }
 
     public String getNome() {

@@ -112,7 +112,7 @@ public class ProjetoService {
 
     }
 
-    //TODO
+    //TODO Quem é que aceita e rejeita projetos?
     //TODO ao enviar o mail alterar a flag para o cliente poder ver
     @POST
     @Path("/{nome}/email/send")
@@ -160,6 +160,11 @@ public class ProjetoService {
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista") && principal.getName().equals(projeto.getProjetista().getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         projetoBean.terminar(nome);

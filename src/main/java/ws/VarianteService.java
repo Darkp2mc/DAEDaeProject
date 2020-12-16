@@ -62,13 +62,14 @@ public class VarianteService {
     @Path("{codigo}")
     public Response getVarianteDetails(@PathParam("codigo") int codigo) throws MyEntityNotFoundException {
 
-        Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Fabricante"))){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Variante variante = varianteBean.getVariante(codigo);
-        if(variante== null){
+        if(variante == null){
+
             throw new MyEntityNotFoundException("Variante com o codigo" + codigo + "nao existe!");
+        }
+        Principal principal = securityContext.getUserPrincipal();
+        if(!((securityContext.isUserInRole("Fabricante")) && variante.getProduto().getFabricante().getUsername().equals(principal.getName()))){
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.status(Response.Status.OK)
                 .entity(toDTO(variante))
