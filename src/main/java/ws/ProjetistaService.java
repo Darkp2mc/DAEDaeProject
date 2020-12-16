@@ -103,6 +103,11 @@ public class ProjetistaService {
     @GET
     @Path("{username}")
     public Response getProjetistaDetails(@PathParam("username") String username){
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista")&&
+                principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         Projetista projetista = projetistaBean.findProjetista(username);
         if(projetista!= null){
@@ -118,6 +123,12 @@ public class ProjetistaService {
     @GET
     @Path("{username}/projetos")
     public Response getProjetistaProjects(@PathParam("username") String username){
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista")&&
+                principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Projetista projetista = projetistaBean.findProjetista(username);
         if(projetista!= null ){
             return Response.status(Response.Status.OK)

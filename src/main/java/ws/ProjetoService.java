@@ -78,16 +78,17 @@ public class ProjetoService {
     @Path("{nome}")
     public Response getProjetoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
 
-        Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Projetista") ||
-                securityContext.isUserInRole("Cliente") &&
-                        principal.getName().equals(nome))) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Projeto projeto = projetoBean.findProjeto(nome);
         if(projeto== null){
             throw new MyEntityNotFoundException("Projeto com o nome" + nome + "nao existe!");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista") && projeto.getProjetista().getUsername().equals(principal.getName())) ||
+                (securityContext.isUserInRole("Cliente") && projeto.getProjetista().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         return Response.status(Response.Status.OK)
                 .entity(toDTO(projeto))
                 .build();
@@ -97,7 +98,10 @@ public class ProjetoService {
     @POST
     @Path("/")
     public Response createProjeto( ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
-
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista"))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         Projeto projeto = projetoBean.findProjeto(projetoDTO.getNome());
         if (projeto!= null){
             throw new MyEntityExistsException("O projeto com o nome" + projetoDTO.getNome()+ " ja existe!");
@@ -108,7 +112,7 @@ public class ProjetoService {
 
     }
 
-
+    //TODO
     //TODO ao enviar o mail alterar a flag para o cliente poder ver
     @POST
     @Path("/{nome}/email/send")

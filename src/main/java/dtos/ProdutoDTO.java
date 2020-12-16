@@ -14,15 +14,15 @@ public class ProdutoDTO implements Serializable {
     private double n;
     private double g;
     private List<VarianteDTO> varianteDTOs;
-    private String fabricanteNome;
+    private String fabricanteUsername;
 
     public ProdutoDTO() {
         this.varianteDTOs = new LinkedList<>();
     }
 
-    public ProdutoDTO(String nome, String tipo, String familia, double e, double n, double g, String fabricanteNome) {
+    public ProdutoDTO(String nome, String tipo, String familia, double e, double n, double g, String fabricanteUsername) {
         this.nome = nome;
-        this.fabricanteNome = fabricanteNome;
+        this.fabricanteUsername = fabricanteUsername;
         this.tipo = tipo;
         this.familia = familia;
         this.e = e;
@@ -55,12 +55,12 @@ public class ProdutoDTO implements Serializable {
         this.familia = familia;
     }
 
-    public String getFabricanteNome() {
-        return fabricanteNome;
+    public String getFabricanteUsername() {
+        return fabricanteUsername;
     }
 
-    public void setFabricanteNome(String fabricanteNome) {
-        this.fabricanteNome = fabricanteNome;
+    public void setFabricanteUsername(String fabricanteUsername) {
+        this.fabricanteUsername = fabricanteUsername;
     }
 
     public double getE() {

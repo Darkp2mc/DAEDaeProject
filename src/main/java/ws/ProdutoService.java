@@ -62,8 +62,12 @@ public class ProdutoService {
     @POST
     @Path("/")
     public Response createNewProduto(ProdutoDTO produtoDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(produtoDTO.getFabricanteUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(), produtoDTO.getFabricanteNome());
+        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(), produtoDTO.getFabricanteUsername());
 
         return Response.status(Response.Status.CREATED).build();
     }
@@ -97,6 +101,12 @@ public class ProdutoService {
 
         Produto produto = produtoBean.findCProduto(nome);
         if(produto!= null ){
+
+            Principal principal = securityContext.getUserPrincipal();
+            Fabricante fabricante = produto.getFabricante();
+            if(!(securityContext.isUserInRole("Fabricante") && fabricante.getUsername().equals(principal.getName()))) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
             return Response.status(Response.Status.OK)
                     .entity(varianteDTOS(produto.getVariantes()))
                     .build();

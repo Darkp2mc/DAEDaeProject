@@ -12,8 +12,11 @@ import exceptions.*;
 import javax.ejb.EJB;
 import javax.security.auth.Subject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +40,9 @@ public class EstruturaService {
 
     @EJB
     private EmailBean emailBean;
+
+    @Context
+    private SecurityContext securityContext;
 
     private EstruturaDTO toDTO(Estrutura estrutura){
         //TODO ao criar a estrutura meter a chamada ao metodo se esta ou rejeitada
@@ -70,6 +76,7 @@ public class EstruturaService {
     @POST
     @Path("/")
     public Response createNewEstrutura(EstruturaDTO estruturaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException, MyIllegalArgumentException {
+
         estruturaBean.create(estruturaDTO.getNome(),estruturaDTO.getProjetoNome(), estruturaDTO.getTipoDeProduto(),
                 estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(),
                 estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga(),estruturaDTO.getEstado());
@@ -81,11 +88,24 @@ public class EstruturaService {
     @Path("{name}")
     public Response getEstruturaDetails(@PathParam("name") String name){
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura!= null){
+        if(estrutura!= null) {
+
+            Principal principal = securityContext.getUserPrincipal();
+            /*if(!((securityContext.isUserInRole("Cliente") || securityContext.isUserInRole("Projetista")) &&
+                    (estrutura.getProjeto().getCliente().getName().equals(principal.getName()) ||
+                     estrutura.getProjeto().getProjetista().getName().equals(principal.getName())))){*/
+            if (!((securityContext.isUserInRole("Cliente") &&
+                    estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
+                    (securityContext.isUserInRole("Projetista") &&
+                            estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+
             return Response.status(Response.Status.OK)
                     .entity(toDTO(estrutura))
                     .build();
         }
+
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity("ERROR_FINDING_ESTRUTURA")
                 .build();
@@ -96,6 +116,18 @@ public class EstruturaService {
     public Response getEstruturaVariantes(@PathParam("name") String name){
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura!= null ){
+
+            Principal principal = securityContext.getUserPrincipal();
+            /*if(!((securityContext.isUserInRole("Cliente") || securityContext.isUserInRole("Projetista")) &&
+                    (estrutura.getProjeto().getCliente().getName().equals(principal.getName()) ||
+                     estrutura.getProjeto().getProjetista().getName().equals(principal.getName())))){*/
+            if (!((securityContext.isUserInRole("Cliente") &&
+                    estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
+                    (securityContext.isUserInRole("Projetista") &&
+                            estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+
             return Response.status(Response.Status.OK)
                     .entity(varianteDTOS(estrutura.getVariantes()))
                     .build();
@@ -119,6 +151,12 @@ public class EstruturaService {
             throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
         }
 
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Projetista") &&
+                        estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         estruturaBean.removeVariante(name,varianteCodigo);
         return Response.status(Response.Status.OK).build();
     }
@@ -137,6 +175,12 @@ public class EstruturaService {
             throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
         }
 
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Projetista") &&
+                estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         estruturaBean.addVariante(name,varianteCodigo);
         return Response.status(Response.Status.OK).build();
     }
@@ -148,6 +192,12 @@ public class EstruturaService {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
         if(estrutura== null){
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Cliente") &&
+                estrutura.getProjeto().getCliente().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         estruturaBean.rejeitar(name);
@@ -164,8 +214,14 @@ public class EstruturaService {
         if(estrutura== null){
             throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
         }
-        estruturaBean.aceitar(name);
 
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Cliente") &&
+                estrutura.getProjeto().getCliente().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        estruturaBean.aceitar(name);
         emailBean.send(estrutura.getProjeto().getProjetista().getEmail(),"Estrutura Aceite" , "Caro " + estrutura.getProjeto().getProjetista().getName()+ " envio o seguinte email para o informar que a estrutura "+ estrutura.getNome() +
                 "foi aceite. Pode começar a sua construçao.  Cumprimentos, " + estrutura.getProjeto().getCliente().getName());
 

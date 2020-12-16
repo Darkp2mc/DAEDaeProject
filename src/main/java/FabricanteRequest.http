@@ -88,7 +88,7 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhb
 
 ###UPDATE produto
 
-PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section
+PUT http://localhost:8080/projeto/api/fabricantes/fabricante_Username/produtos/Section
 Content-Type: application/json
 
 {
@@ -96,7 +96,8 @@ Content-Type: application/json
   "tipo": "Perfil",
   "familia" : "Z",
   "e": 45,
-  "n": 23
+  "n": 23,
+  "fabricanteNome": "fabricante_Username"
 }
 
 

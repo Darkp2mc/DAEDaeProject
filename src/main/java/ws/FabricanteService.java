@@ -9,8 +9,11 @@ import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,9 @@ public class FabricanteService {
 
     @EJB
     private VarianteBean varianteBean;
+
+    @Context
+    private SecurityContext securityContext;
 
     private FabricanteDTO toDTO(Fabricante fabricante){
 
@@ -80,6 +86,11 @@ public class FabricanteService {
     public Response getFabricanteDetails(@PathParam("username") String username){
         Fabricante fabricante = fabricanteBean.findFabricante(username);
         if(fabricante!= null){
+            Principal principal = securityContext.getUserPrincipal();
+            if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+
             return Response.status(Response.Status.OK)
                     .entity(toDTO(fabricante))
                     .build();
@@ -95,6 +106,11 @@ public class FabricanteService {
     public Response getFabricanteProdutos(@PathParam("username") String username){
         Fabricante fabricante = fabricanteBean.findFabricante(username);
         if(fabricante!= null ){
+            Principal principal = securityContext.getUserPrincipal();
+            if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+
             return Response.status(Response.Status.OK)
                     .entity(produtoDTOS(fabricante.getProdutos()))
                     .build();
@@ -111,6 +127,11 @@ public class FabricanteService {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
         if(fabricante == null ){
             throw  new MyEntityNotFoundException("Fabricante com o username " + username+ " nao existe!");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         Produto produto = produtoBean.findCProduto(nome);
@@ -135,6 +156,12 @@ public class FabricanteService {
         if(fabricante == null){
             throw  new MyEntityNotFoundException("Fabricante com o username " + username+ " nao existe!");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Produto produto = produtoBean.findCProduto(nome);
 
         if (produto == null){
@@ -145,7 +172,7 @@ public class FabricanteService {
             throw new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe para fabricante "+username+"!");
         }
 
-        fabricanteBean.updateProduto(nome,produtoDTO.getTipo(), produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(),produtoDTO.getFabricanteNome());
+        fabricanteBean.updateProduto(nome,produtoDTO.getTipo(), produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(),produtoDTO.getFabricanteUsername());
 
         return Response.status(Response.Status.OK).build();
 
@@ -160,12 +187,17 @@ public class FabricanteService {
         if(fabricante== null){
             throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Produto produto = produtoBean.findCProduto(nome);
 
         if (produto == null){
             throw new MyEntityNotFoundException("Produto com o nome" + nome+ "nao existe!");
         }
-
         fabricanteBean.removeProduto(produto);
         return Response.status(Response.Status.OK).build();
     }
@@ -179,6 +211,12 @@ public class FabricanteService {
         if(fabricante == null){
             throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Produto produto = produtoBean.findCProduto(nome);
 
         if (produto != null){
@@ -200,6 +238,12 @@ public class FabricanteService {
         if(fabricante== null){
             throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Produto produto = produtoBean.findCProduto(nome);
 
         if (produto == null){
@@ -226,6 +270,11 @@ public class FabricanteService {
         if(fabricante == null){
             throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
         }
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         Produto produto = produtoBean.findCProduto(nome);
 
 
@@ -250,6 +299,10 @@ public class FabricanteService {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
         if (fabricante == null){
             throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
+        }
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         Produto produto = produtoBean.findCProduto(nome);
