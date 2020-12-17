@@ -32,8 +32,8 @@ public class ProdutoBean {
                         throw new MyEntityExistsException("O Produto tem de ser do tipo 'Perfil', 'Chapa', 'Laje' ou 'Painel'");
                     }
 
-                    if (!familia.equals("C")  && !familia.equals("Z")  && !familia.equals("Omega") ){
-                        throw new MyEntityExistsException("O Produto tem de ser da familia 'C', 'Z' ou 'Omega')");
+                    if (!familia.equals("C")  && !familia.equals("Z")  && !familia.equals("Omega") && !familia.equals("Outro")){
+                        throw new MyEntityExistsException("O Produto tem de ser da familia 'C', 'Z', 'Omega' ou 'Outro')");
                     }
 
                     if (e >= 0 && n >= 0){
