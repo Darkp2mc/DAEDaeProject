@@ -37,7 +37,9 @@ public class ProdutoService {
 
 
     private ProdutoDTO toDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
+        ProdutoDTO produtoDTO= new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
+        produtoDTO.setVarianteDTOs(varianteDTOS(produto.getVariantes()));
+        return produtoDTO;
     }
 
     private List<ProdutoDTO> toDTOS(List<Produto> produtos){

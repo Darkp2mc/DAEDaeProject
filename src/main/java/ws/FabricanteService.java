@@ -48,7 +48,9 @@ public class FabricanteService {
     }
 
     private ProdutoDTO produtoToDTO(Produto produto){
-        return new ProdutoDTO(produto.getNome(),produto.getTipo(),produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
+        ProdutoDTO produtoDTO= new ProdutoDTO(produto.getNome(), produto.getTipo(), produto.getFamilia(),produto.getE(), produto.getN(), produto.getG(), produto.getFabricante().getUsername());
+        produtoDTO.setVarianteDTOs(varianteDTOS(produto.getVariantes()));
+        return produtoDTO;
     }
     private List<ProdutoDTO> produtoDTOS(List<Produto> produtos) {
         return produtos.stream().map(this::produtoToDTO).collect(Collectors.toList());
