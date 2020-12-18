@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.util.logging.Logger;
 
 @Path("/login")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LoginService {
     private static final Logger log = Logger.getLogger(LoginService.class.getName());
     @EJB
@@ -25,8 +27,7 @@ public class LoginService {
 
     @POST
     @Path("/token")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+
     public Response authenticateUser(AuthDTO authDTO) {
         try {
             Pessoa pessoa = pessoaBean.authenticate(authDTO.getUsername(), authDTO.getPassword());
