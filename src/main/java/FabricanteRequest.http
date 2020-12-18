@@ -130,8 +130,39 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhb
 ###UPDATE variante
 PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/1
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgzMTk4MjJ9.TSyoSNUMsZkWDHaMJEpaKuGgeiZ3Ag8VgE6Cbl749T0K0Zdu-JhqVYTnXAF5DHBQGuMUWr_04t0SP7Jh0E4XShQaV-W4sxu300UCwblZx6gEzWAk-VUVUjFIh0Cv6eFlArveijlu__ASuqhCWXfAUxBHSvL5MZFdCfY_UCIoflvBfWeXUAXT2u5UMm6F5eOWLQHDmPWE_t5sLlhmw0lFTZJQfRy5E9ESz-1WRGsN4M3RJjC1LNot91nkc_MaU7j5xv0Hl-fRaR96GKw6sBvat7G1ketyZPqaZe8DicAMBG_sgrH6_RINVP__i1Wj0m83nJIa7lC5Gb_Zq1d4OqwKGw
 
 {
   "nome" : "Bue curtido"
+}
 
+###Criar variante
+POST http://localhost:8080/projeto/api/variantes/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgzMTk4MjJ9.TSyoSNUMsZkWDHaMJEpaKuGgeiZ3Ag8VgE6Cbl749T0K0Zdu-JhqVYTnXAF5DHBQGuMUWr_04t0SP7Jh0E4XShQaV-W4sxu300UCwblZx6gEzWAk-VUVUjFIh0Cv6eFlArveijlu__ASuqhCWXfAUxBHSvL5MZFdCfY_UCIoflvBfWeXUAXT2u5UMm6F5eOWLQHDmPWE_t5sLlhmw0lFTZJQfRy5E9ESz-1WRGsN4M3RJjC1LNot91nkc_MaU7j5xv0Hl-fRaR96GKw6sBvat7G1ketyZPqaZe8DicAMBG_sgrH6_RINVP__i1Wj0m83nJIa7lC5Gb_Zq1d4OqwKGw
+
+{
+  "codigo" : 5,
+  "produtoNome" : "Section C 220 BF",
+  "nome" : "34",
+  "weff_p" : 13846,
+  "weff_n" : 13846,
+  "ar" : 375,
+  "sigmaC" : 220000,
+  "h_mm" : 120.00,
+  "b_mm" : 50.00,
+  "c_mm" : 21.00,
+  "t_mm" : 1.5,
+  "a_mm" : 375,
+  "p_kg_m" : 3.00,
+  "yg_mm" : 17.40,
+  "zg_mm" : 60.00,
+  "ly_mm" : 830752.99,
+  "wy_mm" : 13845.88,
+  "lz_mm" : 141172.63,
+  "wz_mm" : 4330.80,
+  "ys_mm" : -24.99,
+  "zs_mm" : 60.00,
+  "lt_mm" : 288,
+  "lw_mm" : 696007089.10
 }

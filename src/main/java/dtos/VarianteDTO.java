@@ -65,7 +65,7 @@ public class VarianteDTO implements Serializable {
     }
 */
 
-    public VarianteDTO(int codigo, String produtoNome, String nome, double weff_p, double weff_n, double ar, double sigmaC, double pp, double h_mm, double b_mm, double c_mm, double t_mm, double a_mm, double p_kg_m, double yg_mm, double zg_mm, double ly_mm, double wy_mm, double lz_mm, double wz_mm, double ys_mm, double zs_mm, double lt_mm, double lw_mm) {
+    public VarianteDTO(int codigo, String produtoNome, String nome, double weff_p, double weff_n, double ar, double sigmaC, double h_mm, double b_mm, double c_mm, double t_mm, double a_mm, double p_kg_m, double yg_mm, double zg_mm, double ly_mm, double wy_mm, double lz_mm, double wz_mm, double ys_mm, double zs_mm, double lt_mm, double lw_mm) {
         this.codigo = codigo;
         this.produtoNome = produtoNome;
         this.nome = nome;
@@ -73,7 +73,7 @@ public class VarianteDTO implements Serializable {
         this.weff_n = weff_n;
         this.ar = ar;
         this.sigmaC = sigmaC;
-        this.pp = pp;
+        this.pp = 78.5 * ar * Math.pow(10, -6);
         this.h_mm = h_mm;
         this.b_mm = b_mm;
         this.c_mm = c_mm;

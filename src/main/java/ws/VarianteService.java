@@ -34,7 +34,7 @@ public class VarianteService {
 
 
     private VarianteDTO toDTO(Variante variante){
-        return new VarianteDTO(variante.getCodigo(), variante.getProduto().getNome(), variante.getNome(), variante.getWeff_p(), variante.getWeff_n(), variante.getAr(), variante.getSigmaC(), variante.getPp(), variante.getH_mm(), variante.getB_mm(), variante.getC_mm(), variante.getT_mm(), variante.getA_mm(), variante.getP_kg_m(), variante.getYg_mm(), variante.getZg_mm(), variante.getLy_mm(), variante.getWy_mm(), variante.getLz_mm(), variante.getWz_mm(), variante.getYs_mm(), variante.getZs_mm(), variante.getLt_mm(), variante.getLw_mm());
+        return new VarianteDTO(variante.getCodigo(), variante.getProduto().getNome(), variante.getNome(), variante.getWeff_p(), variante.getWeff_n(), variante.getAr(), variante.getSigmaC(), variante.getH_mm(), variante.getB_mm(), variante.getC_mm(), variante.getT_mm(), variante.getA_mm(), variante.getP_kg_m(), variante.getYg_mm(), variante.getZg_mm(), variante.getLy_mm(), variante.getWy_mm(), variante.getLz_mm(), variante.getWz_mm(), variante.getYs_mm(), variante.getZs_mm(), variante.getLt_mm(), variante.getLw_mm());
     }
 
     private List<VarianteDTO> toDTOS(List<Variante> variantes){
