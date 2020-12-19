@@ -327,7 +327,7 @@ public class FabricanteService {
 
 
     @GET
-    @Path("{username}/estruturas")
+    @Path("{username}/variantesEmEstruturas")
     public Response getMateriaisEmEstruturasAdjudicadas(@PathParam("username") String username) throws MyEntityNotFoundException {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
         if (fabricante == null){
@@ -359,7 +359,7 @@ public class FabricanteService {
         }
 
 
-        return Response.status(Response.Status.OK)
+        return Response.status(Response.Status.NO_CONTENT)
                 .entity("Sem variantes a serem usadas em estruturas")
                 .build();
 
