@@ -84,13 +84,13 @@ public class ProjetistaBean {
         Cliente cliente = manager.find(Cliente.class, clienteUsername);
 
         if (cliente==null){
-            throw new MyEntityNotFoundException("Cliente com o nome" +cliente.getName()+"nao existe");
+            throw new MyEntityNotFoundException("Cliente com o nome" +clienteUsername+"nao existe");
         }
 
         Projetista projetista = manager.find(Projetista.class, projetistaUsername);
 
         if (projetista==null){
-            throw new MyEntityNotFoundException("Projetista com o nome "+projetista.getName()+" não existe");
+            throw new MyEntityNotFoundException("Projetista com o nome "+projetistaUsername+" não existe");
         }
 
         manager.lock(projeto,LockModeType.OPTIMISTIC);

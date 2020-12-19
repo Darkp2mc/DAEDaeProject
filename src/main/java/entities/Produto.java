@@ -48,7 +48,7 @@ public class Produto {
         variantes = new LinkedList<>();
     }
 
-    public Produto(String nome, @NotNull String tipo, @NotNull String familia, @NotNull double e, @NotNull double n, double g, @NotNull Fabricante fabricante) {
+    public Produto(String nome, @NotNull String tipo, @NotNull String familia, @NotNull double e, @NotNull double n, @NotNull Fabricante fabricante) {
         this.nome = nome;
         this.fabricante = fabricante;
         this.tipo = tipo;

@@ -79,7 +79,7 @@ public class EstruturaService {
 
         estruturaBean.create(estruturaDTO.getNome(),estruturaDTO.getProjetoNome(), estruturaDTO.getTipoDeProduto(),
                 estruturaDTO.getNumeroDeVaos(), estruturaDTO.getComprimentoDaVao(), estruturaDTO.getAplicacao(),
-                estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga(),estruturaDTO.getEstado());
+                estruturaDTO.getAlturaDaLage(), estruturaDTO.getSobrecarga());
 
         return Response.status(Response.Status.CREATED).build();
     }

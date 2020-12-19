@@ -43,27 +43,39 @@ public class ConfigBean {
             System.out.println("Creating pessoa de contacto");
             pessoaDeContactoBean.create("PC_User","pass","Alberto", "alberto@mail.com");
             System.out.println("Creating cliente...");
-            clienteBean.create("cliente_User", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
-            clienteBean.create("cliente_User2", "pass", "Cliente", "teste@teste.com", "Rua", "PC_User");
+            clienteBean.create("cliente_User", "pass", "Ricardo", "ricardo@mail.com", "Rua", "PC_User");
+            clienteBean.create("cliente_User2", "pass", "Maria", "maria@mail.com", "Rua", "PC_User");
             System.out.println("Creating cliente...");
-            projetistaBean.create("projetista_User", "pass", "Projetista", "teste@teste.com");
-            projetistaBean.create("projetista_User2", "pass", "Projetista", "teste@teste.com");
+            projetistaBean.create("projetista_User", "pass", "Pedro", "pedro@teste.com");
+            projetistaBean.create("projetista_User2", "pass", "Albertino", "albertino@teste.com");
             System.out.println("Creating fabricante...");
-            fabricanteBean.create("fabricante_User", "pass", "Fabricante", "teste@teste.com");
+            fabricanteBean.create("fabricante_User", "pass", "Hugo", "teste@teste.com");
             System.out.println("Creating projeto...");
             projetoBean.create("Projeto1","cliente_User", "projetista_User");
             projetoBean.create("Projeto2","cliente_User", "projetista_User2");
+            projetoBean.create("Casa e Casinhas", "cliente_User", "projetista_User");
+            projetoBean.create("Garagem da Vizinha", "cliente_User", "projetista_User");
+            projetoBean.create("Barracao", "cliente_User", "projetista_User");
             System.out.println("Finished!!!");
+            projetoBean.tornarVisivel("Projeto1");
+            projetoBean.tornarVisivel("Barracao");
 
             System.out.println("####### A criar produtos...");
-            produtoBean.create("Section C 220 BF","Perfil","C",210000, 0.3, 80769.23,"fabricante_User");
-            produtoBean.create("Section Z 220 BF","Perfil","Z",210000, 0.3, 80769.23,"fabricante_User");
+            produtoBean.create("Section C 220 BF","Perfil","C",210000, 0.3, "fabricante_User");
+            produtoBean.create("Section Z 220 BF","Perfil","Z",210000, 0.3, "fabricante_User");
+            produtoBean.create("Chapas","Chapa", "Outro", 20000 , 15, "fabricante_User");
+            produtoBean.create("Laje Forte", "Laje", "Outro", 15000, 26, "fabricante_User" );
+
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1");
+            estruturaBean.create("Chapas","Barracao","Chapa", "2","4", "Cobertura", "1", "1");
             System.out.println("####### A criar variantes...");
 
             //PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)
             //Exemplo básico de adição de variantes "à mão"
             varianteBean.create(1, "Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
             varianteBean.create(2, "Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
+            varianteBean.create(3, "Chapas", "Chapa fina", 18738, 18738, 500, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
+            varianteBean.create(4, "Laje Forte", "Laje para barracoes", 18738, 18738, 500, 220000,120.00, 50.00, 21.00, 1.5, 375, 3.00, 17.40, 60.00, 830752.99, 13845.88, 141172.63, 4330.80, -24.99, 60.00, 288, 696007089.10);
 
             //PODE LER-SE OS VALORES mcr_p E mcr_n A PARTIR DE UM EXCEL OU CSV (ver excels fornecidos para os produtos Perfil C e Z, que têm os valores mcr)
             //Exemplo básico de adição de valores mcr "à mão"
@@ -113,7 +125,7 @@ public class ConfigBean {
                 System.out.println("A variante " + variante2.getNome() + " não pode ser usada.");
             }
 
-            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1", 0);
+
         }catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
