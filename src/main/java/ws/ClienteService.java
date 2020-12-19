@@ -161,38 +161,9 @@ public class ClienteService {
                 .build();
     }
 
-    @POST
-    @Path("{username}/projetos/{nome}/comentario")
-    public Response makeComment(@PathParam("username") String username, final @PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
-        Principal principal = securityContext.getUserPrincipal();
-        if((!securityContext.isUserInRole("Cliente") )&&
-                principal.getName().equals(username)) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-        Cliente cliente = clienteBean.findCliente(username);
-        if(cliente== null){
-            throw  new MyEntityNotFoundException("Cliente com o username " + username+ " nao existe!");
-        }
-        Projeto projeto = projetoBean.findProjeto(nome);
-
-        if (projeto == null){
-            throw new MyEntityNotFoundException("Projeto com o nome " + nome+ " nao existe!");
-        }
-
-        try{
-            clienteBean.setComentario(nome,projetoDTO.getComentario());
-            emailBean.send(projeto.getProjetista().getEmail(),"Informaçao sobre projeto", projetoDTO.getComentario());
-
-
-            return Response.status(Response.Status.OK).build();
-        }catch (ConstraintViolationException e){
-            throw new MyConstraintViolationException(e);
-        }
 
 
 
-
-    }
 
 
 

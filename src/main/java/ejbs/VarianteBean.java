@@ -20,7 +20,11 @@ public class VarianteBean {
     @PersistenceContext
     EntityManager manager;
 
-    public void create(int codigo, String nomeProduto, String name, double weff_p, double weff_n, double ar, double sigmaC, double h_mm, double b_mm, double c_mm, double t_mm, double a_mm, double p_kg_m, double yg_mm, double zg_mm, double ly_mm, double wy_mm, double lz_mm, double wz_mm, double ys_mm, double zs_mm, double lt_mm, double lw_mm) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+    public void create(int codigo, String nomeProduto, String name, double weff_p, double weff_n,
+                       double ar, double sigmaC, double h_mm, double b_mm, double c_mm, double t_mm,
+                       double a_mm, double p_kg_m, double yg_mm, double zg_mm, double ly_mm,
+                       double wy_mm, double lz_mm, double wz_mm, double ys_mm, double zs_mm,
+                       double lt_mm, double lw_mm) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         Variante variante = manager.find(Variante.class, codigo);
         if (variante != null) {
             throw new MyEntityExistsException("Já existe uma variante com o codigo introduzido ("+ variante.getCodigo() +") !!!");

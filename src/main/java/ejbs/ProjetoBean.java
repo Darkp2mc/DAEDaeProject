@@ -10,6 +10,7 @@ import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -72,5 +73,22 @@ public class ProjetoBean {
     public void tornarVisivel(String nome) {
         Projeto projeto = findProjeto(nome);
         projeto.tornarVisivel();
+    }
+
+    public void setComentario(String nome, String comentario) throws MyEntityNotFoundException, MyConstraintViolationException {
+
+        Projeto projeto = manager.find(Projeto.class,nome);
+        if (projeto== null){
+            throw new MyEntityNotFoundException("Projeto nao encontrado");
+        }
+
+        try{
+            manager.lock(projeto, LockModeType.OPTIMISTIC);
+            projeto.setComentario(comentario);
+        }catch (ConstraintViolationException e){
+            throw new MyConstraintViolationException(e);
+        }
+
+
     }
 }

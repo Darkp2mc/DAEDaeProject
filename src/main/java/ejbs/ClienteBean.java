@@ -47,20 +47,5 @@ public class ClienteBean {
         return manager.createNamedQuery("getAllClientes", Cliente.class).getResultList();
     }
 
-    public void setComentario(String nome, String comentario) throws MyEntityNotFoundException, MyConstraintViolationException {
 
-        Projeto projeto = manager.find(Projeto.class,nome);
-        if (projeto== null){
-            throw new MyEntityNotFoundException("Projeto nao encontrado");
-        }
-
-        try{
-            manager.lock(projeto, LockModeType.OPTIMISTIC);
-            projeto.setComentario(comentario);
-        }catch (ConstraintViolationException e){
-            throw new MyConstraintViolationException(e);
-        }
-
-
-    }
 }

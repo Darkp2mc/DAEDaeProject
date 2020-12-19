@@ -17,6 +17,7 @@ import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.mail.MessagingException;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -113,7 +114,6 @@ public class ProjetoService {
     }
 
     //TODO Quem é que aceita e rejeita projetos?
-    //TODO ao enviar o mail alterar a flag para o cliente poder ver
     @POST
     @Path("/{nome}/email/send")
     public Response sendEmail(@PathParam("nome") String nome, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
@@ -126,37 +126,60 @@ public class ProjetoService {
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
+    //TODO segurança aqui-so cliente e que pode
     @PUT
     @Path("{nome}/rejeitar")
-    public Response reject(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+    public Response reject(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
-        projetoBean.rejeitar(nome);
-        return Response.status(Response.Status.OK).build();
+
+
+        if (projeto.getEstado()!= 2){
+            try{
+                projetoBean.rejeitar(nome);
+                projetoBean.setComentario(nome,projetoDTO.getComentario());
+                emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(),"Informaçao sobre o Projeto " + nome, projetoDTO.getComentario());
+                return Response.status(Response.Status.OK).build();
+            } catch (ConstraintViolationException e){
+                throw new MyConstraintViolationException(e);
+            }
+        }
+        return Response.status(Response.Status.CONFLICT).entity("Impossivel rejeitar um projeto ja terminado").build();
     }
 
+    //TODO segurança aqui-so cliente e que pode
     @PUT
     @Path("{nome}/aceitar")
-    public Response aceitar(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+    public Response aceitar(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
+
+
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null){
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
+
         if (projeto.getEstado()!=2) {
-            projetoBean.aceitar(nome);
-            return Response.status(Response.Status.OK).build();
+
+            try{
+                projetoBean.aceitar(nome);
+                projetoBean.setComentario(nome,projetoDTO.getComentario());
+                emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(),"Informaçao sobre o Projeto " + nome, projetoDTO.getComentario());
+                return Response.status(Response.Status.OK).build();
+            }
+            catch (ConstraintViolationException e){
+                throw new MyConstraintViolationException(e);
+            }
+
         }
-
-        return Response.status(Response.Status.CONFLICT).entity("Impossivel aceitar um projeto ja aceite").build();
-
+        return Response.status(Response.Status.CONFLICT).entity("Impossivel aceitar um projeto ja terminado").build();
 
     }
 
     @PUT
     @Path("{nome}/terminar")
-    public Response terminar(@PathParam("nome") String nome) throws MyEntityNotFoundException {
+    public Response terminar(@PathParam("nome") String nome,EmailDTO email) throws MyEntityNotFoundException, MyConstraintViolationException {
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
@@ -167,8 +190,18 @@ public class ProjetoService {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        projetoBean.terminar(nome);
-        return Response.status(Response.Status.OK).entity("Projeto terminado").build();
+        if(projeto.getEstado()!=2){
+            try{
+                emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(),"Projeto concluido", "Caro "+projeto.getCliente().getPessoaDeContacto().getName()+" envio o presente email para o informar que o seu projeto" +
+                        "com o nome " + nome + " foi dado como Concluido! Cumprimentos, " + projeto.getProjetista().getName());
+                projetoBean.terminar(nome);
+                return Response.status(Response.Status.OK).build();
+            }catch (ConstraintViolationException e){
+                throw new MyConstraintViolationException(e);
+            }
+        }
+        return Response.status(Response.Status.CONFLICT).entity("Impossivel terminar um projeto ja terminado").build();
+
     }
 
 }

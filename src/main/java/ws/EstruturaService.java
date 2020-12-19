@@ -228,6 +228,7 @@ public class EstruturaService {
         return Response.status(Response.Status.OK).build();
     }
 
+    //TODO resolver este bug- possivel ser quando se da delete do produto/ atualizar produto
     @GET
     @Path("{estruturaNome}/variantes/simulation")
     public Response getVariantes(@PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {

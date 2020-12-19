@@ -80,8 +80,8 @@ public class FabricanteBean {
             throw new MyEntityNotFoundException("O Produto tem de ser do tipo 'Perfil', 'Chapa', 'Laje' ou 'Painel'");
         }
 
-        if (!familia.equals("C")  && !familia.equals("Z")  && !familia.equals("Omega") ){
-            throw new MyEntityNotFoundException("O Produto tem de ser da familia 'C', 'Z' ou 'Omega')");
+        if (!familia.equals("C")  && !familia.equals("Z")  && !familia.equals("Omega") && !familia.equals("Outro") ){
+            throw new MyEntityNotFoundException("O Produto tem de ser da familia 'C', 'Z','Omega' ou 'Outro')");
         }
 
 

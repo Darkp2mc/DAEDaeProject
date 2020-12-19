@@ -75,6 +75,7 @@ public class ProdutoService {
     }
 
     //GET detalhes do produto "nome"
+
     @GET
     @Path("{nome}")
     public Response getProdutoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
