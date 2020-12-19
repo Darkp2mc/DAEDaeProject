@@ -92,7 +92,9 @@ public class ProjetoBean {
 
     }
 
-    public void removerEstrutura(Projeto projeto, Estrutura estrutura){
+    public void removerEstrutura(String projetoNome, String estruturaNome){
+        Projeto projeto = manager.find(Projeto.class,projetoNome);
+        Estrutura estrutura = manager.find(Estrutura.class,estruturaNome);
         projeto.removeEstrutura(estrutura);
     }
 }
