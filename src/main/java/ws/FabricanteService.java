@@ -9,11 +9,9 @@ import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.*;
 import java.security.Principal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -227,7 +225,9 @@ public class FabricanteService {
                     .build();
         }
 
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_VARIANTES")
+                .build();
     }
 
 
@@ -291,7 +291,9 @@ public class FabricanteService {
                     .build();
         }
 
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("ERROR_FINDING_VARIANTE")
+                .build();
     }
 
     //UPDATE da variante "codigo" do produto "nome" do fabricante "username"
@@ -321,6 +323,47 @@ public class FabricanteService {
         produtoBean.updateVariante(codigo, nome,varianteDTO.getNome(), varianteDTO.getWeff_p(), varianteDTO.getWeff_n(), varianteDTO.getAr(), varianteDTO.getSigmaC(), varianteDTO.getH_mm(), varianteDTO.getB_mm(), varianteDTO.getC_mm(), varianteDTO.getT_mm(), varianteDTO.getA_mm(), varianteDTO.getP_kg_m(), varianteDTO.getYg_mm(), varianteDTO.getZg_mm(), varianteDTO.getLy_mm(), varianteDTO.getWy_mm(), varianteDTO.getLz_mm(), varianteDTO.getWz_mm(), varianteDTO.getYs_mm(), varianteDTO.getZs_mm(), varianteDTO.getLt_mm(), varianteDTO.getLw_mm());
 
         return Response.status(Response.Status.OK).build();
+    }
+
+
+    @GET
+    @Path("{username}/estruturas")
+    public Response getMateriaisEmEstruturasAdjudicadas(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Fabricante fabricante = fabricanteBean.findFabricante(username);
+        if (fabricante == null){
+            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
+        }
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+
+        List<Variante> variantes = new LinkedList<>();
+
+        for (Produto produto : fabricante.getProdutos()) {
+            for (Variante variante: produto.getVariantes()) {
+                for (Estrutura estrutura: variante.getEstruturas()) {
+                    if (estrutura.getEstado() == 1) {
+                        variantes.add(variante);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (variantes.size() > 0){
+            return Response.status(Response.Status.OK)
+                    .entity(varianteDTOS(variantes))
+                    .build();
+        }
+
+
+        return Response.status(Response.Status.OK)
+                .entity("Sem variantes a serem usadas em estruturas")
+                .build();
+
+
     }
 
 }

@@ -45,8 +45,8 @@ POST http://localhost:8080/projeto/api/login/token
 Content-Type: application/json
 
 {
-  "username": "fabricante_User",
-  "password": "pass"
+  "username": "fabricante_Username",
+  "password": "password"
 }
 
 ### Who am I?
@@ -117,19 +117,24 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhb
 ###---------------------------------------VARIANTES--------------------------------------------------
 ###--------------------------------------------------------------------------------------------------
 ###--------------------------------------------------------------------------------------------------
+###GET todas as variantes
+GET http://localhost:8080/projeto/api/variantes
+Accept: application/json
 
 ###GET todas as variantes do produto "Section C 220 BF" do fabricante
 GET http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes
 Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgzNDU2NDd9.OnA1TqtRDU0N-ZR8QSjkRqhHVDpLQp8MAOJub3H-F6M3Oc-_056SRBW3fnK_Pec-o3TX1aRvcaSWYP0Sype-tdmvmq4NugSHdqainXUVRUkRfQMkeWBQMdUhUz5OV0RG_jk7zGP5zWX9xJqwE129O7DuNbMevuC03tgukzPxzkUhsGABoCPeDoDm3KwtTz4cNJ1xRzH9yWj0dA-aZuEQDjFsZ1eA8FGhKuWNlU6sU6Up59T-K7uIWVSuYk7hBAGGwCbtLitACD4FpSSnqHaV1Z2wcvZ3VeIN7xNz8oXpkoQrI7tf3fq_OWh8gYqsyEj7bRS3ygsU6Dlc_sKin9IEhQ
 
 ###GET a variante com o codigo "1" do produto "Section C 220 BF" do fabricante
-GET http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/1
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/
 Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgzNDU2NDd9.OnA1TqtRDU0N-ZR8QSjkRqhHVDpLQp8MAOJub3H-F6M3Oc-_056SRBW3fnK_Pec-o3TX1aRvcaSWYP0Sype-tdmvmq4NugSHdqainXUVRUkRfQMkeWBQMdUhUz5OV0RG_jk7zGP5zWX9xJqwE129O7DuNbMevuC03tgukzPxzkUhsGABoCPeDoDm3KwtTz4cNJ1xRzH9yWj0dA-aZuEQDjFsZ1eA8FGhKuWNlU6sU6Up59T-K7uIWVSuYk7hBAGGwCbtLitACD4FpSSnqHaV1Z2wcvZ3VeIN7xNz8oXpkoQrI7tf3fq_OWh8gYqsyEj7bRS3ygsU6Dlc_sKin9IEhQ
 
 ###DELETE variantes do produto "Section C 220 BF" do fabricante
 DELETE http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/2
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDc5ODE2NzB9.LaM_PYouPuvWjEooEocT_L3TO-3nI4uziihTTIaCAlCLjyU3rHJglNcCfjFKFvkKMPyL98cLEPHnMKf0fHGYCy3ZQX6lP4B91L4Tt6uEzvKdf86n1R-u0lGnKg2JV6GQjRagwyvQEcSg6KEzcg0n3MKVfrEWPgQjmqtRhkVs8MseLIo76p4G_1oC0nX6Pe_gvU4z7JW_M1HGBiHPrirDnOt74RPDE_-NTlbUoPr4NOGpSXP9FWvCea2zkfbTNbPH9ds-NWMaJHeUopMJIPYUeNNCsbOMLnosYtKgjj1Blmkl7o3EaFotqy46TWAQtzwA5TDCBpx0iO9UCVe5gL31Ng
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXIiLCJpc3MiOiJxdWlja3N0YXJ0LWp3dC1pc3N1ZXIiLCJhdWQiOiJqd3QtYXVkaWVuY2UiLCJncm91cHMiOlsiRmFicmljYW50ZSJdLCJleHAiOjE2MDgzNDU2NDd9.OnA1TqtRDU0N-ZR8QSjkRqhHVDpLQp8MAOJub3H-F6M3Oc-_056SRBW3fnK_Pec-o3TX1aRvcaSWYP0Sype-tdmvmq4NugSHdqainXUVRUkRfQMkeWBQMdUhUz5OV0RG_jk7zGP5zWX9xJqwE129O7DuNbMevuC03tgukzPxzkUhsGABoCPeDoDm3KwtTz4cNJ1xRzH9yWj0dA-aZuEQDjFsZ1eA8FGhKuWNlU6sU6Up59T-K7uIWVSuYk7hBAGGwCbtLitACD4FpSSnqHaV1Z2wcvZ3VeIN7xNz8oXpkoQrI7tf3fq_OWh8gYqsyEj7bRS3ygsU6Dlc_sKin9IEhQ
 
 ###UPDATE variante
 PUT http://localhost:8080/projeto/api/fabricantes/fabricante_User/produtos/Section C 220 BF/variantes/1
@@ -170,3 +175,9 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhb
   "lt_mm" : 288,
   "lw_mm" : 696007089.10
 }
+
+
+###GET todas as variantes das estruturas
+GET http://localhost:8080/projeto/api/fabricantes/fabricante_Username/estruturas
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYWJyaWNhbnRlX1VzZXJuYW1lIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkZhYnJpY2FudGUiXSwiZXhwIjoxNjA4MzUyODI0fQ.C30aNnLZX9XEaHCe2PG1O6f07z-cL6jL9sJTz1d1GmqlU7_jxC0FMrP9qWnfkvnJ39JgoMiK_gKSuVYJrC_AvrLh3vp_oX0-Bc6_Ibs1jzNZGTGiXCdqyC0xmpaMKse6XxmwEwk-VoBd9vVtppaxUCmwBd8MGyCQcS0rSAfolvRgkia_04WFuWphr3EZAaWar2CzMwX42X01U_jJYq5SZeLdPjOWmYqyl9AZNz6ES1yxo831mAB2iChXCzT65gdcP5fi1qIIL9_R7uwkgnlNgh6n7KON7_lte3dVDbm0_BI3EqCmLAnHMPBEpKPO036lzdwYACEcYBQdznNuO6gHcg
