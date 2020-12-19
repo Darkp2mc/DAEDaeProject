@@ -120,12 +120,10 @@ public class ClienteService {
 
         Cliente cliente = clienteBean.findCliente(username);
 
-        if (cliente== null){
-            throw new MyEntityNotFoundException("Cliente nao Encontrado");
-        }
         if (cliente.getProjetos().isEmpty()){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
+
         try {
             return Response.status(Response.Status.OK)
                     .entity(clienteDTO(cliente))
@@ -147,15 +145,7 @@ public class ClienteService {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        Cliente cliente = clienteBean.findCliente(username);
-        if(cliente== null){
-            throw  new MyEntityNotFoundException("Cliente com o username " + username+ " nao existe!");
-        }
         Projeto projeto = projetoBean.findProjeto(nome);
-
-        if (projeto == null){
-            throw new MyEntityNotFoundException("Projeto com o nome " + nome+ " nao existe!");
-        }
 
         return Response.status(Response.Status.OK)
                 .entity(projetoToDTO(projeto))

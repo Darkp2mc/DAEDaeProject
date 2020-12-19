@@ -90,9 +90,6 @@ public class DocumentsService {
             MyEntityNotFoundException {
         Projeto projeto = projetoBean.findProjeto(nome);
 
-        if(projeto== null){
-            throw new MyEntityNotFoundException("Projeto com nome '" + nome+ "' nao existe!");
-        }
 
         return documentsToDTOs(documentBean.getProjectDocuments(nome));
     }
@@ -102,9 +99,6 @@ public class DocumentsService {
     public Response hasDocuments(@PathParam("nome") String nome) throws
             MyEntityNotFoundException {
         Projeto projeto = projetoBean.findProjeto(nome);
-        if(projeto== null){
-            throw new MyEntityNotFoundException("Projeto com nome '" + nome+ "' nao existe!");
-        }
 
         return Response.status(Response.Status.OK).entity(new Boolean(!projeto.getDocuments().isEmpty())).build();
     }

@@ -5,6 +5,7 @@ import enums.AplicacaoPertendida;
 import enums.TipoDeProduto;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityExistsException;
+import exceptions.MyEntityNotFoundException;
 import exceptions.MyIllegalArgumentException;
 
 import javax.ejb.Stateless;
@@ -19,9 +20,9 @@ public class EstruturaBean {
     @PersistenceContext
     EntityManager manager;
 
-    public void create(String nome, String projetoNome, String tipoDeProduto, String numeroDeVaos,
-                       String comprimentoDaVao, String aplicacao, String alturaDaLage, String sobrecarga)
-            throws MyEntityExistsException, MyConstraintViolationException, MyIllegalArgumentException {
+    public void create(String nome, String projetoNome, String tipoDeProduto, double numeroDeVaos,
+                       double comprimentoDaVao, String aplicacao, double alturaDaLage, double sobrecarga)
+            throws MyEntityExistsException, MyConstraintViolationException, MyIllegalArgumentException, MyEntityNotFoundException {
 
         boolean flag = false;
         for(TipoDeProduto t : TipoDeProduto.values()){
@@ -42,14 +43,14 @@ public class EstruturaBean {
         if (!flag) throw new MyIllegalArgumentException("Aplicação inválida!!!");
 
         if ((tipoDeProduto.equals("Chapa") || tipoDeProduto.equals("Painel") || tipoDeProduto.equals("Perfil")) &&
-            (numeroDeVaos.isEmpty() || comprimentoDaVao.isEmpty() || aplicacao.isEmpty())){
+            (numeroDeVaos <= 0 || comprimentoDaVao <= 0  || aplicacao.isEmpty())){
             throw new MyIllegalArgumentException("Dimensões inválidas!!!");
         }
-        else if(tipoDeProduto.equals("Lage") && alturaDaLage.isEmpty()){
+        else if(tipoDeProduto.equals("Lage") && alturaDaLage <= 0){
             throw new MyIllegalArgumentException("Dimensões inválidas!!!");
         }
 
-        Estrutura estrutura = findEstrutura(nome);
+        Estrutura estrutura = manager.find(Estrutura.class,nome);
         if (estrutura != null){
             throw new MyEntityExistsException("Estrutura já registada!!!");
         }
@@ -67,15 +68,21 @@ public class EstruturaBean {
         }
     }
 
-    public Estrutura findEstrutura(String name){
-        return manager.find(Estrutura.class, name);
+    public Estrutura findEstrutura(String name) throws MyEntityNotFoundException {
+        Estrutura estrutura = manager.find(Estrutura.class, name);
+        if (estrutura != null){
+            return estrutura;
+        }
+
+        throw new MyEntityNotFoundException("Estrutura com o nome " + name+ " nao existe!");
+
     }
 
     public List<Estrutura> getAllEstruturas(){
         return manager.createNamedQuery("getAllEstruturas", Estrutura.class).getResultList();
     }
 
-    public void addVariante(String estruturaName,int varianteCodigo){
+    public void addVariante(String estruturaName,int varianteCodigo) throws MyEntityNotFoundException {
         Variante variante = manager.find(Variante.class,varianteCodigo);
         Estrutura estrutura = findEstrutura(estruturaName);
         if (!estrutura.getVariantes().contains(variante)) {
@@ -84,19 +91,19 @@ public class EstruturaBean {
         }
     }
 
-    public void rejeitar(String estruturaName){
+    public void rejeitar(String estruturaName) throws MyEntityNotFoundException {
         Estrutura estrutura = findEstrutura(estruturaName);
 
         estrutura.rejeitar();
 
     }
 
-    public void aceitar(String estruturaName){
+    public void aceitar(String estruturaName) throws MyEntityNotFoundException {
         Estrutura estrutura = findEstrutura(estruturaName);
         estrutura.aceitar();
     }
 
-    public void removeVariante(String estruturaName, int varianteCodigo){
+    public void removeVariante(String estruturaName, int varianteCodigo) throws MyEntityNotFoundException {
         Variante variante = manager.find(Variante.class,varianteCodigo);
         Estrutura estrutura = findEstrutura(estruturaName);
 

@@ -81,15 +81,12 @@ public class ProdutoService {
     public Response getProdutoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
 
         Produto produto = produtoBean.findCProduto(nome);
-        if(produto== null){
-            throw new MyEntityNotFoundException("Produto com o nome" + nome + "nao existe!");
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         Fabricante fabricante = produto.getFabricante();
         if(!(securityContext.isUserInRole("Fabricante") && fabricante.getUsername().equals(principal.getName()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-
 
         return Response.status(Response.Status.OK)
                 .entity(toDTO(produto))
@@ -103,20 +100,16 @@ public class ProdutoService {
     public Response getProdutoVariantes(@PathParam("nome") String nome) throws MyEntityNotFoundException {
 
         Produto produto = produtoBean.findCProduto(nome);
-        if(produto!= null ){
 
-            Principal principal = securityContext.getUserPrincipal();
-            Fabricante fabricante = produto.getFabricante();
-            if(!(securityContext.isUserInRole("Fabricante") && fabricante.getUsername().equals(principal.getName()))) {
-                return Response.status(Response.Status.FORBIDDEN).build();
-            }
-            return Response.status(Response.Status.OK)
-                    .entity(varianteDTOS(produto.getVariantes()))
-                    .build();
+        Principal principal = securityContext.getUserPrincipal();
+        Fabricante fabricante = produto.getFabricante();
+        if(!(securityContext.isUserInRole("Fabricante") && fabricante.getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETISTA")
+        return Response.status(Response.Status.OK)
+                .entity(varianteDTOS(produto.getVariantes()))
                 .build();
+
     }
 
 

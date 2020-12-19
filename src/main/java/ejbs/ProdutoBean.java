@@ -53,8 +53,14 @@ public class ProdutoBean {
         }
     }
 
-    public Produto findCProduto(String name){
-        return manager.find(Produto.class, name);
+    public Produto findCProduto(String name) throws MyEntityNotFoundException {
+
+        Produto produto = manager.find(Produto.class, name);
+        if (produto != null){
+            return produto;
+        }
+
+        throw new MyEntityNotFoundException("Produto com o nome " + name+ " nao existe!");
     }
 
     public List<Produto> getAllProdutos(){

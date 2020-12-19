@@ -91,18 +91,9 @@ public class ProjetistaService {
         return toDTOS(projetistaBean.getAllProjetistas());
     }
 
-    @POST
-    @Path("/")
-    public Response createNewProjetista(ProjetistaDTO projetistaDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
-
-        projetistaBean.create(projetistaDTO.getUsername(),projetistaDTO.getPassword(),projetistaDTO.getNome(),projetistaDTO.getEmail());
-
-        return Response.status(Response.Status.CREATED).build();
-    }
-
     @GET
     @Path("{username}")
-    public Response getProjetistaDetails(@PathParam("username") String username){
+    public Response getProjetistaDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Projetista")&&
                 principal.getName().equals(username))) {
@@ -110,19 +101,16 @@ public class ProjetistaService {
         }
 
         Projetista projetista = projetistaBean.findProjetista(username);
-        if(projetista!= null){
-            return Response.status(Response.Status.OK)
-                    .entity(toDTO(projetista))
-                    .build();
-        }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETISTA")
+
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(projetista))
                 .build();
+
     }
 
     @GET
     @Path("{username}/projetos")
-    public Response getProjetistaProjects(@PathParam("username") String username){
+    public Response getProjetistaProjects(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Projetista")&&
                 principal.getName().equals(username))) {
@@ -130,13 +118,9 @@ public class ProjetistaService {
         }
 
         Projetista projetista = projetistaBean.findProjetista(username);
-        if(projetista!= null ){
-            return Response.status(Response.Status.OK)
-                    .entity(projetoDTOS(projetista.getProjetos()))
-                    .build();
-        }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_PROJETISTA")
+
+        return Response.status(Response.Status.OK)
+                .entity(projetoDTOS(projetista.getProjetos()))
                 .build();
     }
 
@@ -151,14 +135,8 @@ public class ProjetistaService {
         }
 
         Projetista projetista = projetistaBean.findProjetista(username);
-        if(projetista== null){
-            throw  new MyEntityNotFoundException("Projetista com o username" + username+ "nao existe!");
-        }
-        Projeto projeto = projetoBean.findProjeto(nome);
 
-        if (projeto == null){
-            throw new MyEntityNotFoundException("projeto com o nome" + nome+ "nao existe!");
-        }
+        Projeto projeto = projetoBean.findProjeto(nome);
 
         projetistaBean.removeProjeto(projeto);
         return Response.status(Response.Status.OK).build();
@@ -175,14 +153,8 @@ public class ProjetistaService {
         }
 
         Projetista projetista = projetistaBean.findProjetista(username);
-        if(projetista== null){
-            throw  new MyEntityNotFoundException("Projetista com o username" + username+ "nao existe!");
-        }
-        Projeto projeto = projetoBean.findProjeto(nome);
 
-        if (projeto == null){
-            throw new MyEntityNotFoundException("projeto com o nome" + nome+ "nao existe!");
-        }
+        Projeto projeto = projetoBean.findProjeto(nome);
 
         projetistaBean.updateProjeto(nome,projetoDTO.getProjetistaUsername(),projetoDTO.getClienteUsername());
 
@@ -200,15 +172,8 @@ public class ProjetistaService {
         }
 
         Projetista projetista = projetistaBean.findProjetista(username);
-        if(projetista== null){
-            throw  new MyEntityNotFoundException("Projetista com o username " + username+ " nao existe!");
-        }
+
         Projeto projeto = projetoBean.findProjeto(nome);
-
-        if (projeto == null){
-            throw new MyEntityNotFoundException("projeto com o nome " + nome+ " nao existe!");
-        }
-
 
         return Response.status(Response.Status.OK)
                 .entity(projetoToDTO(projeto))

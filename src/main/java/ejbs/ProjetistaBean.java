@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.Cliente;
+import entities.Estrutura;
 import entities.Projetista;
 import entities.Projeto;
 import exceptions.MyConstraintViolationException;
@@ -22,7 +23,7 @@ public class ProjetistaBean {
 
     public void create(String username, String password, String nome, String email) throws MyEntityExistsException, MyConstraintViolationException {
 
-        Projetista projetista = findProjetista(username);
+        Projetista projetista = manager.find(Projetista.class,username);
         if (projetista != null) {
             throw new MyEntityExistsException("Projetista já registado!!!");
         }
@@ -40,8 +41,14 @@ public class ProjetistaBean {
         return manager.createNamedQuery("getAllProjetistas",Projetista.class).getResultList();
     }
 
-    public Projetista findProjetista(String username){
-        return manager.find(Projetista.class,username);
+    public Projetista findProjetista(String username) throws MyEntityNotFoundException {
+        Projetista projetista = manager.find(Projetista.class, username);
+        if (projetista != null){
+            return projetista;
+        }
+
+        throw new MyEntityNotFoundException("Projetista com o username " + username+ " nao existe!");
+
     }
 
 

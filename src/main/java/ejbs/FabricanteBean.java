@@ -19,7 +19,7 @@ public class FabricanteBean {
 
     public void create(String username, String password, String nome, String email) throws MyEntityExistsException, MyConstraintViolationException {
 
-        Fabricante fabricante = findFabricante(username);
+        Fabricante fabricante = manager.find(Fabricante.class, username);
         if (fabricante != null) {
             throw new MyEntityExistsException("Fabricante já registado!!!");
         }
@@ -31,8 +31,14 @@ public class FabricanteBean {
         }
     }
 
-    public Fabricante findFabricante(String username){
-        return manager.find(Fabricante.class, username);
+    public Fabricante findFabricante(String username) throws MyEntityNotFoundException {
+        Fabricante fabricante = manager.find(Fabricante.class, username);
+        if (fabricante != null){
+            return fabricante;
+        }
+
+        throw new MyEntityNotFoundException("Fabricante com o username " + username+ " nao existe!");
+
     }
 
     public List<Fabricante> getAllFabricantes(){

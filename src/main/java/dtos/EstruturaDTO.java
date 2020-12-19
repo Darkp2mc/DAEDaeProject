@@ -15,11 +15,11 @@ public class EstruturaDTO implements Serializable {
     private String projetoNome;
     private List<VarianteDTO> varianteDTOs;
 
-    private String numeroDeVaos;//Chapa, Lage, Painel, Perfil
-    private String comprimentoDaVao;//Chapa, Lage, Painel, Perfil
+    private double numeroDeVaos;//Chapa, Lage, Painel, Perfil
+    private double comprimentoDaVao;//Chapa, Lage, Painel, Perfil
     private String aplicacao;//Chapa, Painel, Perfil
-    private String alturaDaLage;//Lage
-    private String sobrecarga;//Chapa, Lage, Painel, Perfil
+    private double alturaDaLage;//Lage
+    private double sobrecarga;//Chapa, Lage, Painel, Perfil
 
     private int estado;
 
@@ -28,8 +28,8 @@ public class EstruturaDTO implements Serializable {
     }
 
     public EstruturaDTO(String nome, String tipoDeProduto, String projetoNome,
-                        String numeroDeVaos, String comprimentoDaVao, String aplicacao,
-                        String alturaDaLage, String sobrecarga, int estado) {
+                        double numeroDeVaos, double comprimentoDaVao, String aplicacao,
+                        double alturaDaLage, double sobrecarga, int estado) {
         this.nome = nome;
         this.tipoDeProduto = tipoDeProduto;
         this.projetoNome = projetoNome;
@@ -82,19 +82,19 @@ public class EstruturaDTO implements Serializable {
         this.varianteDTOs.remove(varianteDTO);
     }
 
-    public String getNumeroDeVaos() {
+    public double getNumeroDeVaos() {
         return numeroDeVaos;
     }
 
-    public void setNumeroDeVaos(String numeroDeVaos) {
+    public void setNumeroDeVaos(double numeroDeVaos) {
         this.numeroDeVaos = numeroDeVaos;
     }
 
-    public String getComprimentoDaVao() {
+    public double getComprimentoDaVao() {
         return comprimentoDaVao;
     }
 
-    public void setComprimentoDaVao(String comprimentoDaVao) {
+    public void setComprimentoDaVao(double comprimentoDaVao) {
         this.comprimentoDaVao = comprimentoDaVao;
     }
 
@@ -106,19 +106,19 @@ public class EstruturaDTO implements Serializable {
         this.aplicacao = aplicacao;
     }
 
-    public String getAlturaDaLage() {
+    public double getAlturaDaLage() {
         return alturaDaLage;
     }
 
-    public void setAlturaDaLage(String alturaDaLage) {
+    public void setAlturaDaLage(double alturaDaLage) {
         this.alturaDaLage = alturaDaLage;
     }
 
-    public String getSobrecarga() {
+    public double getSobrecarga() {
         return sobrecarga;
     }
 
-    public void setSobrecarga(String sobrecarga) {
+    public void setSobrecarga(double sobrecarga) {
         this.sobrecarga = sobrecarga;
     }
 

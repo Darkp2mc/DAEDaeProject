@@ -30,7 +30,7 @@ public class ProjetoBean {
         if (cliente == null) {
             throw new MyEntityNotFoundException("Cliente nao encontrado");
         }
-        Projeto projeto = findProjeto(nome);
+        Projeto projeto = manager.find(Projeto.class, nome);
         if (projeto != null)
             throw new MyEntityExistsException("Já existe um projeto com o mesmo nome!!!");
 
@@ -46,20 +46,27 @@ public class ProjetoBean {
 
 
 
-    public Projeto findProjeto(String nome){
-        return manager.find(Projeto.class, nome);
+    public Projeto findProjeto(String nome) throws MyEntityNotFoundException {
+
+        Projeto projeto = manager.find(Projeto.class, nome);
+        if (projeto != null){
+            return projeto;
+        }
+
+        throw new MyEntityNotFoundException("Projeto com o nome " + nome+ " nao existe!");
+
     }
 
     public List<Projeto> getAllProjetos(){
         return manager.createNamedQuery("getAllProjetos", Projeto.class).getResultList();
     }
 
-    public void rejeitar(String nome){
+    public void rejeitar(String nome) throws MyEntityNotFoundException {
         Projeto projeto = findProjeto(nome);
         projeto.rejeitar();
     }
 
-    public void terminar(String nome){
+    public void terminar(String nome) throws MyEntityNotFoundException {
         Projeto projeto = findProjeto(nome);
         for (Estrutura estrutura:projeto.getEstruturas()
              ) {
@@ -69,12 +76,12 @@ public class ProjetoBean {
     }
 
 
-    public void aceitar(String nome) {
+    public void aceitar(String nome) throws MyEntityNotFoundException {
         Projeto projeto = findProjeto(nome);
         projeto.aceitar();
     }
 
-    public void tornarVisivel(String nome) {
+    public void tornarVisivel(String nome) throws MyEntityNotFoundException {
         Projeto projeto = findProjeto(nome);
         projeto.tornarVisivel();
     }

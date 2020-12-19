@@ -66,8 +66,8 @@ public class ConfigBean {
             produtoBean.create("Chapas","Chapa", "Outro", 20000 , 15, "fabricante_User");
             produtoBean.create("Laje Forte", "Laje", "Outro", 15000, 26, "fabricante_User" );
 
-            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", "3","3", "Cobertura", "1","1");
-            estruturaBean.create("Chapas","Barracao","Chapa", "2","4", "Cobertura", "1", "1");
+            estruturaBean.create("Estrutura_teste2", "Projeto1", "Perfil", 3,3, "Cobertura", 1,1);
+            estruturaBean.create("Chapas","Barracao","Chapa", 2,4, "Cobertura", 1, 1);
             System.out.println("####### A criar variantes...");
 
             //PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)

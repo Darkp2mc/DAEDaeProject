@@ -70,54 +70,38 @@ public class FabricanteService {
         return toDTOS(fabricanteBean.getAllFabricantes());
     }
 
-    //CREATE um novo fabricante
-    @POST
-    @Path("/")
-    public Response createNewFabricante(FabricanteDTO fabricanteDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
-
-        fabricanteBean.create(fabricanteDTO.getUsername(),fabricanteDTO.getPassword(),fabricanteDTO.getNome(),fabricanteDTO.getEmail());
-
-        return Response.status(Response.Status.CREATED).build();
-    }
-
     //GET detalhes de um fabricante
     @GET
     @Path("{username}")
-    public Response getFabricanteDetails(@PathParam("username") String username){
+    public Response getFabricanteDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante!= null){
-            Principal principal = securityContext.getUserPrincipal();
-            if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
-                return Response.status(Response.Status.FORBIDDEN).build();
-            }
 
-            return Response.status(Response.Status.OK)
-                    .entity(toDTO(fabricante))
-                    .build();
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_FABRICANTE")
+
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(fabricante))
                 .build();
+
     }
 
     //GET todos os produtos do fabricante "username"
     @GET
     @Path("{username}/produtos")
-    public Response getFabricanteProdutos(@PathParam("username") String username){
+    public Response getFabricanteProdutos(@PathParam("username") String username) throws MyEntityNotFoundException {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante!= null ){
-            Principal principal = securityContext.getUserPrincipal();
-            if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
-                return Response.status(Response.Status.FORBIDDEN).build();
-            }
 
-            return Response.status(Response.Status.OK)
-                    .entity(produtoDTOS(fabricante.getProdutos()))
-                    .build();
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_FABRICANTE")
+
+        return Response.status(Response.Status.OK)
+                .entity(produtoDTOS(fabricante.getProdutos()))
                 .build();
+
     }
 
     //GET detalhes do produto "nome" do fabricante "username"
@@ -125,9 +109,6 @@ public class FabricanteService {
     @Path("{username}/produtos/{nome}")
     public Response getFabricanteProdutoDetails(@PathParam("username") String username, @PathParam("nome") String nome) throws  MyEntityNotFoundException{
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante == null ){
-            throw  new MyEntityNotFoundException("Fabricante com o username " + username+ " nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
@@ -135,14 +116,14 @@ public class FabricanteService {
         }
 
         Produto produto = produtoBean.findCProduto(nome);
-        if (produto != null && produto.getFabricante().getUsername().equals(fabricante.getUsername())){
+        if (produto.getFabricante().getUsername().equals(fabricante.getUsername())){
             return Response.status(Response.Status.OK)
                     .entity(produtoToDTO(produto))
                     .build();
         }
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_FABRICANTE")
+        return Response.status(Response.Status.CONFLICT)
+                .entity("O fabricante não pode aceder a este produto")
                 .build();
 
     }
@@ -153,9 +134,6 @@ public class FabricanteService {
     public Response updateProduto(@PathParam("username") String username, final @PathParam("nome") String nome, ProdutoDTO produtoDTO) throws  MyEntityNotFoundException{
 
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante == null){
-            throw  new MyEntityNotFoundException("Fabricante com o username " + username+ " nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
@@ -163,10 +141,6 @@ public class FabricanteService {
         }
 
         Produto produto = produtoBean.findCProduto(nome);
-
-        if (produto == null){
-            throw new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe!");
-        }
 
         if (!produto.getFabricante().getUsername().equals(username)){
             throw new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe para fabricante "+username+"!");
@@ -184,9 +158,6 @@ public class FabricanteService {
     public Response deleteProduto(@PathParam("username") String username,final @PathParam("nome") String nome) throws MyEntityNotFoundException{
 
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante== null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
@@ -195,9 +166,6 @@ public class FabricanteService {
 
         Produto produto = produtoBean.findCProduto(nome);
 
-        if (produto == null){
-            throw new MyEntityNotFoundException("Produto com o nome" + nome+ "nao existe!");
-        }
         fabricanteBean.removeProduto(produto);
         return Response.status(Response.Status.OK).build();
     }
@@ -208,9 +176,6 @@ public class FabricanteService {
     public Response getVariantesProduto(@PathParam("username") String username, final @PathParam("nome") String nome) throws  MyEntityNotFoundException{
 
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante == null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
@@ -219,7 +184,7 @@ public class FabricanteService {
 
         Produto produto = produtoBean.findCProduto(nome);
 
-        if (produto != null){
+        if (!produto.getVariantes().isEmpty()){
             return Response.status(Response.Status.OK)
                     .entity(varianteDTOS(produto.getVariantes()))
                     .build();
@@ -237,9 +202,6 @@ public class FabricanteService {
     public Response deleteVariante(@PathParam("username") String username,final @PathParam("nome") String nome, @PathParam("codigo") int codigo) throws MyEntityNotFoundException{
 
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante== null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
@@ -248,14 +210,7 @@ public class FabricanteService {
 
         Produto produto = produtoBean.findCProduto(nome);
 
-        if (produto == null){
-            throw new MyEntityNotFoundException("Produto com o nome" + nome+ "nao existe!");
-        }
-
         Variante variante = varianteBean.getVariante(codigo);
-        if (variante == null){
-            throw new MyEntityNotFoundException("Variante com o codigo " + codigo + " nao existe!");
-        }
 
         //fabricanteBean.removeVariante(produto, variante);
         produtoBean.removeVariante(variante);
@@ -269,9 +224,7 @@ public class FabricanteService {
     public Response getVarianteProduto(@PathParam("username") String username, @PathParam("nome") String nome, final @PathParam("codigo") int codigo) throws  MyEntityNotFoundException{
 
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if(fabricante == null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -279,21 +232,12 @@ public class FabricanteService {
 
         Produto produto = produtoBean.findCProduto(nome);
 
-
-        if (produto == null){
-            throw  new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe!");
-        }
-
         Variante variante = varianteBean.getVariante(codigo);
-        if (variante != null){
-            return Response.status(Response.Status.OK)
-                    .entity(varianteToDTO(variante))
-                    .build();
-        }
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_VARIANTE")
+        return Response.status(Response.Status.OK)
+                .entity(varianteToDTO(variante))
                 .build();
+
     }
 
     //UPDATE da variante "codigo" do produto "nome" do fabricante "username"
@@ -301,24 +245,15 @@ public class FabricanteService {
     @Path("{username}/produtos/{nome}/variantes/{codigo}")
     public Response updateVariante(@PathParam("username") String username, final @PathParam("nome") String nome, final @PathParam("codigo") int codigo, VarianteDTO varianteDTO) throws  MyEntityNotFoundException{
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if (fabricante == null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         Produto produto = produtoBean.findCProduto(nome);
-        if(produto == null){
-            throw  new MyEntityNotFoundException("Produto com o nome " + nome+ " nao existe!");
-        }
 
         Variante variante = varianteBean.getVariante(codigo);
-
-        if (variante == null){
-            throw new MyEntityNotFoundException("Variante com o codigo " + codigo+ " nao existe!");
-        }
 
         produtoBean.updateVariante(codigo, nome,varianteDTO.getNome(), varianteDTO.getWeff_p(), varianteDTO.getWeff_n(), varianteDTO.getAr(), varianteDTO.getSigmaC(), varianteDTO.getH_mm(), varianteDTO.getB_mm(), varianteDTO.getC_mm(), varianteDTO.getT_mm(), varianteDTO.getA_mm(), varianteDTO.getP_kg_m(), varianteDTO.getYg_mm(), varianteDTO.getZg_mm(), varianteDTO.getLy_mm(), varianteDTO.getWy_mm(), varianteDTO.getLz_mm(), varianteDTO.getWz_mm(), varianteDTO.getYs_mm(), varianteDTO.getZs_mm(), varianteDTO.getLt_mm(), varianteDTO.getLw_mm());
 
@@ -330,9 +265,7 @@ public class FabricanteService {
     @Path("{username}/variantesEmEstruturas")
     public Response getMateriaisEmEstruturasAdjudicadas(@PathParam("username") String username) throws MyEntityNotFoundException {
         Fabricante fabricante = fabricanteBean.findFabricante(username);
-        if (fabricante == null){
-            throw  new MyEntityNotFoundException("Fabricante com o username" + username+ "nao existe!");
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Fabricante") && principal.getName().equals(username))) {
             return Response.status(Response.Status.FORBIDDEN).build();

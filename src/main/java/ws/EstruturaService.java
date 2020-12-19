@@ -86,55 +86,41 @@ public class EstruturaService {
 
     @GET
     @Path("{name}")
-    public Response getEstruturaDetails(@PathParam("name") String name){
+    public Response getEstruturaDetails(@PathParam("name") String name) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura!= null) {
 
-            Principal principal = securityContext.getUserPrincipal();
-            /*if(!((securityContext.isUserInRole("Cliente") || securityContext.isUserInRole("Projetista")) &&
-                    (estrutura.getProjeto().getCliente().getName().equals(principal.getName()) ||
-                     estrutura.getProjeto().getProjetista().getName().equals(principal.getName())))){*/
-            if (!((securityContext.isUserInRole("Cliente") &&
-                    estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
-                    (securityContext.isUserInRole("Projetista") &&
-                            estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
-                return Response.status(Response.Status.FORBIDDEN).build();
-            }
-
-            return Response.status(Response.Status.OK)
-                    .entity(toDTO(estrutura))
-                    .build();
+        Principal principal = securityContext.getUserPrincipal();
+        if (!((securityContext.isUserInRole("Cliente") &&
+                estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
+                (securityContext.isUserInRole("Projetista") &&
+                        estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_ESTRUTURA")
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(estrutura))
                 .build();
+
     }
 
     @GET
     @Path("{name}/variantes")
-    public Response getEstruturaVariantes(@PathParam("name") String name){
+    public Response getEstruturaVariantes(@PathParam("name") String name) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura!= null ){
 
-            Principal principal = securityContext.getUserPrincipal();
-            /*if(!((securityContext.isUserInRole("Cliente") || securityContext.isUserInRole("Projetista")) &&
-                    (estrutura.getProjeto().getCliente().getName().equals(principal.getName()) ||
-                     estrutura.getProjeto().getProjetista().getName().equals(principal.getName())))){*/
-            if (!((securityContext.isUserInRole("Cliente") &&
-                    estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
-                    (securityContext.isUserInRole("Projetista") &&
-                            estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
-                return Response.status(Response.Status.FORBIDDEN).build();
-            }
-
-            return Response.status(Response.Status.OK)
-                    .entity(varianteDTOS(estrutura.getVariantes()))
-                    .build();
+        Principal principal = securityContext.getUserPrincipal();
+        if (!((securityContext.isUserInRole("Cliente") &&
+                estrutura.getProjeto().getCliente().getUsername().equals(principal.getName())) ||
+                (securityContext.isUserInRole("Projetista") &&
+                        estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName())))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("ERROR_FINDING_ESTRUTURA")
+
+        return Response.status(Response.Status.OK)
+                .entity(varianteDTOS(estrutura.getVariantes()))
                 .build();
+
+
     }
 
     @PUT
@@ -142,14 +128,8 @@ public class EstruturaService {
     public Response removeProduto(@PathParam("name") String name,@PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException{
 
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura== null){
-            throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
-        }
-        Variante variante = varianteBean.getVariante(varianteCodigo);
 
-        if (variante == null){
-            throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
-        }
+        Variante variante = varianteBean.getVariante(varianteCodigo);
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Projetista") &&
@@ -166,20 +146,15 @@ public class EstruturaService {
     public Response addVariante(@PathParam("name") String name,final @PathParam("varianteCodigo") int varianteCodigo) throws MyEntityNotFoundException, MyIllegalArgumentException {
 
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura== null){
-            throw  new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
-        }
-        Variante variante = varianteBean.getVariante(varianteCodigo);
 
-        if (variante == null){
-            throw new MyEntityNotFoundException("Variante com o codigo " + varianteCodigo+ " nao existe!");
-        }
+        Variante variante = varianteBean.getVariante(varianteCodigo);
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Projetista") &&
                 estrutura.getProjeto().getProjetista().getUsername().equals(principal.getName()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
 
         estruturaBean.addVariante(name,varianteCodigo);
         return Response.status(Response.Status.OK).build();
@@ -190,9 +165,6 @@ public class EstruturaService {
     @Path("{name}/rejeitar")
     public Response rejeitar(@PathParam("name") String name) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura== null){
-            throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Cliente") &&
@@ -211,9 +183,6 @@ public class EstruturaService {
     @Path("{name}/aceitar")
     public Response aceitar(@PathParam("name") String name) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(name);
-        if(estrutura== null){
-            throw new MyEntityNotFoundException("Estrutura com o nome" + name+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Cliente") &&
@@ -233,9 +202,7 @@ public class EstruturaService {
     @Path("{estruturaNome}/variantes/simulation")
     public Response getVariantes(@PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
         Estrutura estrutura = estruturaBean.findEstrutura(estruturaNome);
-        if(estrutura== null){
-            throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
-        }
+
         //lista de todos os produtos do mesmo tipo da estrutura
         List<Produto> produtos = produtoBean.getAllProdutos();
         produtos.removeIf(p -> !p.getTipo().equals(estrutura.getTipoDeProduto()));
@@ -245,22 +212,21 @@ public class EstruturaService {
             variantes.addAll(p.getVariantes());
         }
 
-        for (Variante v : variantes){
+        for (int i = variantes.size()-1; i >= 0; i--){
             boolean flag = false;
-
-
-            if ((v.getProduto().getFamilia().equals("C") || v.getProduto().getFamilia().equals("Z")))
-                if (!simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
-                        Double.parseDouble(estrutura.getComprimentoDaVao()),
-                        Integer.parseInt(estrutura.getSobrecarga()),v))
+            Variante v = variantes.get(i);
+            for (Variante vv : estrutura.getVariantes())
+                if (vv.getCodigo() == v.getCodigo()) {
+                    flag = true;
                     variantes.remove(v);
-                else
-                    for (Variante vv : estrutura.getVariantes())
-                        if (vv.getCodigo() == v.getCodigo()) {
-                            flag = true;
-                            variantes.remove(v);
-                            break;
-                        }
+                    break;
+                }
+            if ((v.getProduto().getFamilia().equals("C") || v.getProduto().getFamilia().equals("Z")) && !flag)
+                if (!simulacaoBean.simulaVariante((int)estrutura.getNumeroDeVaos(),
+                        estrutura.getComprimentoDaVao(),
+                        (int)estrutura.getSobrecarga(),v))
+                    variantes.remove(v);
+
         }
 
         return Response.status(Response.Status.OK)

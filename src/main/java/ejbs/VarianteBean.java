@@ -1,5 +1,6 @@
 package ejbs;
 
+import entities.Cliente;
 import entities.Estrutura;
 import entities.Produto;
 import entities.Variante;
@@ -51,8 +52,15 @@ public class VarianteBean {
         }
     }
 
-    public Variante getVariante(int codigo){
-        return manager.find(Variante.class, codigo);
+    public Variante getVariante(int codigo) throws MyEntityNotFoundException {
+
+        Variante variante = manager.find(Variante.class, codigo);
+        if (variante != null){
+            return variante;
+        }
+
+        throw new MyEntityNotFoundException("Variante com o codigo " + codigo+ " nao existe!");
+
     }
 
     public List<Variante> getAllVariantes(){

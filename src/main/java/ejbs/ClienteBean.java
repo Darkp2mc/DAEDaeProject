@@ -22,7 +22,7 @@ public class ClienteBean {
 
     public void create(String username, String password, String nome, String email, String morada, String usernamePC ) throws MyEntityExistsException, MyEntityNotFoundException,MyConstraintViolationException {
 
-        Cliente cliente = findCliente(username);
+        Cliente cliente = manager.find(Cliente.class,username);
         if (cliente != null) {
             throw new MyEntityExistsException("Cliente já registado!!!");
         }
@@ -39,8 +39,15 @@ public class ClienteBean {
         }
     }
 
-    public Cliente findCliente(String username){
-        return manager.find(Cliente.class, username);
+    public Cliente findCliente(String username) throws MyEntityNotFoundException {
+
+        Cliente cliente = manager.find(Cliente.class, username);
+        if (cliente != null){
+            return cliente;
+        }
+
+        throw new MyEntityNotFoundException("Cliente com o username " + username+ " nao existe!");
+
     }
 
     public List<Cliente> getAllClientes(){

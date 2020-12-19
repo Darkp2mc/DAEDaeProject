@@ -41,11 +41,11 @@ public class Estrutura {
     private String tipoDeProduto;
 
 
-    private String numeroDeVaos;//Chapa, Lage, Painel, Perfil
-    private String comprimentoDaVao;//Chapa, Lage, Painel, Perfil
+    private double numeroDeVaos;//Chapa, Lage, Painel, Perfil
+    private double comprimentoDaVao;//Chapa, Lage, Painel, Perfil
     private String aplicacao;//Chapa, Painel, Perfil
-    private String alturaDaLage;//Lage
-    private String sobrecarga;//Chapa, Lage, Painel, Perfil
+    private double alturaDaLage;//Lage
+    private double sobrecarga;//Chapa, Lage, Painel, Perfil
 
     @NotNull
     private int estado;
@@ -55,8 +55,8 @@ public class Estrutura {
     }
 
     public Estrutura(String nome, @NotNull Projeto projeto, @NotNull String tipoDeProduto,
-                     String numeroDeVaos, String comprimentoDaVao, String aplicacao,
-                     String alturaDaLage, String sobrecarga) {
+                     double numeroDeVaos, double comprimentoDaVao, String aplicacao,
+                     double alturaDaLage, double sobrecarga) {
         this.nome = nome;
         this.projeto = projeto;
         this.tipoDeProduto = tipoDeProduto;
@@ -117,35 +117,35 @@ public class Estrutura {
         this.aplicacao = aplicacao;
     }
 
-    public String getNumeroDeVaos() {
+    public double getNumeroDeVaos() {
         return numeroDeVaos;
     }
 
-    public void setNumeroDeVaos(String numeroDeVaos) {
+    public void setNumeroDeVaos(double numeroDeVaos) {
         this.numeroDeVaos = numeroDeVaos;
     }
 
-    public String getComprimentoDaVao() {
+    public double getComprimentoDaVao() {
         return comprimentoDaVao;
     }
 
-    public void setComprimentoDaVao(String comprimentoDaVao) {
+    public void setComprimentoDaVao(double comprimentoDaVao) {
         this.comprimentoDaVao = comprimentoDaVao;
     }
 
-    public String getAlturaDaLage() {
+    public double getAlturaDaLage() {
         return alturaDaLage;
     }
 
-    public void setAlturaDaLage(String alturaDaLage) {
+    public void setAlturaDaLage(double alturaDaLage) {
         this.alturaDaLage = alturaDaLage;
     }
 
-    public String getSobrecarga() {
+    public double getSobrecarga() {
         return sobrecarga;
     }
 
-    public void setSobrecarga(String sobrecarga) {
+    public void setSobrecarga(double sobrecarga) {
         this.sobrecarga = sobrecarga;
     }
 
@@ -168,7 +168,7 @@ public class Estrutura {
         if (getTipoDeProduto().equals("Chapa") ||
                 getTipoDeProduto().equals("Painel") ||
                 getTipoDeProduto().equals("Perfil")){
-            this.alturaDaLage = null;
+            this.alturaDaLage = 0;
         }
         else if(getTipoDeProduto().equals("Lage")){
             this.aplicacao = null;

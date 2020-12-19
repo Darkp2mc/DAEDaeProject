@@ -84,9 +84,6 @@ public class ProjetoService {
     public Response getProjetoDetails(@PathParam("nome") String nome) throws MyEntityNotFoundException {
 
         Projeto projeto = projetoBean.findProjeto(nome);
-        if(projeto== null){
-            throw new MyEntityNotFoundException("Projeto com o nome" + nome + "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Projetista") && projeto.getProjetista().getUsername().equals(principal.getName())) ||
@@ -107,10 +104,7 @@ public class ProjetoService {
         if(!(securityContext.isUserInRole("Projetista"))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        Projeto projeto = projetoBean.findProjeto(projetoDTO.getNome());
-        if (projeto!= null){
-            throw new MyEntityExistsException("O projeto com o nome" + projetoDTO.getNome()+ " ja existe!");
-        }
+
         projetoBean.create(projetoDTO.getNome(),projetoDTO.getClienteUsername(),projetoDTO.getProjetistaUsername());
 
         return Response.status(Response.Status.CREATED).build();
@@ -122,15 +116,11 @@ public class ProjetoService {
     @Path("/{nome}/email/send")
     public Response sendEmail(@PathParam("nome") String nome, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
         Projeto projeto = projetoBean.findProjeto(nome);
-        if (projeto == null) {
-            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Projetista") && principal.getName().equals(projeto.getProjetista().getUsername()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-
 
         emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(), email.getSubject(), email.getMessage());
         projetoBean.tornarVisivel(projeto.getNome());
@@ -142,9 +132,6 @@ public class ProjetoService {
     @Path("{nome}/rejeitar")
     public Response reject(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
         Projeto projeto = projetoBean.findProjeto(nome);
-        if (projeto == null) {
-            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Cliente") && principal.getName().equals(projeto.getCliente().getUsername()))) {
@@ -170,11 +157,7 @@ public class ProjetoService {
     @Path("{nome}/aceitar")
     public Response aceitar(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
 
-
         Projeto projeto = projetoBean.findProjeto(nome);
-        if (projeto == null){
-            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Cliente") && principal.getName().equals(projeto.getCliente().getUsername()))) {
@@ -202,9 +185,6 @@ public class ProjetoService {
     @Path("{nome}/terminar")
     public Response terminar(@PathParam("nome") String nome,EmailDTO email) throws MyEntityNotFoundException, MyConstraintViolationException {
         Projeto projeto = projetoBean.findProjeto(nome);
-        if (projeto == null) {
-            throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if(!(securityContext.isUserInRole("Projetista") && principal.getName().equals(projeto.getProjetista().getUsername()))) {
@@ -230,14 +210,8 @@ public class ProjetoService {
     public Response removeEstrutura(@PathParam("projetoNome") String projetoNome, @PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
 
         Projeto projeto = projetoBean.findProjeto(projetoNome);
-        if (projeto == null) {
-            throw new MyEntityNotFoundException("Projeto com o nome '" + projetoNome + "' não existe.");
-        }
 
         Estrutura estrutura = estruturaBean.findEstrutura(estruturaNome);
-        if(estrutura== null){
-            throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
-        }
 
         Principal principal = securityContext.getUserPrincipal();
         if (!(securityContext.isUserInRole("Projetista") &&
