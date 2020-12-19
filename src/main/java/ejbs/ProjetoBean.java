@@ -91,4 +91,8 @@ public class ProjetoBean {
 
 
     }
+
+    public void removerEstrutura(Projeto projeto, Estrutura estrutura){
+        projeto.removeEstrutura(estrutura);
+    }
 }
