@@ -117,7 +117,7 @@ public class ProjetoService {
 
     }
 
-    //TODO Quem é que aceita e rejeita projetos?
+
     @POST
     @Path("/{nome}/email/send")
     public Response sendEmail(@PathParam("nome") String nome, EmailDTO email) throws MyEntityNotFoundException, MessagingException {
@@ -125,18 +125,30 @@ public class ProjetoService {
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
         }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Projetista") && principal.getName().equals(projeto.getProjetista().getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+
         emailBean.send(projeto.getCliente().getPessoaDeContacto().getEmail(), email.getSubject(), email.getMessage());
         projetoBean.tornarVisivel(projeto.getNome());
         return Response.status(Response.Status.OK).entity("E-mail sent").build();
     }
 
-    //TODO segurança aqui-so cliente e que pode
+
     @PUT
     @Path("{nome}/rejeitar")
     public Response reject(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null) {
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Cliente") && principal.getName().equals(projeto.getCliente().getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
 
@@ -153,7 +165,7 @@ public class ProjetoService {
         return Response.status(Response.Status.CONFLICT).entity("Impossivel rejeitar um projeto ja terminado").build();
     }
 
-    //TODO segurança aqui-so cliente e que pode
+
     @PUT
     @Path("{nome}/aceitar")
     public Response aceitar(@PathParam("nome") String nome, ProjetoDTO projetoDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
@@ -162,6 +174,11 @@ public class ProjetoService {
         Projeto projeto = projetoBean.findProjeto(nome);
         if (projeto == null){
             throw new MyEntityNotFoundException("Projeto com o nome '" + nome + "' não existe.");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if(!(securityContext.isUserInRole("Cliente") && principal.getName().equals(projeto.getCliente().getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         if (projeto.getEstado()!=2) {

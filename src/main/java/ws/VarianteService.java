@@ -48,7 +48,7 @@ public class VarianteService {
     }
 
 
-    //TODO
+
     @POST
     @Path("/")
     public Response createNewVariante(VarianteDTO varianteDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {

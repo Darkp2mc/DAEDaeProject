@@ -41,7 +41,7 @@ public class ClienteService {
     @Context
     private SecurityContext securityContext;
 
-    //TODO alterar este metodo para devolver so os projetos que o cliente pode ver
+
     private ProjetoDTO projetoToDTO(Projeto projeto) {
 
         ProjetoDTO projetoDTO= new ProjetoDTO(projeto.getNome(),projeto.getCliente().getUsername(),projeto.getProjetista().getUsername(), projeto.isVisivel(),projeto.getEstado());
