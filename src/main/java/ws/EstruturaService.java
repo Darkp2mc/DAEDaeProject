@@ -246,11 +246,21 @@ public class EstruturaService {
         }
 
         for (Variante v : variantes){
-            if (v.getProduto().getFamilia().equals("C") || v.getProduto().getFamilia().equals("Z"))
+            boolean flag = false;
+
+
+            if ((v.getProduto().getFamilia().equals("C") || v.getProduto().getFamilia().equals("Z")))
                 if (!simulacaoBean.simulaVariante(Integer.parseInt(estrutura.getNumeroDeVaos()),
                         Double.parseDouble(estrutura.getComprimentoDaVao()),
                         Integer.parseInt(estrutura.getSobrecarga()),v))
                     variantes.remove(v);
+                else
+                    for (Variante vv : estrutura.getVariantes())
+                        if (vv.getCodigo() == v.getCodigo()) {
+                            flag = true;
+                            variantes.remove(v);
+                            break;
+                        }
         }
 
         return Response.status(Response.Status.OK)
