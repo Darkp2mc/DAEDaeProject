@@ -227,7 +227,7 @@ public class ProjetoService {
                 projeto.getProjetista().getUsername().equals(principal.getName()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        projetoBean.removerEstrutura(projeto,estrutura);
+        projetoBean.removerEstrutura(projetoNome,estruturaNome);
         return Response.status(Response.Status.OK).build();
     }
 
