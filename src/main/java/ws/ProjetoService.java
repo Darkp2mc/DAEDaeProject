@@ -6,6 +6,7 @@ import dtos.EmailDTO;
 import dtos.EstruturaDTO;
 import dtos.ProjetoDTO;
 import ejbs.EmailBean;
+import ejbs.EstruturaBean;
 import ejbs.ProjetoBean;
 import entities.Document;
 import entities.Estrutura;
@@ -33,6 +34,9 @@ public class ProjetoService {
 
     @EJB
     ProjetoBean projetoBean;
+
+    @EJB
+    private EstruturaBean estruturaBean;
 
     @EJB
     private EmailBean emailBean;
@@ -169,6 +173,29 @@ public class ProjetoService {
 
         projetoBean.terminar(nome);
         return Response.status(Response.Status.OK).entity("Projeto terminado").build();
+    }
+
+    @PUT
+    @Path("{projetoNome}/estrutura/{estruturaNome}/remover")
+    public Response removeEstrutura(@PathParam("projetoNome") String projetoNome, @PathParam("estruturaNome") String estruturaNome) throws MyEntityNotFoundException {
+
+        Projeto projeto = projetoBean.findProjeto(projetoNome);
+        if (projeto == null) {
+            throw new MyEntityNotFoundException("Projeto com o nome '" + projetoNome + "' não existe.");
+        }
+
+        Estrutura estrutura = estruturaBean.findEstrutura(estruturaNome);
+        if(estrutura== null){
+            throw  new MyEntityNotFoundException("Estrutura com o nome" + estruturaNome+ "nao existe!");
+        }
+
+        Principal principal = securityContext.getUserPrincipal();
+        if (!(securityContext.isUserInRole("Projetista") &&
+                projeto.getProjetista().getUsername().equals(principal.getName()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        projetoBean.removerEstrutura(projeto,estrutura);
+        return Response.status(Response.Status.OK).build();
     }
 
 }

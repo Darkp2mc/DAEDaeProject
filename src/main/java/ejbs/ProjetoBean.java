@@ -73,4 +73,8 @@ public class ProjetoBean {
         Projeto projeto = findProjeto(nome);
         projeto.tornarVisivel();
     }
+
+    public void removerEstrutura(Projeto projeto, Estrutura estrutura){
+        projeto.removeEstrutura(estrutura);
+    }
 }
