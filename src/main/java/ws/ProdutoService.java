@@ -69,7 +69,7 @@ public class ProdutoService {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getG(), produtoDTO.getFabricanteUsername());
+        produtoBean.create(produtoDTO.getNome(),produtoDTO.getTipo(),produtoDTO.getFamilia(),produtoDTO.getE(), produtoDTO.getN(), produtoDTO.getFabricanteUsername());
 
         return Response.status(Response.Status.CREATED).build();
     }

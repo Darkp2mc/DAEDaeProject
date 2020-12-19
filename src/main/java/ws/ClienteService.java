@@ -48,6 +48,7 @@ public class ClienteService {
 
         projetoDTO.setDocumentos(documentDTOS(projeto.getDocuments()));
         projetoDTO.setEstruturas(estruturaDTOS(projeto.getEstruturas()));
+        projetoDTO.setComentario(projeto.getComentario());
 
         return  projetoDTO;
 
@@ -72,7 +73,7 @@ public class ClienteService {
         clienteDTO.setProjetoDTOs(projetoDTOS(cliente.getProjetos()));
 
 
-        System.out.println(clienteDTO.getProjetoDTOs());
+
 
         return  clienteDTO;
     }

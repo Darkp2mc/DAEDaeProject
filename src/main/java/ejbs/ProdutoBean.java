@@ -18,7 +18,7 @@ public class ProdutoBean {
     @PersistenceContext
     EntityManager manager;
 
-    public void create(String name, String tipo, String familia, double e, double n, double g, String fabricanteUsername) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+    public void create(String name, String tipo, String familia, double e, double n, String fabricanteUsername) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         Produto produto = manager.find(Produto.class, name);
         if (produto != null) {
             throw new MyEntityExistsException("Já existe um produto com o nome introduzido ("+ produto.getNome() +") !!!");
@@ -27,7 +27,7 @@ public class ProdutoBean {
             Fabricante fabricante = manager.find(Fabricante.class, fabricanteUsername);
             if (fabricante != null){
                 try{
-                    produto = new Produto(name, tipo, familia, e, n, g, fabricante);
+
                     if (!tipo.equals("Perfil")  && !tipo.equals("Chapa")  && !tipo.equals("Laje")  && !tipo.equals("Painel")){
                         throw new MyEntityExistsException("O Produto tem de ser do tipo 'Perfil', 'Chapa', 'Laje' ou 'Painel'");
                     }
@@ -36,12 +36,10 @@ public class ProdutoBean {
                         throw new MyEntityExistsException("O Produto tem de ser da familia 'C', 'Z', 'Omega' ou 'Outro')");
                     }
 
-                    if (e >= 0 && n >= 0){
-                        produto.setG(round(e,n));
-                    }else{
+                    if (e <= 0 && n <= 0){
                         throw new MyEntityExistsException("Os valores das dimensoes 'e' e 'n' têm de ser diferentes de null e maiores que 0");
                     }
-
+                    produto = new Produto(name, tipo, familia, e, n, fabricante);
                     fabricante.addProduto(produto);
                     manager.persist(produto);
                 } catch (ConstraintViolationException ce) {

@@ -61,6 +61,10 @@ public class ProjetoBean {
 
     public void terminar(String nome){
         Projeto projeto = findProjeto(nome);
+        for (Estrutura estrutura:projeto.getEstruturas()
+             ) {
+            estrutura.aceitar();
+        }
         projeto.terminar();
     }
 

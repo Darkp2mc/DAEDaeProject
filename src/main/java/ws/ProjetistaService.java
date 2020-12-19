@@ -209,7 +209,7 @@ public class ProjetistaService {
             throw new MyEntityNotFoundException("projeto com o nome " + nome+ " nao existe!");
         }
 
-        System.out.println(projeto.getEstado()+ "aqui");
+
         return Response.status(Response.Status.OK)
                 .entity(projetoToDTO(projeto))
                 .build();

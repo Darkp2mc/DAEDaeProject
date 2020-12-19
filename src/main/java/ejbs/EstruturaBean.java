@@ -20,7 +20,7 @@ public class EstruturaBean {
     EntityManager manager;
 
     public void create(String nome, String projetoNome, String tipoDeProduto, String numeroDeVaos,
-                       String comprimentoDaVao, String aplicacao, String alturaDaLage, String sobrecarga, int estado)
+                       String comprimentoDaVao, String aplicacao, String alturaDaLage, String sobrecarga)
             throws MyEntityExistsException, MyConstraintViolationException, MyIllegalArgumentException {
 
         boolean flag = false;
@@ -88,7 +88,7 @@ public class EstruturaBean {
         Estrutura estrutura = findEstrutura(estruturaName);
 
         estrutura.rejeitar();
-        System.out.println(estrutura.getEstado() + " teste 2");
+
     }
 
     public void aceitar(String estruturaName){
